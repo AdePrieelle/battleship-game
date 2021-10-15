@@ -1,0 +1,24 @@
+@import "../../styles/partials/variables";
+
+.gameboard {
+  display: grid;
+  grid-gap: $gameboard-grid-gap;
+  margin: 20px;
+  max-width: 300px;
+  background-color: $gameboard-bg-color;
+  border: $gameboard-grid-gap solid $gameboard-bg-color;
+  .gameboard-cell {
+    padding-top: 100%;
+    background-color: $gameboard-cell-bg-color;
+    pointer-events: all;
+    // border: 2px solid white;
+    // border-color: #b4b4ff;
+  }
+  .hit {
+    background-color: rgb(10, 163, 252);
+  }
+
+  .miss {
+    background-color: rgb(216, 216, 216);
+  }
+}
