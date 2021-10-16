@@ -1,13 +1,13 @@
 import React from 'react';
 // import logo from './logo.svg';
 // import { Counter } from './features/counter/Counter';
-import { Gameboard } from './features/gameboard/Gameboard';
+import { Game } from './features/game/Game';
 import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <Gameboard />
+      <Game />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
