@@ -20,7 +20,7 @@ export const Game = () => {
     "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]);
-  console.log(gameboardPlayer);
+  // console.log(gameboardPlayer);
   const [gameboardComputer, setGameboardComputer] = useState([
     "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -33,12 +33,12 @@ export const Game = () => {
     "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]);
-  console.log(gameboardComputer);
+  // console.log(gameboardComputer);
 
   // update the gameboard with events
   const handleMovePlayer = (event) => {
-    console.log(event);
-    console.log(gameboardPlayer[event.target.id]);
+    // console.log(event);
+    // console.log(gameboardPlayer[event.target.id]);
     if (gameboardPlayer[event.target.id] !== "empty" 
         && gameboardPlayer[event.target.id] !== "hit" 
         && gameboardPlayer[event.target.id] !== "miss"
@@ -54,24 +54,66 @@ export const Game = () => {
     return;
   }
 
+  let initialRandomComputerNumberArray = Array.from(Array(100).keys());
   // add random computer turn move logic here
+  const [randomComputerNumberArray, setRandomComputerNumberArray] = useState(initialRandomComputerNumberArray);
+
   const handleMoveComputer = () => {
     console.log("computer clicked");
+
+    // function randomIntFromInterval(min, max) { // min and max included 
+    //   return Math.floor(Math.random() * (max - min + 1) + min)
+    // }
+    // let randomNumber = randomIntFromInterval(0, 99);
+    
+    
+
+    const randomItemFromArray = () => {
+      // console.log(randomComputerNumberArray.length);
+      let randomComputerNumber = Math.floor(Math.random() * randomComputerNumberArray.length);
+      return randomComputerNumber;
+    }
+    let randomItemFromArrayValue = randomItemFromArray();
+    console.log(randomItemFromArrayValue);
+    let randomComputerNumber = randomComputerNumberArray[randomItemFromArrayValue];
+    console.log(randomComputerNumber);
+    let copyRandomComputerNumberArray = [...randomComputerNumberArray];
+    // console.log(copyRandomComputerNumberArray);
+    copyRandomComputerNumberArray.splice(randomItemFromArrayValue, 1);
+    // console.log(copyRandomComputerNumberArray);
+    setRandomComputerNumberArray(copyRandomComputerNumberArray);
+
+    // array[Math.floor(Math.random() * array.length)];
+
+
+    if (gameboardComputer[randomComputerNumber] !== "empty" 
+        && gameboardComputer[randomComputerNumber] !== "hit" 
+        && gameboardComputer[randomComputerNumber] !== "miss"
+    ) {
+      let newState = [...gameboardComputer];
+      newState[randomComputerNumber] = "hit";
+      setGameboardComputer(newState)
+    } else if (gameboardComputer[randomComputerNumber] === "empty") {
+      let newState = [...gameboardComputer];
+      newState[randomComputerNumber] = "miss";
+      setGameboardComputer(newState)
+    }
+    return;
   }
 
   return (
-    <>
-    <div className="gameboard gameboard-player" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
-      {gameboardPlayer.map((cell, id) => (
-          <div key={id} id={id} className={`gameboard-cell ${gameboardPlayer[id] === "hit" ? " hit" : gameboardPlayer[id] === "miss" ? " miss" : ""}`} onClick={handleMovePlayer}></div>
-      ))}
-    </div>
-    <div className="gameboard gameboard-computer" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
-      {gameboardComputer.map((cell, id) => (
-          <div key={id} id={id} className={`gameboard-cell ${gameboardComputer[id] === "hit" ? " hit" : gameboardComputer[id] === "miss" ? " miss" : ""}`} onClick={handleMoveComputer}></div>
-      ))}
-    </div>
-  </>
+    <div className="gameboard-wrapper">
+      <div className="gameboard gameboard-player" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
+        {gameboardPlayer.map((cell, id) => (
+            <div key={id} id={id} className={`gameboard-cell ${gameboardPlayer[id] === "hit" ? " hit" : gameboardPlayer[id] === "miss" ? " miss" : ""}`} onClick={handleMovePlayer}></div>
+        ))}
+      </div>
+      <div className="gameboard gameboard-computer" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
+        {gameboardComputer.map((cell, id) => (
+            <div key={id} id={id} className={`gameboard-cell ${gameboardComputer[id] === "hit" ? " hit" : gameboardComputer[id] === "miss" ? " miss" : ""}`} onClick={handleMoveComputer}></div>
+        ))}
+      </div>
+  </div>
   )
 }
 
