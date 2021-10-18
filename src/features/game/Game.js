@@ -36,7 +36,7 @@ export const Game = () => {
   // console.log(gameboardComputer);
 
 
-  // is hiddenShipCell
+  // check if the gameboard cell is a hidden ship
   const isHiddenShipGameboardCell = (array, id) => {
     if (array[id] !== "empty" && array[id] !== "hit" && array[id] !== "miss") {
       return true;
@@ -44,6 +44,7 @@ export const Game = () => {
     return false;
   }
 
+  // check if the gameboard cell is "empty" and hasn't been clicked before
   const isEmptyGameboardCell = (array, index) => {
     if (array[index] === "empty") {
       return true;
@@ -51,6 +52,7 @@ export const Game = () => {
     return false;
   }
 
+  // update the gameboard with a hit or miss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard) => {
     if (isHiddenShipGameboardCell(gameboard, index)) {
       let newState = [...gameboard];
@@ -64,64 +66,36 @@ export const Game = () => {
     return;
   }
 
-  // update the gameboard with events
+  // update the gameboard with player click event on gameboard cell
   const handleMovePlayer = (event) => {
-    // console.log(event);
-    // console.log(gameboardPlayer[event.target.id]);
-
-    // if (gameboardPlayer[event.target.id] !== "empty" 
-    //     && gameboardPlayer[event.target.id] !== "hit" 
-    //     && gameboardPlayer[event.target.id] !== "miss"
-    // ) {
-    // if (isHiddenShipGameboardCell(gameboardPlayer, event.target.id)) {
-    //   let newState = [...gameboardPlayer];
-    //   newState[event.target.id] = "hit";
-    //   setGameboardPlayer(newState);
-    // } else if (isEmptyGameboardCell(gameboardPlayer, event.target.id)) {
-    //   let newState = [...gameboardPlayer];
-    //   newState[event.target.id] = "miss";
-    //   setGameboardPlayer(newState);
-    // }
-    // return;
     updateGameboardCellHitOrMiss(gameboardPlayer, event.target.id, setGameboardPlayer);
   }
 
 
-
+  // make an array from numbers 0 to 99
   let initialRandomComputerNumberArray = Array.from(Array(100).keys());
-  // add random computer turn move logic here
-  const [randomComputerNumberArray, setRandomComputerNumberArray] = useState(initialRandomComputerNumberArray);
+  // store gameboardComputer cells here that aren't picked yet
+  const [gameboardComputerCellsAvailable, setGameboardComputerCellsAvailable] = useState(initialRandomComputerNumberArray);
 
   const handleMoveComputer = () => {
-    console.log("computer clicked");
+    // pick a random indexvalue based on the amount of gameboardComputer cells that aren't picked yet
+    let randomIndexGameboardComputerCellsAvailable = Math.floor(Math.random() * gameboardComputerCellsAvailable.length);
 
-    // function randomIntFromInterval(min, max) { // min and max included 
-    //   return Math.floor(Math.random() * (max - min + 1) + min)
-    // }
-    // let randomNumber = randomIntFromInterval(0, 99);
-    
-    
+    // random gameboardComputer cell value that gets picked with the index
+    let randomGameboardComputerCellNumber = gameboardComputerCellsAvailable[randomIndexGameboardComputerCellsAvailable];
 
-    // const randomItemFromArray = () => {
-    //   // console.log(randomComputerNumberArray.length);
-    //   let randomComputerNumber = Math.floor(Math.random() * randomComputerNumberArray.length);
-    //   return randomComputerNumber;
-    // }
-    // let randomItemFromArrayValue = randomItemFromArray();
-    let randomItemFromArrayValue = Math.floor(Math.random() * randomComputerNumberArray.length);
-    console.log(randomItemFromArrayValue);
-    let randomComputerNumber = randomComputerNumberArray[randomItemFromArrayValue];
-    console.log(randomComputerNumber);
-    let copyRandomComputerNumberArray = [...randomComputerNumberArray];
+    // copy gameboardComputerCellsAvailable to update the state
+    let copyGameboardComputerCellsAvailable = [...gameboardComputerCellsAvailable];
     // console.log(copyRandomComputerNumberArray);
-    copyRandomComputerNumberArray.splice(randomItemFromArrayValue, 1);
-    // console.log(copyRandomComputerNumberArray);
-    setRandomComputerNumberArray(copyRandomComputerNumberArray);
 
-    // array[Math.floor(Math.random() * array.length)];
+    // remove the choosen randomGameboardComputerCellNumber from the copyGameboardComputerCellsAvailable
+    copyGameboardComputerCellsAvailable.splice(randomIndexGameboardComputerCellsAvailable, 1);
 
+    // update gameboardComputerCellsAvailable to remove the picked randomGameboardComputerCellNumber
+    setGameboardComputerCellsAvailable(copyGameboardComputerCellsAvailable);
 
-    updateGameboardCellHitOrMiss(gameboardComputer, randomComputerNumber, setGameboardComputer);
+    // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
+    updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer);
   }
 
   return (
