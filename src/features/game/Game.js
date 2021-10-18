@@ -35,24 +35,58 @@ export const Game = () => {
   ]);
   // console.log(gameboardComputer);
 
+
+  // is hiddenShipCell
+  const isHiddenShipGameboardCell = (array, id) => {
+    if (array[id] !== "empty" && array[id] !== "hit" && array[id] !== "miss") {
+      return true;
+    }
+    return false;
+  }
+
+  const isEmptyGameboardCell = (array, index) => {
+    if (array[index] === "empty") {
+      return true;
+    }
+    return false;
+  }
+
+  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard) => {
+    if (isHiddenShipGameboardCell(gameboard, index)) {
+      let newState = [...gameboard];
+      newState[index] = "hit";
+      setGameboard(newState);
+    } else if (isEmptyGameboardCell(gameboard, index)) {
+      let newState = [...gameboard];
+      newState[index] = "miss";
+      setGameboard(newState);
+    }
+    return;
+  }
+
   // update the gameboard with events
   const handleMovePlayer = (event) => {
     // console.log(event);
     // console.log(gameboardPlayer[event.target.id]);
-    if (gameboardPlayer[event.target.id] !== "empty" 
-        && gameboardPlayer[event.target.id] !== "hit" 
-        && gameboardPlayer[event.target.id] !== "miss"
-    ) {
-      let newState = [...gameboardPlayer];
-      newState[event.target.id] = "hit";
-      setGameboardPlayer(newState)
-    } else if (gameboardPlayer[event.target.id] === "empty") {
-      let newState = [...gameboardPlayer];
-      newState[event.target.id] = "miss";
-      setGameboardPlayer(newState)
-    }
-    return;
+
+    // if (gameboardPlayer[event.target.id] !== "empty" 
+    //     && gameboardPlayer[event.target.id] !== "hit" 
+    //     && gameboardPlayer[event.target.id] !== "miss"
+    // ) {
+    // if (isHiddenShipGameboardCell(gameboardPlayer, event.target.id)) {
+    //   let newState = [...gameboardPlayer];
+    //   newState[event.target.id] = "hit";
+    //   setGameboardPlayer(newState);
+    // } else if (isEmptyGameboardCell(gameboardPlayer, event.target.id)) {
+    //   let newState = [...gameboardPlayer];
+    //   newState[event.target.id] = "miss";
+    //   setGameboardPlayer(newState);
+    // }
+    // return;
+    updateGameboardCellHitOrMiss(gameboardPlayer, event.target.id, setGameboardPlayer);
   }
+
+
 
   let initialRandomComputerNumberArray = Array.from(Array(100).keys());
   // add random computer turn move logic here
@@ -68,12 +102,13 @@ export const Game = () => {
     
     
 
-    const randomItemFromArray = () => {
-      // console.log(randomComputerNumberArray.length);
-      let randomComputerNumber = Math.floor(Math.random() * randomComputerNumberArray.length);
-      return randomComputerNumber;
-    }
-    let randomItemFromArrayValue = randomItemFromArray();
+    // const randomItemFromArray = () => {
+    //   // console.log(randomComputerNumberArray.length);
+    //   let randomComputerNumber = Math.floor(Math.random() * randomComputerNumberArray.length);
+    //   return randomComputerNumber;
+    // }
+    // let randomItemFromArrayValue = randomItemFromArray();
+    let randomItemFromArrayValue = Math.floor(Math.random() * randomComputerNumberArray.length);
     console.log(randomItemFromArrayValue);
     let randomComputerNumber = randomComputerNumberArray[randomItemFromArrayValue];
     console.log(randomComputerNumber);
@@ -86,19 +121,7 @@ export const Game = () => {
     // array[Math.floor(Math.random() * array.length)];
 
 
-    if (gameboardComputer[randomComputerNumber] !== "empty" 
-        && gameboardComputer[randomComputerNumber] !== "hit" 
-        && gameboardComputer[randomComputerNumber] !== "miss"
-    ) {
-      let newState = [...gameboardComputer];
-      newState[randomComputerNumber] = "hit";
-      setGameboardComputer(newState)
-    } else if (gameboardComputer[randomComputerNumber] === "empty") {
-      let newState = [...gameboardComputer];
-      newState[randomComputerNumber] = "miss";
-      setGameboardComputer(newState)
-    }
-    return;
+    updateGameboardCellHitOrMiss(gameboardComputer, randomComputerNumber, setGameboardComputer);
   }
 
   return (
