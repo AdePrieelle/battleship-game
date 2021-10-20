@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { createGameboard } from './createGameboard/createGameboard';
 import { getRandomIndexFromArray } from './getRandomIndexFromArray/getRandomIndexFromArray';
 import { deleteArrayIndexValue } from './deleteArrayIndexValue/deleteArrayIndexValue';
@@ -12,6 +12,17 @@ export const Game = () => {
   const emptyGameboardValue = "empty";
   const hitGameboardValue = "hit";
   const missGameboardValue = "miss";
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+
+  useEffect(() => {
+    if (!isPlayerTurn) {
+      const computerTurnTimeout = setTimeout(() => {
+        handleMoveComputer();
+      }, 50);
+      return () => clearTimeout(computerTurnTimeout);
+    }
+  }, [isPlayerTurn]);
+
   // const [gameboard, setGameboard] = useState(createGameboard(amountOfRows, amountOfColumns, "empty"));
 
   // place ships on default positions to test functionality
@@ -48,16 +59,19 @@ export const Game = () => {
       let newState = [...gameboard];
       newState[index] = hitGameboardValue;
       setGameboard(newState);
+      // setIsPlayerTurn(!isPlayerTurn);
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       let newState = [...gameboard];
       newState[index] = missGameboardValue;
       setGameboard(newState);
+      // setIsPlayerTurn(!isPlayerTurn);
     }
   }
 
   // update the gameboard with player click event on gameboard cell
   const handleMovePlayer = (event) => {
     updateGameboardCellHitOrMiss(gameboardPlayer, event.target.id, setGameboardPlayer);
+    setIsPlayerTurn(false);
   }
 
 
@@ -77,18 +91,19 @@ export const Game = () => {
     setGameboardComputerCellsAvailable(copyGameboardComputerCellsAvailableWithoutPickedComputerNumber);
     // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
     updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer);
+    setIsPlayerTurn(true);
   }
 
   return (
     <div className="gameboard-wrapper">
       <div className="gameboard gameboard-player" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
         {gameboardPlayer.map((cell, id) => (
-            <div key={id} id={id} className={`gameboard-cell ${gameboardPlayer[id] === hitGameboardValue ? " hit" : gameboardPlayer[id] === missGameboardValue ? " miss" : ""}`} onClick={handleMovePlayer}></div>
+            <div key={id} id={id} className={`gameboard-cell ${gameboardPlayer[id] === hitGameboardValue ? " hit" : gameboardPlayer[id] === missGameboardValue ? " miss" : ""}`} onClick={isPlayerTurn ? (gameboardPlayer[id] !== hitGameboardValue && gameboardPlayer[id] !== missGameboardValue) ? handleMovePlayer : null : null}></div>
         ))}
       </div>
       <div className="gameboard gameboard-computer" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
         {gameboardComputer.map((cell, id) => (
-            <div key={id} id={id} className={`gameboard-cell ${gameboardComputer[id] === hitGameboardValue ? " hit" : gameboardComputer[id] === missGameboardValue ? " miss" : ""}`} onClick={handleMoveComputer}></div>
+            <div key={id} id={id} className={`gameboard-cell ${gameboardComputer[id] === hitGameboardValue ? " hit" : gameboardComputer[id] === missGameboardValue ? " miss" : ""}`}></div>
         ))}
       </div>
   </div>
