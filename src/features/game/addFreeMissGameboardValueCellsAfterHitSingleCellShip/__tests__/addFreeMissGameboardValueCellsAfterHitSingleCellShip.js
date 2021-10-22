@@ -16,7 +16,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 0)).toStrictEqual([
+  ], 0, "freemiss", "empty")).toStrictEqual([
     "hit", "freemiss", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
     "freemiss", "freemiss", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -42,7 +42,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 6)).toStrictEqual([
+  ], 6, "freemiss", "empty")).toStrictEqual([
     "d1", "empty", "d2", "empty", "d3", "freemiss", "hit", "freemiss", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "freemiss", "freemiss", "freemiss", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -68,7 +68,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 9)).toStrictEqual([
+  ], 9, "freemiss", "empty")).toStrictEqual([
     "d1", "empty", "d2", "empty", "d3", "empty", "empty", "empty", "freemiss", "hit",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "freemiss", "freemiss",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -94,7 +94,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "hit", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 90)).toStrictEqual([
+  ], 90, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -120,7 +120,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "hit", "empty", "empty", "empty", "empty",
-  ], 95)).toStrictEqual([
+  ], 95, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -146,7 +146,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "hit",
-  ], 99)).toStrictEqual([
+  ], 99, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -172,7 +172,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 50)).toStrictEqual([
+  ], 50, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -198,7 +198,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 59)).toStrictEqual([
+  ], 59, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -224,7 +224,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 55)).toStrictEqual([
+  ], 55, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -250,7 +250,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "hit", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ], 82)).toStrictEqual([
+  ], 82, "freemiss", "empty")).toStrictEqual([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -263,4 +263,31 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
     "empty", "freemiss", "freemiss", "freemiss", "empty", "empty", "empty", "empty", "empty", "empty",
   ])
 })
+
+test("dont overwrite miss gameboard cell values with freemiss", () => {
+  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "miss", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "hit", "miss", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  ], 82, "freemiss", "empty")).toStrictEqual([
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "freemiss", "miss", "freemiss", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "freemiss", "hit", "miss", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "freemiss", "freemiss", "freemiss", "empty", "empty", "empty", "empty", "empty", "empty",
+  ])
+})
+
 

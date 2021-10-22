@@ -4,6 +4,7 @@ import { getRandomIndexFromArray } from './getRandomIndexFromArray/getRandomInde
 import { deleteArrayIndexValue } from './deleteArrayIndexValue/deleteArrayIndexValue';
 import { isHiddenShipGameboardCell } from './isHiddenShipGameboardCell/isHiddenShipGameboardCell';
 import { isEmptyGameboardCell } from './isEmptyGameboardCell/isEmptyGameboardCell';
+import { addFreeMissGameboardValueCellsAfterHitSingleCellShip } from './addFreeMissGameboardValueCellsAfterHitSingleCellShip/addFreeMissGameboardValueCellsAfterHitSingleCellShip';
 import './Game.scss';
 
 export const Game = () => {
@@ -12,6 +13,7 @@ export const Game = () => {
   const emptyGameboardValue = "empty";
   const hitGameboardValue = "hit";
   const missGameboardValue = "miss";
+  const freemissGameboardValue = "freemiss";
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
 
   useEffect(() => {
@@ -55,10 +57,13 @@ export const Game = () => {
 
   // update the gameboard with a hit or miss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard) => {
-    if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue)) {
+    if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       let newState = [...gameboard];
       newState[index] = hitGameboardValue;
-      setGameboard(newState);
+      let newStateWithFreeMissCells = addFreeMissGameboardValueCellsAfterHitSingleCellShip(newState, +index, freemissGameboardValue, emptyGameboardValue);
+
+      setGameboard(newStateWithFreeMissCells);
+      // setGameboard(newState);
       // setIsPlayerTurn(!isPlayerTurn);
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       let newState = [...gameboard];
@@ -71,7 +76,7 @@ export const Game = () => {
   // update the gameboard with player click event on gameboard cell
   const handleMovePlayer = (event) => {
     updateGameboardCellHitOrMiss(gameboardPlayer, event.target.id, setGameboardPlayer);
-    setIsPlayerTurn(false);
+    // setIsPlayerTurn(false);
   }
 
 
@@ -98,12 +103,12 @@ export const Game = () => {
     <div className="gameboard-wrapper">
       <div className="gameboard gameboard-player" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
         {gameboardPlayer.map((cell, id) => (
-            <div key={id} id={id} className={`gameboard-cell ${gameboardPlayer[id] === hitGameboardValue ? " hit" : gameboardPlayer[id] === missGameboardValue ? " miss" : ""}`} onClick={isPlayerTurn ? (gameboardPlayer[id] !== hitGameboardValue && gameboardPlayer[id] !== missGameboardValue) ? handleMovePlayer : null : null}></div>
+            <div key={id} id={id} className={`gameboard-cell ${gameboardPlayer[id] === hitGameboardValue ? " hit" : gameboardPlayer[id] === missGameboardValue ? " miss" : gameboardPlayer[id] === freemissGameboardValue ? " freemiss" : ""}`} onClick={isPlayerTurn ? (gameboardPlayer[id] !== hitGameboardValue && gameboardPlayer[id] !== missGameboardValue) ? handleMovePlayer : null : null}></div>
         ))}
       </div>
       <div className="gameboard gameboard-computer" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
         {gameboardComputer.map((cell, id) => (
-            <div key={id} id={id} className={`gameboard-cell ${gameboardComputer[id] === hitGameboardValue ? " hit" : gameboardComputer[id] === missGameboardValue ? " miss" : ""}`}></div>
+            <div key={id} id={id} className={`gameboard-cell ${gameboardComputer[id] === hitGameboardValue ? " hit" : gameboardComputer[id] === missGameboardValue ? " miss" : gameboardComputer[id] === freemissGameboardValue ? " freemiss" : ""}`}></div>
         ))}
       </div>
   </div>
