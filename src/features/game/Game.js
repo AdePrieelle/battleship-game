@@ -4,7 +4,9 @@ import { getRandomIndexFromArray } from './getRandomIndexFromArray/getRandomInde
 import { deleteArrayIndexValue } from './deleteArrayIndexValue/deleteArrayIndexValue';
 import { isHiddenShipGameboardCell } from './isHiddenShipGameboardCell/isHiddenShipGameboardCell';
 import { isEmptyGameboardCell } from './isEmptyGameboardCell/isEmptyGameboardCell';
-import { addFreeMissGameboardValueCellsAfterHitSingleCellShip } from './addFreeMissGameboardValueCellsAfterHitSingleCellShip/addFreeMissGameboardValueCellsAfterHitSingleCellShip';
+import { addFreeMissGameboardValueCellsAroundSunkenShip } from './addFreeMissGameboardValueCellsAroundSunkenShip/addFreeMissGameboardValueCellsAroundSunkenShip';
+import { isSunkenShip } from './isSunkenShip/isSunkenShip';
+// import { isShipNameSunken } from './isShipNameSunken/isShipNameSunken';
 import './Game.scss';
 
 export const Game = () => {
@@ -15,6 +17,34 @@ export const Game = () => {
   const missGameboardValue = "miss";
   const freemissGameboardValue = "freemiss";
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+  const [gameboardPlayerHitShots, setGameboardPlayerHitShots] = useState([]);
+
+  // const [d1, setD1] = useState([0]);
+  // const [d2, setD2] = useState([2]);
+  // const [d3, setD3] = useState([4]);
+  // const [d4, setD4] = useState([6]);
+
+  // const [s1, setS1] = useState([20, 21]);
+  // const [s2, setS2] = useState([23, 24]);
+  // const [s3, setS3] = useState([26, 27]);
+  
+  // const [b1, setB1] = useState([40, 50, 60]);
+  // const [b2, setB2] = useState([42, 52, 62]);
+
+  // const [c1, setC1] = useState([80, 81, 82, 83]);
+
+  const [shipCoords, setShipCoords] = useState({
+    d1: [0],
+    d2: [2],
+    d3: [4],
+    d4: [6],
+    s1: [20, 21],
+    s2: [23, 24],
+    s3: [26, 27],
+    b1: [40, 50, 60],
+    b2: [42, 52, 62],
+    c1: [80, 81, 82, 83],
+  })
 
   useEffect(() => {
     if (!isPlayerTurn) {
@@ -56,11 +86,66 @@ export const Game = () => {
   // console.log(gameboardComputer);
 
   // update the gameboard with a hit or miss value
-  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard) => {
+  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, setGameboardHitShots, gameboardHitShots, shipCoords) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       let newState = [...gameboard];
+      console.log(newState);
+
+      // function that takes as input newState[index] value and depending on that use setState to at cell to 
+
+      let copyGameboardHitShots = [...gameboardHitShots];
+      console.log(copyGameboardHitShots);
+
+      copyGameboardHitShots.push(index);
+      console.log(copyGameboardHitShots);
+
+      // add index to gameboardPlayerHitShots
+      setGameboardHitShots(copyGameboardHitShots);
+      // updating doesnt work????
+      
+      // check if some ships coords are all in gameboardPlayerHitShots and if so 
+      const shipName = newState[index];
       newState[index] = hitGameboardValue;
-      let newStateWithFreeMissCells = addFreeMissGameboardValueCellsAfterHitSingleCellShip(newState, +index, freemissGameboardValue, emptyGameboardValue);
+
+
+
+      // if shipname is b2(example)  check if isSunkenShip 
+
+      // let isSunkenShipName = isShipNameSunken()
+
+      // const isASunkenShip = (shipName, gameboardHitShots, shipCoords) => {
+      //   let shipCoordsCells = shipCoords[shipName];
+      //   return (isSunkenShip(gameboardHitShots, shipCoordsCells));
+      // }
+
+      const shipNameIsSunken = isSunkenShip(copyGameboardHitShots, shipCoords, shipName);
+      console.log(shipNameIsSunken);
+
+
+      // let newStateWithFreeMissCells = newState;
+      let newStateWithFreeMissCells;
+
+
+
+      if (shipNameIsSunken) {
+        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoords, freemissGameboardValue, emptyGameboardValue)
+      } 
+      // else { return diagonalFreeMissCells function for coord}
+
+      
+      // if not sunken then add diagonal free miss cells
+      // { if sunken add free miss to all the coordinates of b2}
+
+
+
+      // add free miss to all surrounding spots where there isnt a "hit"
+      // else add only diagonal freemiss shots to the gameboard[index] value
+
+
+      // newState[index] = hitGameboardValue;
+      
+
+      // let newStateWithFreeMissCells = addFreeMissGameboardValueCellsAfterHitSingleCellShip(newState, +index, freemissGameboardValue, emptyGameboardValue);
 
       setGameboard(newStateWithFreeMissCells);
       // setGameboard(newState);
@@ -75,7 +160,7 @@ export const Game = () => {
 
   // update the gameboard with player click event on gameboard cell
   const handleMovePlayer = (event) => {
-    updateGameboardCellHitOrMiss(gameboardPlayer, event.target.id, setGameboardPlayer);
+    updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, setGameboardPlayerHitShots, gameboardPlayerHitShots, shipCoords);
     // setIsPlayerTurn(false);
   }
 

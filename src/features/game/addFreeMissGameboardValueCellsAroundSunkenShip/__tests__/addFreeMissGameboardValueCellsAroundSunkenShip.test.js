@@ -1,11 +1,11 @@
 import { expect } from "@jest/globals";
-import { addFreeMissGameboardValueCellsAfterHitSingleCellShip } from "../addFreeMissGameboardValueCellsAfterHitSingleCellShip";
+import { addFreeMissGameboardValueCellsAroundSunkenShip } from "../addFreeMissGameboardValueCellsAroundSunkenShip";
 
 // use freemiss as gameboardvalue
 
 // test for single cell ship
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for top left gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "hit", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -31,7 +31,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for top middle gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "d1", "empty", "d2", "empty", "d3", "empty", "hit", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -57,7 +57,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for top right gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "d1", "empty", "d2", "empty", "d3", "empty", "empty", "empty", "empty", "hit",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -83,7 +83,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for bottom left gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -109,7 +109,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for bottom middle gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -135,7 +135,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for bottom right gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -161,7 +161,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for middle left gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -187,7 +187,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for middle right gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -213,7 +213,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for middle middle gameboard", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -239,7 +239,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for random gameboard hit value", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -265,7 +265,7 @@ test("if a hit on gameboard mark the surrounding cells as missed if they can't b
 })
 
 test("dont overwrite miss gameboard cell values with freemiss", () => {
-  expect(addFreeMissGameboardValueCellsAfterHitSingleCellShip([
+  expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -289,5 +289,3 @@ test("dont overwrite miss gameboard cell values with freemiss", () => {
     "empty", "freemiss", "freemiss", "freemiss", "empty", "empty", "empty", "empty", "empty", "empty",
   ])
 })
-
-
