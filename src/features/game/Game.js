@@ -118,8 +118,8 @@ export const Game = () => {
       //   return (isSunkenShip(gameboardHitShots, shipCoordsCells));
       // }
 
-      const shipNameIsSunken = isSunkenShip(copyGameboardHitShots, shipCoords, shipName);
-      console.log(shipNameIsSunken);
+      const isShipNameSunken = isSunkenShip(copyGameboardHitShots, shipCoords, shipName);
+      console.log(isShipNameSunken);
 
 
       // let newStateWithFreeMissCells = newState;
@@ -127,9 +127,12 @@ export const Game = () => {
 
 
 
-      if (shipNameIsSunken) {
-        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoords, freemissGameboardValue, emptyGameboardValue)
-      } 
+      if (isShipNameSunken) {
+        const shipCoordsShipName = shipCoords[shipName];
+        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoordsShipName, freemissGameboardValue, emptyGameboardValue)
+      }
+
+
       // else { return diagonalFreeMissCells function for coord}
 
       

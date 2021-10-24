@@ -1,7 +1,7 @@
 export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoordsArray, freemissGameboardValue, emptyGameboardValue) => {
 
   // USE FREEMISS later and add style
-  // right now this is the second parameter (index) but change it to shipCoords state value from Game.js
+  // right now this is the second parameter (index) but change it to shipCoords state value from Game.js in the test file
   console.log(shipCoordsArray);
 
   let copyArray = [...array];
@@ -51,7 +51,7 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         }
       }
     }
-    if (([0, 10, 20, 30, 40, 50, 60, 70, 80, 90].shipCoordOf(shipCoord) > -1)) {
+    if (([0, 10, 20, 30, 40, 50, 60, 70, 80, 90].indexOf(shipCoord) > -1)) {
       if (copyArray[shipCoord + 1] === emptyGameboardValue) {
         copyArray[shipCoord + 1] = freemissGameboardValue;
       }
@@ -74,7 +74,7 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         }
       }
     }
-    if (([9, 19, 29, 39, 49, 59, 69, 79, 89, 99].shipCoordOf(shipCoord) > -1)) {
+    if (([9, 19, 29, 39, 49, 59, 69, 79, 89, 99].indexOf(shipCoord) > -1)) {
       if (copyArray[shipCoord - 1] === emptyGameboardValue) {
         copyArray[shipCoord - 1] = freemissGameboardValue;
       }
@@ -95,7 +95,7 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         }
       }
     }
-    if(!([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 19, 29, 39, 49, 59, 69, 79, 89, 99].shipCoordOf(shipCoord) > -1)) {
+    if(!([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 19, 29, 39, 49, 59, 69, 79, 89, 99].indexOf(shipCoord) > -1)) {
       if (copyArray[shipCoord + 1] === emptyGameboardValue) {
         copyArray[shipCoord + 1] = freemissGameboardValue;
       }
@@ -121,7 +121,7 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         copyArray[shipCoord + 11] = freemissGameboardValue;
       }
     }
-    console.log(copyArray);
+    console.table(copyArray);
 
   }
 
