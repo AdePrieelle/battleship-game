@@ -5,6 +5,7 @@ import { deleteArrayIndexValue } from './deleteArrayIndexValue/deleteArrayIndexV
 import { isHiddenShipGameboardCell } from './isHiddenShipGameboardCell/isHiddenShipGameboardCell';
 import { isEmptyGameboardCell } from './isEmptyGameboardCell/isEmptyGameboardCell';
 import { addFreeMissGameboardValueCellsAroundSunkenShip } from './addFreeMissGameboardValueCellsAroundSunkenShip/addFreeMissGameboardValueCellsAroundSunkenShip';
+import { addFreeMissGameboardValueCellsAroundCellDiagonally } from './addFreeMissGameboardValueCellsAroundCellDiagonally/addFreeMissGameboardValueCellsAroundCellDiagonally';
 import { isSunkenShip } from './isSunkenShip/isSunkenShip';
 // import { isShipNameSunken } from './isShipNameSunken/isShipNameSunken';
 import './Game.scss';
@@ -122,14 +123,17 @@ export const Game = () => {
       console.log(isShipNameSunken);
 
 
-      // let newStateWithFreeMissCells = newState;
-      let newStateWithFreeMissCells;
+      let newStateWithFreeMissCells = newState;
+      // let newStateWithFreeMissCells;
 
 
-
+      // add freemiss cell values around all the cells of a ship if they are empty and the ship is sunken
       if (isShipNameSunken) {
         const shipCoordsShipName = shipCoords[shipName];
-        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoordsShipName, freemissGameboardValue, emptyGameboardValue)
+        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoordsShipName, freemissGameboardValue, emptyGameboardValue);
+      } else {
+        // add diagonally freemiss cell values around a single hit cell if the cell is empty
+        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundCellDiagonally(newState, index, freemissGameboardValue, emptyGameboardValue);
       }
 
 

@@ -1,12 +1,6 @@
 export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoordsArray, freemissGameboardValue, emptyGameboardValue) => {
 
-  // USE FREEMISS later and add style
-  // right now this is the second parameter (index) but change it to shipCoords state value from Game.js in the test file
-  console.log(shipCoordsArray);
-
   let copyArray = [...array];
-  // one cell ships
-  // if (copyArray[shipCoord] === "hit" && /* no surrounding ship or hit cells */ )
 
   for (const shipCoord of shipCoordsArray) {
     if ((shipCoord >= 0 && shipCoord <= 9)) {
@@ -56,7 +50,6 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         copyArray[shipCoord + 1] = freemissGameboardValue;
       }
       if (shipCoord > 0) {
-        // copyArray[shipCoord + 1] = freemissGameboardValue;
         if (copyArray[shipCoord - 9] === emptyGameboardValue) {
           copyArray[shipCoord - 9] = freemissGameboardValue;
         }
@@ -65,7 +58,6 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         }
       }
       if (shipCoord < 90) {
-        // copyArray[shipCoord - 1] = freemissGameboardValue;
         if (copyArray[shipCoord + 10] === emptyGameboardValue) {
           copyArray[shipCoord + 10] = freemissGameboardValue;
         }
@@ -121,10 +113,7 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
         copyArray[shipCoord + 11] = freemissGameboardValue;
       }
     }
-    console.table(copyArray);
-
   }
-
 
   return (
     copyArray
