@@ -1,14 +1,12 @@
 import { checkIfShipIsNotSurroundedByAnotherShip } from '../checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip'
+import { createGameboard } from '../createGameboard/createGameboard';
+import { getRandomIndexFromArray } from '../getRandomIndexFromArray/getRandomIndexFromArray';
+import { getRandomArrayValue } from '../getRandomArrayValue/getRandomArrayValue';
+import { increaseArrayValuesWithNumber } from '../increaseArrayValuesWithNumber/increaseArrayValuesWithNumber';
 
 export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, setShipCoords) => {
-  let gameboardState = [];
-
-  // create an one dimensional array with a default value
-  for(let i=0; i < amountRows*amountColumns; i++){
-    gameboardState.push(emptyGameboardValue);
-  }
-
-  const copyGameboardState = [...gameboardState];
+  
+  const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);
 
   let ships = [
     {
@@ -90,29 +88,14 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
     },
   ]
 
-  const sortedShipsLengthDescending = ships.sort(function (one, other) {
-    //a - b is 
-    //   0 when elements are the same
-    //  >0 when a > b
-    //  <0 when a < b
-    return other.directions.horizontal.length - one.directions.horizontal.length;
-  });
-
-  // console.log(sortedShipsLengthDescending);
-
-  const getRandomDirection = () => {
-    let randomDirection = Math.floor(Math.random() * 2);
-    if (randomDirection === 0) {
-     return "horizontal";
-    } else {
-      return "vertical";
-    }
+  const sortShipsLengthDescendingOrder = (ships) => {
+    const sortedShipsLengthDescrendingOrder = ships.sort((one, other) => {
+      return (other.directions.horizontal.length - one.directions.horizontal.length);
+    });
+    return sortedShipsLengthDescrendingOrder;
   }
 
-  const getRandomIndexFromArray = (array) => {
-    const randomIndexFromArray = Math.floor(Math.random() * copyGameboardState.length);
-    return randomIndexFromArray;
-  }
+  const sortedShipsLengthDescendingOrder = sortShipsLengthDescendingOrder(ships);
 
   const checkIfRandomStartIndexShipCoordsDirectionIsNotOutOfBounds = (randomStartIndex, ship, direction) => {
     if (direction === "horizontal") {
@@ -140,20 +123,13 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
     return false;
   }
 
-  const increaseShipCoordValuesWithStartIndex = (array, startIndex) => {
-    const copyArray = [...array];
-    const increasedShipCoordsArray = copyArray.map(coord => coord + startIndex);
-    return increasedShipCoordsArray;
-  }
-
-
-  for (const ship of sortedShipsLengthDescending) {
+  for (const ship of sortedShipsLengthDescendingOrder) {
     // console.table(copyGameboardState);
-    let startIndex = getRandomIndexFromArray(copyGameboardState);
+    let startIndex = getRandomIndexFromArray(randomGameboard);
 
     // console.log(startIndex);
 
-    let direction = getRandomDirection();
+    let direction = getRandomArrayValue(["horizontal", "vertical"]);
     
     // console.log(direction);
 
@@ -166,7 +142,7 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
 
     // console.log(shipDirectionCoordsOfShip);
 
-    let generatedRandomShipDirectionCoordsOfShip = shipDirectionCoordsOfShip.map(coord => coord + startIndex);
+    let generatedRandomShipDirectionCoordsOfShip = increaseArrayValuesWithNumber(shipDirectionCoordsOfShip, startIndex);
 
     // console.log(generatedRandomShipDirectionCoordsOfShip);
 
@@ -183,23 +159,23 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
     // let timesTriedToPlaceShip = 1;
 
     while (
-          copyGameboardState[startIndex] !== emptyGameboardValue
+          randomGameboard[startIndex] !== emptyGameboardValue
       ||  !checkIfRandomStartIndexShipCoordsDirectionIsNotOutOfBounds(startIndex, ship, direction)
-      ||  !checkIfShipIsNotSurroundedByAnotherShip(copyGameboardState, generatedRandomShipDirectionCoordsOfShip, emptyGameboardValue)
+      ||  !checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, generatedRandomShipDirectionCoordsOfShip, emptyGameboardValue)
     ) {
       // if (timesTriedToPlaceShip >= 4) {
       //   createRandomGameboard(10, 10, "empty");
       // }
-      startIndex = getRandomIndexFromArray(copyGameboardState);
+      startIndex = getRandomIndexFromArray(randomGameboard);
       // console.log(startIndex);
       // console.log("newRandomNumer" + randomStartIndex + ship.shipName);
 
-      direction = getRandomDirection();
+      direction = getRandomArrayValue(["horizontal", "vertical"]);
       // console.log(direction);
 
       shipDirectionCoordsOfShip = ship.directions[direction];
 
-      generatedRandomShipDirectionCoordsOfShip = increaseShipCoordValuesWithStartIndex(shipDirectionCoordsOfShip, startIndex);
+      generatedRandomShipDirectionCoordsOfShip = increaseArrayValuesWithNumber(shipDirectionCoordsOfShip, startIndex);
       // console.log(generatedRandomShipDirectionCoordsOfShip);
 
 
@@ -223,7 +199,7 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
     for (const coord of generatedRandomShipDirectionCoordsOfShip) {
       // console.log(generatedRandomShipDirectionCoordsOfShip);
       // console.log(ship.shipName);
-      copyGameboardState[coord] = ship.shipName;
+      randomGameboard[coord] = ship.shipName;
     }
 
     
