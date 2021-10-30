@@ -4,82 +4,14 @@ import { getRandomIndexFromArray } from '../getRandomIndexFromArray/getRandomInd
 import { getRandomArrayValue } from '../getRandomArrayValue/getRandomArrayValue';
 import { calculateShipCoords } from '../calculateShipCoords/calculateShipCoords';
 import { sortArrayOfObjectsBasedOnAPropertyValue } from '../sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
+import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from '../checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
+import { getFirstDigitOfNumber } from '../getFirstDigitOfNumber/getFirstDigitOfNumber';
 
-export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, setShipCoords) => {
+export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, ships) => {
   
   const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);
   const horizontalDirectionValue = "horizontal";
   const verticalDirectionValue = "vertical";
-
-  let ships = [
-    {
-      name: "d1",
-      shipLength: 1,
-    },
-    {
-      name: "d2",
-      shipLength: 1,
-    },
-    {
-      name: "d3",
-      shipLength: 1,
-    },
-    {
-      name: "d4",
-      shipLength: 1,
-    },
-    {
-      name: "s1",
-      shipLength: 2,
-    },
-    {
-      name: "s2",
-      shipLength: 2,
-    },
-    {
-      name: "s3",
-      shipLength: 2,
-    },
-    {
-      name: "b1",
-      shipLength: 3,
-    },
-    {
-      name: "b2",
-      shipLength: 3,
-    },
-    {
-      name: "c1",
-      shipLength: 4,
-    },
-  ]
-
-
-  const checkIfRandomStartIndexShipCoordsDirectionIsNotOutOfBounds = (randomStartIndex, ship, direction, horizontalDirectionValue, verticalDirectionValue) => {
-    if (direction === horizontalDirectionValue) {
-      const lastDigitOfRandomStartIndex = randomStartIndex % 10;
-      if (lastDigitOfRandomStartIndex + (ship.shipLength - 1) <= 9) {
-        return true;
-      }
-      return false;
-    }
-
-    if (direction === verticalDirectionValue) {
-      let firstDigitOfRandomStartIndex;
-      if (randomStartIndex < 10) {
-        firstDigitOfRandomStartIndex = randomStartIndex;
-      } else {
-        const strRandomStartIndex = randomStartIndex.toString();
-        const firstCharacterRandomStartIndex = strRandomStartIndex.slice(0, 1);
-        firstDigitOfRandomStartIndex = +firstCharacterRandomStartIndex;
-      }
-      if (firstDigitOfRandomStartIndex + (ship.shipLength - 1) <= 9) {
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
 
   const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
 
@@ -92,7 +24,7 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
 
     while (
           randomGameboard[startIndex] !== emptyGameboardValue
-      ||  !checkIfRandomStartIndexShipCoordsDirectionIsNotOutOfBounds(startIndex, ship, direction, horizontalDirectionValue, verticalDirectionValue)
+      ||  !checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(startIndex, ship, direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber)
       ||  !checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, shipCoords, emptyGameboardValue)
     ) {
       // if (timesTriedToPlaceShip >= 4) {
