@@ -6,6 +6,8 @@ import { calculateShipCoords } from '../calculateShipCoords/calculateShipCoords'
 import { sortArrayOfObjectsBasedOnAPropertyValue } from '../sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
 import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from '../checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
 import { getFirstDigitOfNumber } from '../getFirstDigitOfNumber/getFirstDigitOfNumber';
+import { generateRandomShipPosition } from '../generateRandomShipPosition/generateRandomShipPosition';
+import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
 
 export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, ships) => {
   
@@ -15,36 +17,41 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
 
   const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
 
+
   for (const ship of sortedShipsLengthDescendingOrder) {
-    let startIndex = getRandomIndexFromArray(randomGameboard);
-    let direction = getRandomArrayValue([horizontalDirectionValue, verticalDirectionValue]);
-    let shipCoords = calculateShipCoords(ship.shipLength, startIndex, direction, horizontalDirectionValue, verticalDirectionValue);
+    let randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
 
     // let timesTriedToPlaceShip = 1;
 
-    while (
-          randomGameboard[startIndex] !== emptyGameboardValue
-      ||  !checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(startIndex, ship, direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber)
-      ||  !checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, shipCoords, emptyGameboardValue)
+    while (!isValidShipPosition(
+        randomGameboard, 
+        emptyGameboardValue, 
+        randomShipPosition, 
+        ship, 
+        horizontalDirectionValue, 
+        verticalDirectionValue, 
+        getFirstDigitOfNumber, 
+        checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds, 
+        checkIfShipIsNotSurroundedByAnotherShip
+      )
     ) {
       // if (timesTriedToPlaceShip >= 4) {
       //   createRandomGameboard(10, 10, "empty");
       // }
-      startIndex = getRandomIndexFromArray(randomGameboard);
-      direction = getRandomArrayValue([horizontalDirectionValue, verticalDirectionValue]);
-      shipCoords = calculateShipCoords(ship.shipLength, startIndex, direction, horizontalDirectionValue, verticalDirectionValue);
+      randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
       
       // timesTriedToPlaceShip += 1;
       
     }
 
-    for (const coord of shipCoords) {
+    for (const coord of randomShipPosition.shipCoords) {
       randomGameboard[coord] = ship.name;
     }
+
   }
 
-  // console.table(copyGameboardState);
-  // console.log(copyGameboardState);
+  // console.table(randomGameboard);
+  // console.log(randomGameboard);
 
   return true;
 }
