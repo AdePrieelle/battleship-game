@@ -8,6 +8,7 @@ import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from '../checkIf
 import { getFirstDigitOfNumber } from '../getFirstDigitOfNumber/getFirstDigitOfNumber';
 import { generateRandomShipPosition } from '../generateRandomShipPosition/generateRandomShipPosition';
 import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
+import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
 
 export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, ships) => {
   
@@ -31,6 +32,7 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
         horizontalDirectionValue, 
         verticalDirectionValue, 
         getFirstDigitOfNumber, 
+        isEmptyGameboardCell,
         checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds, 
         checkIfShipIsNotSurroundedByAnotherShip
       )
