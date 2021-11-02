@@ -17,35 +17,33 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
   const verticalDirectionValue = "vertical";
 
   const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
+  // console.log("render createRandomGameboard");
 
-
+  // start this part again if timesTriedToPlaceShip more than max times to try to place a ship
+  // outer: for (const ship of sortedShipsLengthDescendingOrder) {
   for (const ship of sortedShipsLengthDescendingOrder) {
     let randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
 
-    // let timesTriedToPlaceShip = 1;
+    let timesTriedToPlaceShip = 1;
+    // console.log(`render ${ship.name}`);
 
     while (!isValidShipPosition(
-        randomGameboard, 
-        emptyGameboardValue, 
-        randomShipPosition, 
-        ship, 
-        horizontalDirectionValue, 
-        verticalDirectionValue, 
-        getFirstDigitOfNumber, 
-        isEmptyGameboardCell,
-        checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds, 
-        checkIfShipIsNotSurroundedByAnotherShip
-      )
-    ) {
-      // if (timesTriedToPlaceShip >= 4) {
-      //   createRandomGameboard(10, 10, "empty");
-      // }
-      randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
-      
-      // timesTriedToPlaceShip += 1;
+      isEmptyGameboardCell(randomGameboard, randomShipPosition.startIndex, emptyGameboardValue),
+      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(randomShipPosition.startIndex, ship, randomShipPosition.direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
+      checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, randomShipPosition.shipCoords, emptyGameboardValue) 
+    )) {
+      if (timesTriedToPlaceShip >= 25) {
+        // console.log(`restarting createRandomGameboard, timesTriedToPlaceShip ${ship.name}: ${timesTriedToPlaceShip}`);
+        return createRandomGameboard(10, 10, emptyGameboardValue, ships);
+        // break outer;
+      } else {
+        randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
+        timesTriedToPlaceShip += 1;
+      }
       
     }
-
+    // console.log(timesTriedToPlaceShip);
+    
     for (const coord of randomShipPosition.shipCoords) {
       randomGameboard[coord] = ship.name;
     }
