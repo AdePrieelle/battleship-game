@@ -9,6 +9,7 @@ import { getFirstDigitOfNumber } from '../getFirstDigitOfNumber/getFirstDigitOfN
 import { generateRandomShipPosition } from '../generateRandomShipPosition/generateRandomShipPosition';
 import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
 import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
+import { generateRandomValidShipPosition } from '../generateRandomValidShipPosition/generateRandomValidShipPosition';
 
 export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, ships) => {
   
@@ -22,29 +23,55 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
   // start this part again if timesTriedToPlaceShip more than max times to try to place a ship
   // outer: for (const ship of sortedShipsLengthDescendingOrder) {
   for (const ship of sortedShipsLengthDescendingOrder) {
-    let randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
 
-    let timesTriedToPlaceShip = 1;
-    // console.log(`render ${ship.name}`);
-
-    while (!isValidShipPosition(
-      isEmptyGameboardCell(randomGameboard, randomShipPosition.startIndex, emptyGameboardValue),
-      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(randomShipPosition.startIndex, ship, randomShipPosition.direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
-      checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, randomShipPosition.shipCoords, emptyGameboardValue) 
-    )) {
-      if (timesTriedToPlaceShip >= 25) {
-        // console.log(`restarting createRandomGameboard, timesTriedToPlaceShip ${ship.name}: ${timesTriedToPlaceShip}`);
-        return createRandomGameboard(10, 10, emptyGameboardValue, ships);
-        // break outer;
-      } else {
-        randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
-        timesTriedToPlaceShip += 1;
-      }
-      
-    }
-    // console.log(timesTriedToPlaceShip);
+    const randomValidShipPosition = generateRandomValidShipPosition(
+      generateRandomShipPosition,
+      randomGameboard, 
+      ship, 
+      horizontalDirectionValue, 
+      verticalDirectionValue, 
+      getRandomIndexFromArray, 
+      getRandomArrayValue, 
+      calculateShipCoords,
+      isValidShipPosition,
+      isEmptyGameboardCell,
+      emptyGameboardValue,
+      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
+      getFirstDigitOfNumber,
+      checkIfShipIsNotSurroundedByAnotherShip,
+      createRandomGameboard,
+      ships
+    );
     
-    for (const coord of randomShipPosition.shipCoords) {
+    
+    // let randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
+
+    // let timesTriedToPlaceShip = 1;
+    // // console.log(`render ${ship.name}`);
+
+    // while (!isValidShipPosition(
+    //   isEmptyGameboardCell(randomGameboard, randomShipPosition.startIndex, emptyGameboardValue),
+    //   checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(randomShipPosition.startIndex, ship, randomShipPosition.direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
+    //   checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, randomShipPosition.shipCoords, emptyGameboardValue) 
+    // )) {
+    //   if (timesTriedToPlaceShip >= 25) {
+    //     // console.log(`restarting createRandomGameboard, timesTriedToPlaceShip ${ship.name}: ${timesTriedToPlaceShip}`);
+    //     return createRandomGameboard(10, 10, emptyGameboardValue, ships);
+    //     // break outer;
+    //   } else {
+    //     randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
+    //     timesTriedToPlaceShip += 1;
+    //   }
+      
+    // }
+    // console.log(timesTriedToPlaceShip);
+
+    
+    // for (const coord of randomShipPosition.shipCoords) {
+    //   randomGameboard[coord] = ship.name;
+    // }
+
+    for (const coord of randomValidShipPosition.shipCoords) {
       randomGameboard[coord] = ship.name;
     }
 
