@@ -7,7 +7,7 @@ import { addFreeMissGameboardValueCellsAroundSunkenShip } from './addFreeMissGam
 import { addFreeMissGameboardValueCellsAroundCellDiagonally } from './addFreeMissGameboardValueCellsAroundCellDiagonally/addFreeMissGameboardValueCellsAroundCellDiagonally';
 import { getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips } from './getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips/getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips';
 import { isSunkenShip } from './isSunkenShip/isSunkenShip';
-// import { isShipNameSunken } from './isShipNameSunken/isShipNameSunken';
+import { getAllIndexesOfAnArrayValue } from './getAllIndexesOfAnArrayValue/getAllIndexesOfAnArrayValue';
 import './Game.scss';
 
 export const Game = () => {
@@ -18,35 +18,7 @@ export const Game = () => {
   const missGameboardValue = "miss";
   const freemissGameboardValue = "freemiss";
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
-  const [gameboardPlayerHitShots, setGameboardPlayerHitShots] = useState([]);
-  const [gameboardComputerHitShots, setGameboardComputerHitShots] = useState([]);
   const [computerHitTurnAgain, setComputerHitTurnAgain] = useState(false);
-
-  const [shipCoordsPlayer, setShipCoordsPlayer] = useState({
-    d1: [0],
-    d2: [2],
-    d3: [4],
-    d4: [6],
-    s1: [20, 21],
-    s2: [23, 24],
-    s3: [26, 27],
-    b1: [40, 50, 60],
-    b2: [42, 52, 62],
-    c1: [80, 81, 82, 83],
-  });
-
-  const [shipCoordsComputer, setShipCoordsComputer] = useState({
-    d1: [0],
-    d2: [2],
-    d3: [4],
-    d4: [6],
-    s1: [20, 21],
-    s2: [23, 24],
-    s3: [26, 27],
-    b1: [40, 50, 60],
-    b2: [42, 52, 62],
-    c1: [80, 81, 82, 83],
-  });
 
   // place ships on default positions to test functionality
   const [gameboardPlayer, setGameboardPlayer] = useState([
@@ -61,8 +33,33 @@ export const Game = () => {
     "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]);
+
+  const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
+    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  ]);
   
   const [gameboardComputer, setGameboardComputer] = useState([
+    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  ]);
+  const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState([
     "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
@@ -92,20 +89,16 @@ export const Game = () => {
   }, [isPlayerTurn, gameboardComputer, computerHitTurnAgain]);
 
   // update the gameboard with a hit or miss or freemiss value
-  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, setGameboardHitShots, gameboardHitShots, shipCoords, isComputer) => {
+  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       let newState = [...gameboard];
-      let copyGameboardHitShots = [...gameboardHitShots];
-      copyGameboardHitShots.push(index);
-      // add index to gameboardPlayerHitShots
-      setGameboardHitShots(copyGameboardHitShots);
       const shipName = newState[index];
       newState[index] = hitGameboardValue;
-      const isShipNameSunken = isSunkenShip(copyGameboardHitShots, shipCoords, shipName);
+      const isShipNameSunken = isSunkenShip(newState, shipName);
       let newStateWithFreeMissCells = newState;
       // add freemiss cell values around all the cells of a ship if they are empty and the ship is sunken
       if (isShipNameSunken) {
-        const shipCoordsShipName = shipCoords[shipName];
+        const shipCoordsShipName = getAllIndexesOfAnArrayValue(gameboardInitialState, shipName);
         newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoordsShipName, freemissGameboardValue, emptyGameboardValue);
       } else {
         // add diagonally freemiss cell values around a single hit cell if the cell is empty
@@ -127,7 +120,7 @@ export const Game = () => {
   }
 
   const handleMovePlayer = (event) => {
-    updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, setGameboardPlayerHitShots, gameboardPlayerHitShots, shipCoordsPlayer, false);
+    updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
   }
   
   const handleMoveComputer = () => {
@@ -139,7 +132,7 @@ export const Game = () => {
     let randomGameboardComputerCellNumber = gameboardComputerCellsAvailable[randomIndexGameboardComputerCellsAvailable];
     if (gameboardComputerCellsAvailable.length > 0) {
       // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-      updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer, setGameboardComputerHitShots, gameboardComputerHitShots, shipCoordsComputer, true);
+      updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer, gameboardComputerInitialState, true);
     }
   }
 
@@ -198,5 +191,3 @@ export const Game = () => {
   </div>
   )
 }
-
-
