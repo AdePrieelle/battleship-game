@@ -8,6 +8,9 @@ import { addFreeMissGameboardValueCellsAroundCellDiagonally } from './addFreeMis
 import { getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips } from './getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips/getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips';
 import { isSunkenShip } from './isSunkenShip/isSunkenShip';
 import { getAllIndexesOfAnArrayValue } from './getAllIndexesOfAnArrayValue/getAllIndexesOfAnArrayValue';
+import { getAvailableRandomGameboardComputerCellNumber } from './getAvailableRandomGameboardComputerCellNumber/getAvailableRandomGameboardComputerCellNumber';
+import { getGameboardAfterHitLogic } from './getGameboardAfterHitLogic/getGameboardAfterHitLogic';
+import { getGameboardAfterMissLogic } from './getGameboardAfterMissLogic/getGameboardAfterMissLogic';
 import './Game.scss';
 
 export const Game = () => {
@@ -75,14 +78,14 @@ export const Game = () => {
   useEffect(() => {
     if (!isPlayerTurn && !computerHitTurnAgain) {
       const computerTurnTimeout = setTimeout(() => {
-        handleMoveComputer();
+        handleComputerMove();
       }, 150);
       return () => clearTimeout(computerTurnTimeout);
     }
     // if the computer hits a ship increase the "virtual thinking time" for the next step
     if (!isPlayerTurn && computerHitTurnAgain) {
       const computerTurnTimeout = setTimeout(() => {
-        handleMoveComputer();
+        handleComputerMove();
       }, 750);
       return () => clearTimeout(computerTurnTimeout);
     }
@@ -91,27 +94,25 @@ export const Game = () => {
   // update the gameboard with a hit or miss or freemiss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
-      let newState = [...gameboard];
-      const shipName = newState[index];
-      newState[index] = hitGameboardValue;
-      const isShipNameSunken = isSunkenShip(newState, shipName);
-      let newStateWithFreeMissCells = newState;
-      // add freemiss cell values around all the cells of a ship if they are empty and the ship is sunken
-      if (isShipNameSunken) {
-        const shipCoordsShipName = getAllIndexesOfAnArrayValue(gameboardInitialState, shipName);
-        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundSunkenShip(newState, shipCoordsShipName, freemissGameboardValue, emptyGameboardValue);
-      } else {
-        // add diagonally freemiss cell values around a single hit cell if the cell is empty
-        newStateWithFreeMissCells = addFreeMissGameboardValueCellsAroundCellDiagonally(newState, index, freemissGameboardValue, emptyGameboardValue);
-      }
-      setGameboard(newStateWithFreeMissCells);
+      const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
+        gameboard, 
+        index, 
+        hitGameboardValue, 
+        isSunkenShip,
+        getAllIndexesOfAnArrayValue, 
+        gameboardInitialState,
+        addFreeMissGameboardValueCellsAroundSunkenShip, 
+        freemissGameboardValue, 
+        emptyGameboardValue,
+        addFreeMissGameboardValueCellsAroundCellDiagonally
+      )
+      setGameboard(newGameboardStateAfterHitLogicWithFreeMissCells);
       if (isComputer) {
         setComputerHitTurnAgain(true);
       }
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
-      let newState = [...gameboard];
-      newState[index] = missGameboardValue;
-      setGameboard(newState);
+      const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
+      setGameboard(newGameboardStateAfterMissLogicWithMissCell);
       setIsPlayerTurn(!isPlayerTurn);
       if (isComputer) {
         setComputerHitTurnAgain(false);
@@ -119,17 +120,21 @@ export const Game = () => {
     }
   }
 
-  const handleMovePlayer = (event) => {
+  const handlePlayerMove = (event) => {
     updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
   }
   
-  const handleMoveComputer = () => {
+  const handleComputerMove = () => {
     // array of indexes of computercells that are either "empty" or a hidden ship
     const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardComputer, hitGameboardValue, missGameboardValue, freemissGameboardValue);
-    // pick a random index from the gameboardComputerCellsAvailable
-    let randomIndexGameboardComputerCellsAvailable = getRandomIndexFromArray(gameboardComputerCellsAvailable);
-    // random gameboardComputer cell value that gets picked with the random index
-    let randomGameboardComputerCellNumber = gameboardComputerCellsAvailable[randomIndexGameboardComputerCellsAvailable];
+    const randomGameboardComputerCellNumber = getAvailableRandomGameboardComputerCellNumber(
+      getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips,
+      gameboardComputer,
+      hitGameboardValue,
+      missGameboardValue,
+      freemissGameboardValue,
+      getRandomIndexFromArray,
+    )
     if (gameboardComputerCellsAvailable.length > 0) {
       // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
       updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer, gameboardComputerInitialState, true);
@@ -156,7 +161,7 @@ export const Game = () => {
               onClick={
                   isPlayerTurn 
                 ? (gameboardPlayer[id] !== hitGameboardValue && gameboardPlayer[id] !== missGameboardValue && gameboardPlayer[id] !== freemissGameboardValue) 
-                ? handleMovePlayer 
+                ? handlePlayerMove
                 : null 
                 : null
               }>
@@ -181,7 +186,7 @@ export const Game = () => {
             onClick={
                 !isPlayerTurn 
               ? (gameboardComputer[id] !== hitGameboardValue && gameboardComputer[id] !== missGameboardValue && gameboardComputer[id] !== freemissGameboardValue) 
-              ? handleMoveComputer
+              ? handleComputerMove
               : null 
               : null
             }>
