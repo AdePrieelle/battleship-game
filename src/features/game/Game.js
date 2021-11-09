@@ -11,6 +11,10 @@ import { getAllIndexesOfAnArrayValue } from './getAllIndexesOfAnArrayValue/getAl
 import { getAvailableRandomGameboardComputerCellNumber } from './getAvailableRandomGameboardComputerCellNumber/getAvailableRandomGameboardComputerCellNumber';
 import { getGameboardAfterHitLogic } from './getGameboardAfterHitLogic/getGameboardAfterHitLogic';
 import { getGameboardAfterMissLogic } from './getGameboardAfterMissLogic/getGameboardAfterMissLogic';
+import { createRandomGameboard } from './createRandomGameboard/createRandomGameboard';
+import { generateRandomValidShipPosition } from './generateRandomValidShipPosition/generateRandomValidShipPosition';
+import { ships } from './ships';
+import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
 import './Game.scss';
 
 export const Game = () => {
@@ -22,58 +26,79 @@ export const Game = () => {
   const freemissGameboardValue = "freemiss";
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [computerHitTurnAgain, setComputerHitTurnAgain] = useState(false);
+  // const [playerWonGame, setPlayerWonGame] = useState(false);
+  // const [computerWonGame, setComputerWonGame] = useState(false);
 
-  // place ships on default positions to test functionality
-  const [gameboardPlayer, setGameboardPlayer] = useState([
-    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ]);
-
-  const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
-    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ]);
   
-  const [gameboardComputer, setGameboardComputer] = useState([
-    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ]);
-  const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState([
-    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-  ]);
+  // place ships on default positions to test functionality
+  // const [gameboardPlayer, setGameboardPlayer] = useState([
+  //   "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  // ]);
+
+  // const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
+  //   "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  // ]);
+
+  // const [gameboardComputer, setGameboardComputer] = useState([
+  //   "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  // ]);
+
+  // const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState([
+  //   "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  // ]);
+
+  const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
+  const [gameboardPlayer, setGameboardPlayer] = useState([]);
+
+  const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
+  const [gameboardComputer, setGameboardComputer] = useState([]);
+
+  useEffect(() => {
+    setGameboardPlayer(gameboardPlayerInitialState);
+    setGameboardComputer(gameboardComputerInitialState);
+  }, []);
+
+  // console.table(gameboardPlayer);
+  // console.table(gameboardPlayerInitialState);
+  console.log(gameboardPlayer === gameboardPlayerInitialState);
+  // console.log("gameboards player equally: " + gameboardPlayer === gameboardPlayerInitialState);
+  // console.log("gameboards computer equally: " + gameboardComputer === gameboardComputerInitialState);
 
   useEffect(() => {
     if (!isPlayerTurn && !computerHitTurnAgain) {
@@ -110,6 +135,14 @@ export const Game = () => {
       if (isComputer) {
         setComputerHitTurnAgain(true);
       }
+      // const isGameOver = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
+      // if (isGameOver) {
+      //   if (isComputer) {
+      //     setComputerWonGame(true);
+      //   } else if (!isComputer) {
+      //     setPlayerWonGame(true);
+      //   }
+      // }
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
       setGameboard(newGameboardStateAfterMissLogicWithMissCell);
@@ -121,7 +154,7 @@ export const Game = () => {
   }
 
   const handlePlayerMove = (event) => {
-    updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
+    return updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
   }
   
   const handleComputerMove = () => {
