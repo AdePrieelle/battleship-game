@@ -15,6 +15,9 @@ import { createRandomGameboard } from './createRandomGameboard/createRandomGameb
 import { generateRandomValidShipPosition } from './generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { ships } from './ships';
 import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
+import { GameboardPlayerGrid } from './GameboardPlayerGrid';
+import { GameboardComputerGrid } from './GameboardComputerGrid';
+import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
 import './Game.scss';
 
 export const Game = () => {
@@ -26,8 +29,28 @@ export const Game = () => {
   const freemissGameboardValue = "freemiss";
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [computerHitTurnAgain, setComputerHitTurnAgain] = useState(false);
-  // const [playerWonGame, setPlayerWonGame] = useState(false);
-  // const [computerWonGame, setComputerWonGame] = useState(false);
+
+  // logic for isGameOver
+  const [playerWonGame, setPlayerWonGame] = useState(false);
+  const [computerWonGame, setComputerWonGame] = useState(false);
+
+  useEffect(() => {
+    if (playerWonGame) {
+      alert("player won the game");
+    } else if (computerWonGame) {
+      alert("computer won the game");
+    }
+  }, [playerWonGame, computerWonGame]);
+
+  // if (playerWonGame) {
+  //   setPlayerWonGame(false);
+  //   console.log('player won game');
+  //   alert("Player won game");
+  // }
+  // if (computerWonGame) {
+  //   console.log('computer won game');
+  //   alert("Computer won game");
+  // }
 
   
   // place ships on default positions to test functionality
@@ -83,22 +106,42 @@ export const Game = () => {
   //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   // ]);
 
-  const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
+  const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
+    "hit", "miss", "hit", "miss", "hit", "miss", "d4", "miss", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "s1", "s1", "miss", "hit", "hit", "miss", "hit", "hit", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  ]);
+
+  const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState([
+    "hit", "miss", "hit", "miss", "hit", "miss", "d4", "miss", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "s1", "s1", "miss", "hit", "hit", "miss", "hit", "hit", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  ]);
+
+  // const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
   const [gameboardPlayer, setGameboardPlayer] = useState([]);
 
-  const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
+  // const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
   const [gameboardComputer, setGameboardComputer] = useState([]);
 
   useEffect(() => {
     setGameboardPlayer(gameboardPlayerInitialState);
     setGameboardComputer(gameboardComputerInitialState);
   }, []);
-
-  // console.table(gameboardPlayer);
-  // console.table(gameboardPlayerInitialState);
-  console.log(gameboardPlayer === gameboardPlayerInitialState);
-  // console.log("gameboards player equally: " + gameboardPlayer === gameboardPlayerInitialState);
-  // console.log("gameboards computer equally: " + gameboardComputer === gameboardComputerInitialState);
 
   useEffect(() => {
     if (!isPlayerTurn && !computerHitTurnAgain) {
@@ -135,14 +178,18 @@ export const Game = () => {
       if (isComputer) {
         setComputerHitTurnAgain(true);
       }
-      // const isGameOver = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
-      // if (isGameOver) {
-      //   if (isComputer) {
-      //     setComputerWonGame(true);
-      //   } else if (!isComputer) {
-      //     setPlayerWonGame(true);
-      //   }
-      // }
+
+      // logic for isGameOver
+      const isGameOver = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
+      if (isGameOver) {
+        if (isComputer) {
+          setComputerWonGame(true);
+        } else if (!isComputer) {
+          setPlayerWonGame(true);
+        }
+      }
+
+
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
       setGameboard(newGameboardStateAfterMissLogicWithMissCell);
@@ -154,7 +201,16 @@ export const Game = () => {
   }
 
   const handlePlayerMove = (event) => {
-    return updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
+    if (isValidPlayerTurn(
+      gameboardPlayer, 
+      +event.target.id,
+      isPlayerTurn, 
+      hitGameboardValue, 
+      missGameboardValue, 
+      freemissGameboardValue
+    )) {
+      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
+    }
   }
   
   const handleComputerMove = () => {
@@ -176,56 +232,24 @@ export const Game = () => {
 
   return (
     <div className="gameboard-wrapper">
-      <div className="gameboard gameboard-player" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
-        {gameboardPlayer.map((cell, id) => (
-            <div 
-              key={id} 
-              id={id} 
-              className={`gameboard-cell ${
-                    gameboardPlayer[id] === hitGameboardValue 
-                  ? " hit" 
-                  : gameboardPlayer[id] === missGameboardValue 
-                  ? " miss" 
-                  : gameboardPlayer[id] === freemissGameboardValue 
-                  ? " freemiss" 
-                  : ""
-                }`
-              } 
-              onClick={
-                  isPlayerTurn 
-                ? (gameboardPlayer[id] !== hitGameboardValue && gameboardPlayer[id] !== missGameboardValue && gameboardPlayer[id] !== freemissGameboardValue) 
-                ? handlePlayerMove
-                : null 
-                : null
-              }>
-            </div>
-        ))}
-      </div>
-      <div className="gameboard gameboard-computer" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
-        {gameboardComputer.map((cell, id) => (
-            <div 
-            key={id} 
-            id={id} 
-            className={`gameboard-cell ${
-                  gameboardComputer[id] === hitGameboardValue 
-                ? " hit" 
-                : gameboardComputer[id] === missGameboardValue 
-                ? " miss" 
-                : gameboardComputer[id] === freemissGameboardValue 
-                ? " freemiss" 
-                : ""
-              }`
-            } 
-            onClick={
-                !isPlayerTurn 
-              ? (gameboardComputer[id] !== hitGameboardValue && gameboardComputer[id] !== missGameboardValue && gameboardComputer[id] !== freemissGameboardValue) 
-              ? handleComputerMove
-              : null 
-              : null
-            }>
-          </div>
-        ))}
-      </div>
+      <GameboardPlayerGrid 
+        gameboardPlayer={gameboardPlayer}
+        amountOfColumns={amountOfColumns}
+        amountOfRows={amountOfRows}
+        hitGameboardValue={hitGameboardValue}
+        missGameboardValue={missGameboardValue}
+        freemissGameboardValue={freemissGameboardValue}
+        isPlayerTurn={isPlayerTurn}
+        handlePlayerMove={handlePlayerMove}
+      />
+      <GameboardComputerGrid 
+        gameboardComputer={gameboardComputer}
+        amountOfColumns={amountOfColumns}
+        amountOfRows={amountOfRows}
+        hitGameboardValue={hitGameboardValue}
+        missGameboardValue={missGameboardValue}
+        freemissGameboardValue={freemissGameboardValue}
+      />
   </div>
   )
 }
