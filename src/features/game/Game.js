@@ -31,6 +31,7 @@ export const Game = () => {
   const [computerHitTurnAgain, setComputerHitTurnAgain] = useState(false);
 
   // logic for isGameOver
+  const [isGameOver, setIsGameOver] = useState(false);
   const [playerWonGame, setPlayerWonGame] = useState(false);
   const [computerWonGame, setComputerWonGame] = useState(false);
 
@@ -141,7 +142,7 @@ export const Game = () => {
   useEffect(() => {
     setGameboardPlayer(gameboardPlayerInitialState);
     setGameboardComputer(gameboardComputerInitialState);
-  }, []);
+  }, [gameboardPlayerInitialState, gameboardComputerInitialState]);
 
   useEffect(() => {
     if (!isPlayerTurn && !computerHitTurnAgain) {
@@ -180,8 +181,9 @@ export const Game = () => {
       }
 
       // logic for isGameOver
-      const isGameOver = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
-      if (isGameOver) {
+      const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
+      if (allShipsSunken) {
+        setIsGameOver(true);
         if (isComputer) {
           setComputerWonGame(true);
         } else if (!isComputer) {
@@ -239,7 +241,6 @@ export const Game = () => {
         hitGameboardValue={hitGameboardValue}
         missGameboardValue={missGameboardValue}
         freemissGameboardValue={freemissGameboardValue}
-        isPlayerTurn={isPlayerTurn}
         handlePlayerMove={handlePlayerMove}
       />
       <GameboardComputerGrid 
@@ -249,6 +250,7 @@ export const Game = () => {
         hitGameboardValue={hitGameboardValue}
         missGameboardValue={missGameboardValue}
         freemissGameboardValue={freemissGameboardValue}
+        emptyGameboardValue={emptyGameboardValue}
       />
   </div>
   )

@@ -5,11 +5,16 @@ export const GameboardPlayerGrid = ({
   hitGameboardValue, 
   missGameboardValue,
   freemissGameboardValue,
-  handlePlayerMove 
+  handlePlayerMove,
 }) => {
-  
   return (
-    <div className="gameboard gameboard-player" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
+    <div 
+      className="gameboard gameboard-player" 
+      style={{
+        gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
+        gridTemplateRows: `repeat(${amountOfRows}, auto)`,
+      }}
+    >
       {gameboardPlayer.map((cell, id) => (
           <div 
             key={id} 

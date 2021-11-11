@@ -4,10 +4,17 @@ export const GameboardComputerGrid = ({
   amountOfRows,
   hitGameboardValue,
   missGameboardValue,
-  freemissGameboardValue
+  freemissGameboardValue,
+  emptyGameboardValue,
 }) => {
   return (
-    <div className="gameboard gameboard-computer" style={{gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, gridTemplateRows: `repeat(${amountOfRows}, auto)`}}>
+    <div 
+      className="gameboard gameboard-computer" 
+      style={{
+        gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
+        gridTemplateRows: `repeat(${amountOfRows}, auto)`, 
+      }}
+    >
       {gameboardComputer.map((cell, id) => (
         <div 
           key={id} 
@@ -19,7 +26,9 @@ export const GameboardComputerGrid = ({
               ? " miss" 
               : gameboardComputer[id] === freemissGameboardValue 
               ? " freemiss" 
-              : ""
+              : gameboardComputer[id] === emptyGameboardValue
+              ? ""
+              : "ship"
             }`
           } 
         >
