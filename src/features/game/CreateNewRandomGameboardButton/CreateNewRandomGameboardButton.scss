@@ -1,0 +1,21 @@
+@import "../../../styles/partials/variables";
+
+.create-new-random-gameboard-button {
+  display: inline-block;
+  margin-left: 20px;
+  padding: 8px 10px;
+  color: $primary-text-color-create-new-random-gameboard-button;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: $primary-background-color-create-new-random-gameboard-button;
+  border-radius: 4px;
+  cursor: pointer;
+  .create-new-random-gameboard-button-text-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .randomise-icon {
+    margin-left: 4px;
+  }
+}

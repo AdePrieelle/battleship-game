@@ -10,10 +10,11 @@ import { generateRandomShipPosition } from '../generateRandomShipPosition/genera
 import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
 import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
 
-export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships) => {
+export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, callback) => {
   const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);
   const horizontalDirectionValue = "horizontal";
   const verticalDirectionValue = "vertical";
+  const maxAmountTimesTriedToPlaceShip = 25;
   const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
 
   for (const ship of sortedShipsLengthDescendingOrder) {
@@ -32,9 +33,13 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
       checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
       getFirstDigitOfNumber,
       checkIfShipIsNotSurroundedByAnotherShip,
-      createRandomGameboard,
-      ships
+      maxAmountTimesTriedToPlaceShip
     );
+
+    // if it took too long to find a randomValidShipPosition for a specific ship restart ship placements again to prevent an infinite loop
+    if (!randomValidShipPosition) {
+      return callback(amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships);
+    }
     
     for (const coord of randomValidShipPosition.shipCoords) {
       randomGameboard[coord] = ship.name;

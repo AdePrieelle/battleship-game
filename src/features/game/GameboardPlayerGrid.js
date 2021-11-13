@@ -16,22 +16,22 @@ export const GameboardPlayerGrid = ({
       }}
     >
       {gameboardPlayer.map((cell, id) => (
-          <div 
-            key={id} 
-            id={id} 
-            className={`gameboard-cell ${
-                  gameboardPlayer[id] === hitGameboardValue 
-                ? " hit" 
-                : gameboardPlayer[id] === missGameboardValue 
-                ? " miss" 
-                : gameboardPlayer[id] === freemissGameboardValue 
-                ? " freemiss" 
-                : ""
-              }`
-            } 
-            onClick={handlePlayerMove}
-          >
-          </div>
+        <div 
+          key={id} 
+          id={id} 
+          className={`gameboard-cell ${
+                gameboardPlayer[id] === hitGameboardValue 
+              ? " hit" 
+              : gameboardPlayer[id] === missGameboardValue 
+              ? " miss" 
+              : gameboardPlayer[id] === freemissGameboardValue 
+              ? " freemiss" 
+              : ""
+            }`
+          } 
+          onClick={handlePlayerMove}
+        >
+        </div>
       ))}
     </div>
   );

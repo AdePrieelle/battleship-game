@@ -18,6 +18,7 @@ import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
 import { GameboardPlayerGrid } from './GameboardPlayerGrid';
 import { GameboardComputerGrid } from './GameboardComputerGrid';
 import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
+import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
 import './Game.scss';
 
 export const Game = () => {
@@ -133,10 +134,10 @@ export const Game = () => {
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
   ]);
 
-  // const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
+  // const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
   const [gameboardPlayer, setGameboardPlayer] = useState([]);
 
-  // const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships));
+  // const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
   const [gameboardComputer, setGameboardComputer] = useState([]);
 
   useEffect(() => {
@@ -233,25 +234,36 @@ export const Game = () => {
   }
 
   return (
-    <div className="gameboard-wrapper">
-      <GameboardPlayerGrid 
-        gameboardPlayer={gameboardPlayer}
+    <>
+      <div className="gameboard-wrapper">
+        <GameboardPlayerGrid 
+          gameboardPlayer={gameboardPlayer}
+          amountOfColumns={amountOfColumns}
+          amountOfRows={amountOfRows}
+          hitGameboardValue={hitGameboardValue}
+          missGameboardValue={missGameboardValue}
+          freemissGameboardValue={freemissGameboardValue}
+          handlePlayerMove={handlePlayerMove}
+        />
+        <GameboardComputerGrid 
+          gameboardComputer={gameboardComputer}
+          amountOfColumns={amountOfColumns}
+          amountOfRows={amountOfRows}
+          hitGameboardValue={hitGameboardValue}
+          missGameboardValue={missGameboardValue}
+          freemissGameboardValue={freemissGameboardValue}
+          emptyGameboardValue={emptyGameboardValue}
+        />
+      </div>
+      <CreateNewRandomGameboardButton
+        setGameboardComputerInitialState={setGameboardComputerInitialState}
+        createRandomGameboard={createRandomGameboard}
         amountOfColumns={amountOfColumns}
         amountOfRows={amountOfRows}
-        hitGameboardValue={hitGameboardValue}
-        missGameboardValue={missGameboardValue}
-        freemissGameboardValue={freemissGameboardValue}
-        handlePlayerMove={handlePlayerMove}
-      />
-      <GameboardComputerGrid 
-        gameboardComputer={gameboardComputer}
-        amountOfColumns={amountOfColumns}
-        amountOfRows={amountOfRows}
-        hitGameboardValue={hitGameboardValue}
-        missGameboardValue={missGameboardValue}
-        freemissGameboardValue={freemissGameboardValue}
         emptyGameboardValue={emptyGameboardValue}
+        generateRandomValidShipPosition={generateRandomValidShipPosition}
+        ships={ships}
       />
-  </div>
+    </>
   )
 }

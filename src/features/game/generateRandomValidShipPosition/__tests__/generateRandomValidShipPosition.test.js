@@ -35,51 +35,7 @@ test("generate a random valid ship position object correctly", () => {
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => true);
   const mockGetFirstDigitOfNumber = jest.fn(() => 1);
   const mockCheckIfShipIsNotSurroundedByAnotherShip = jest.fn(() => true);
-  const mockCreateRandomGameboard = jest.fn(() => "createRandomGameboard recursive function call");
-  const mockShips = jest.fn(() => (
-    [
-      {
-        name: "d1",
-        shipLength: 1,
-      },
-      {
-        name: "d2",
-        shipLength: 1,
-      },
-      {
-        name: "d3",
-        shipLength: 1,
-      },
-      {
-        name: "d4",
-        shipLength: 1,
-      },
-      {
-        name: "s1",
-        shipLength: 2,
-      },
-      {
-        name: "s2",
-        shipLength: 2,
-      },
-      {
-        name: "s3",
-        shipLength: 2,
-      },
-      {
-        name: "b1",
-        shipLength: 3,
-      },
-      {
-        name: "b2",
-        shipLength: 3,
-      },
-      {
-        name: "c1",
-        shipLength: 4,
-      },
-    ]
-  ));
+  const mockMaxAmountTimesTriedToPlaceShip = jest.fn(() => 25);
   expect(generateRandomValidShipPosition(
     mockGenerateRandomShipPosition,
     mockRandomGameboard, 
@@ -95,8 +51,7 @@ test("generate a random valid ship position object correctly", () => {
     mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
     mockGetFirstDigitOfNumber,
     mockCheckIfShipIsNotSurroundedByAnotherShip,
-    mockCreateRandomGameboard,
-    mockShips
+    mockMaxAmountTimesTriedToPlaceShip()
   )).toStrictEqual({
     startIndex: 14,
     direction: "horizontal",
@@ -104,7 +59,7 @@ test("generate a random valid ship position object correctly", () => {
   });
 });
 
-test("return createRandomGameboard recursive function call if randomShipPosition is not a valid ship position after trying 25 times to generate a randomShipPosition and checking is its a valid position on the gameboard", () => {
+test("return false if randomShipPosition is not a valid ship position after exceeding maxAmountTimesTriedToPlaceShip to generate a randomShipPosition and checking is its a valid position on the gameboard", () => {
   const mockGenerateRandomShipPosition = jest.fn(() => (
     {
       startIndex: 14,
@@ -139,51 +94,7 @@ test("return createRandomGameboard recursive function call if randomShipPosition
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => false);
   const mockGetFirstDigitOfNumber = jest.fn(() => 1);
   const mockCheckIfShipIsNotSurroundedByAnotherShip = jest.fn(() => true);
-  const mockCreateRandomGameboard = jest.fn(() => "createRandomGameboard recursive function call");
-  const mockShips = jest.fn(() => (
-    [
-      {
-        name: "d1",
-        shipLength: 1,
-      },
-      {
-        name: "d2",
-        shipLength: 1,
-      },
-      {
-        name: "d3",
-        shipLength: 1,
-      },
-      {
-        name: "d4",
-        shipLength: 1,
-      },
-      {
-        name: "s1",
-        shipLength: 2,
-      },
-      {
-        name: "s2",
-        shipLength: 2,
-      },
-      {
-        name: "s3",
-        shipLength: 2,
-      },
-      {
-        name: "b1",
-        shipLength: 3,
-      },
-      {
-        name: "b2",
-        shipLength: 3,
-      },
-      {
-        name: "c1",
-        shipLength: 4,
-      },
-    ]
-  ));
+  const mockMaxAmountTimesTriedToPlaceShip = jest.fn(() => 25);
   expect(generateRandomValidShipPosition(
     mockGenerateRandomShipPosition,
     mockRandomGameboard, 
@@ -199,9 +110,8 @@ test("return createRandomGameboard recursive function call if randomShipPosition
     mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
     mockGetFirstDigitOfNumber,
     mockCheckIfShipIsNotSurroundedByAnotherShip,
-    mockCreateRandomGameboard,
-    mockShips
-  )).toBe("createRandomGameboard recursive function call");
+    mockMaxAmountTimesTriedToPlaceShip()
+  )).toBe(false);
 });
 
 test("return the 3rd generated randomShipPosition after previous generated randomShipPosition tries were all not a valid ship on the gameboard", () => {
@@ -275,51 +185,7 @@ test("return the 3rd generated randomShipPosition after previous generated rando
     .mockReturnValueOnce(7)
     .mockReturnValueOnce(8);
   const mockCheckIfShipIsNotSurroundedByAnotherShip = jest.fn(() => true);
-  const mockCreateRandomGameboard = jest.fn(() => "createRandomGameboard recursive function call");
-  const mockShips = jest.fn(() => (
-    [
-      {
-        name: "d1",
-        shipLength: 1,
-      },
-      {
-        name: "d2",
-        shipLength: 1,
-      },
-      {
-        name: "d3",
-        shipLength: 1,
-      },
-      {
-        name: "d4",
-        shipLength: 1,
-      },
-      {
-        name: "s1",
-        shipLength: 2,
-      },
-      {
-        name: "s2",
-        shipLength: 2,
-      },
-      {
-        name: "s3",
-        shipLength: 2,
-      },
-      {
-        name: "b1",
-        shipLength: 3,
-      },
-      {
-        name: "b2",
-        shipLength: 3,
-      },
-      {
-        name: "c1",
-        shipLength: 4,
-      },
-    ]
-  ));
+  const mockMaxAmountTimesTriedToPlaceShip = jest.fn(() => 25);
   expect(generateRandomValidShipPosition(
     mockGenerateRandomShipPosition,
     mockRandomGameboard, 
@@ -335,8 +201,7 @@ test("return the 3rd generated randomShipPosition after previous generated rando
     mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
     mockGetFirstDigitOfNumber,
     mockCheckIfShipIsNotSurroundedByAnotherShip,
-    mockCreateRandomGameboard,
-    mockShips
+    mockMaxAmountTimesTriedToPlaceShip()
   )).toStrictEqual({
     startIndex: 5,
     direction: "horizontal",

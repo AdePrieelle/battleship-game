@@ -1,7 +1,9 @@
 import { createRandomGameboard } from "../createRandomGameboard";
-import { ships } from '../../ships';
 
 test("create a random gameboard with randomly generated ships coords placed correctly", () => {
+  const mockAmountRows = jest.fn(() => 10);
+  const mockAmountColumns = jest.fn(() => 10);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockGenerateRandomValidShipPosition = jest
     .fn()
     .mockReturnValueOnce(
@@ -116,7 +118,17 @@ test("create a random gameboard with randomly generated ships coords placed corr
       shipLength: 4,
     },
   ]));
-  expect(createRandomGameboard(10, 10, "empty", mockGenerateRandomValidShipPosition, mockShips())).toStrictEqual([
+  const mockCallback = jest.fn(() => "callback called correctly");
+  expect(
+    createRandomGameboard(
+      mockAmountRows(), 
+      mockAmountColumns(), 
+      mockEmptyGameboardValue(), 
+      mockGenerateRandomValidShipPosition, 
+      mockShips(), 
+      mockCallback
+    )
+  ).toStrictEqual([
     "c1", "c1", "c1", "c1", "empty", "b1", "b1", "b1", "empty", "b2",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "b2",
     "s1", "empty", "empty", "empty", "s2", "empty", "empty", "empty", "empty", "b2",
@@ -128,4 +140,64 @@ test("create a random gameboard with randomly generated ships coords placed corr
     "d1", "empty", "empty", "d2", "empty", "d3", "empty", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "d4", "empty",
   ]);
+});
+
+test("create a random gameboard returns callback createRandomGameboard when randomValidShipPosition is false because generateRandomValidShipPosition exceeded the maxAmountTimesTriedToPlaceShip to place a ship", () => {
+  const mockAmountRows = jest.fn(() => 10);
+  const mockAmountColumns = jest.fn(() => 10);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockGenerateRandomValidShipPosition = jest.fn(() => false);
+  const mockShips = jest.fn(() => ([
+    {
+      name: "d1",
+      shipLength: 1,
+    },
+    {
+      name: "d2",
+      shipLength: 1,
+    },
+    {
+      name: "d3",
+      shipLength: 1,
+    },
+    {
+      name: "d4",
+      shipLength: 1,
+    },
+    {
+      name: "s1",
+      shipLength: 2,
+    },
+    {
+      name: "s2",
+      shipLength: 2,
+    },
+    {
+      name: "s3",
+      shipLength: 2,
+    },
+    {
+      name: "b1",
+      shipLength: 3,
+    },
+    {
+      name: "b2",
+      shipLength: 3,
+    },
+    {
+      name: "c1",
+      shipLength: 4,
+    },
+  ]));
+  const mockCallback = jest.fn(() => "callback called correctly");
+  expect(
+    createRandomGameboard(
+      mockAmountRows(), 
+      mockAmountColumns(), 
+      mockEmptyGameboardValue(), 
+      mockGenerateRandomValidShipPosition, 
+      mockShips(),
+      mockCallback
+    )
+  ).toBe("callback called correctly");
 });

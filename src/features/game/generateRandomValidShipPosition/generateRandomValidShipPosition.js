@@ -13,8 +13,7 @@ export const generateRandomValidShipPosition = (
   checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
   getFirstDigitOfNumber,
   checkIfShipIsNotSurroundedByAnotherShip,
-  createRandomGameboard,
-  ships
+  maxAmountTimesTriedToPlaceShip
 ) => {
   let randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
   let timesTriedToPlaceShip = 1;
@@ -24,13 +23,13 @@ export const generateRandomValidShipPosition = (
     checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(randomShipPosition.startIndex, ship, randomShipPosition.direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
     checkIfShipIsNotSurroundedByAnotherShip(randomGameboard, randomShipPosition.shipCoords, emptyGameboardValue) 
   )) {
-    if (timesTriedToPlaceShip >= 25) {
-      return createRandomGameboard(10, 10, emptyGameboardValue, ships);
+    // return false if it takes too long to find a valid ship position, to prevent an infinite loop
+    if (timesTriedToPlaceShip >= maxAmountTimesTriedToPlaceShip) {
+      return false;
     } else {
       randomShipPosition = generateRandomShipPosition(randomGameboard, ship, horizontalDirectionValue, verticalDirectionValue, getRandomIndexFromArray, getRandomArrayValue, calculateShipCoords);
       timesTriedToPlaceShip += 1;
     }
   }
-  
   return randomShipPosition;
 }
