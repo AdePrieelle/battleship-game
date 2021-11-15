@@ -191,7 +191,7 @@ export const Game = () => {
   }
 
   const handleNewGame = () => {
-    setIsGameOver(true);
+    setIsGameOver(false);
     setIsGameStarted(false);
     setComputerWonGame(false);
     setPlayerWonGame(false);
@@ -299,12 +299,18 @@ export const Game = () => {
         emptyGameboardValue={emptyGameboardValue}
         generateRandomValidShipPosition={generateRandomValidShipPosition}
         ships={ships}
+        isGameStarted={isGameStarted}
+        isGameOver={isGameOver}
       />
       <StartGameButton 
         handleStartGame={handleStartGame}
+        isGameStarted={isGameStarted}
+        isGameOver={isGameOver}
       />
       <NewGameButton 
         handleNewGame={handleNewGame}
+        isGameStarted={isGameStarted}
+        isGameOver={isGameOver}
       />
     </>
   )

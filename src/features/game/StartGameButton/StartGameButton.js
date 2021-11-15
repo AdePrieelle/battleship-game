@@ -1,11 +1,13 @@
 import "./StartGameButton.scss";
 
 export const StartGameButton = ({ 
-  handleStartGame
+  handleStartGame,
+  isGameStarted,
+  isGameOver
 }) => {
   return (
     <div 
-      className="ui-button start-game-button"
+      className={`ui-button ${isGameStarted || isGameOver ? "ui-button-disabled" : ""} start-game-button`}
       onClick={handleStartGame}
     >
       Start game

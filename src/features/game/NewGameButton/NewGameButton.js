@@ -1,11 +1,13 @@
 import "./NewGameButton.scss";
 
 export const NewGameButton = ({ 
-  handleNewGame
+  handleNewGame,
+  isGameStarted,
+  isGameOver
 }) => {
   return (
     <div 
-      className="ui-button new-game-button"
+      className={`ui-button ${!isGameStarted && !isGameOver ? "ui-button-disabled" : ""} new-game-button`}
       onClick={handleNewGame}
     >
       New game
