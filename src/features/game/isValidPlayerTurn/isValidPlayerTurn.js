@@ -4,10 +4,14 @@ export const isValidPlayerTurn = (
   isPlayerTurn, 
   hitGameboardValue, 
   missGameboardValue, 
-  freemissGameboardValue
+  freemissGameboardValue,
+  isGameStarted,
+  isGameOver
 ) => {
   if (
        isPlayerTurn 
+    && isGameStarted
+    && !isGameOver
     && gameboard[+id] !== hitGameboardValue 
     && gameboard[+id] !== missGameboardValue 
     && gameboard[+id] !== freemissGameboardValue 

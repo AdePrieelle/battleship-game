@@ -1,7 +1,7 @@
 import { expect } from "@jest/globals";
 import { isValidPlayerTurn } from "../isValidPlayerTurn";
 
-test("isValidPlayerTurn returns true if it is the players turn and the gameboard cell is a hidden ship", () => {
+test("isValidPlayerTurn returns true if it is the players turn, the game has started, the game isn't over and the gameboard cell is a hidden ship", () => {
   const mockGameboard = jest.fn(() => ([
     "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -19,17 +19,21 @@ test("isValidPlayerTurn returns true if it is the players turn and the gameboard
   const mockHitGameboardValue = jest.fn(() => "hit");
   const mockMissGameboardValue = jest.fn(() => "miss");
   const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
     mockHitGameboardValue(),
     mockMissGameboardValue(),
-    mockFreeMissGameboardValue()
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
   )).toBe(true);
 });
 
-test("isValidPlayerTurn returns true if it is the players turn and the gameboard cell is empty", () => {
+test("isValidPlayerTurn returns true if it is the players turn, the game has started, the game isn't over and the gameboard cell is empty", () => {
   const mockGameboard = jest.fn(() => ([
     "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -47,13 +51,17 @@ test("isValidPlayerTurn returns true if it is the players turn and the gameboard
   const mockHitGameboardValue = jest.fn(() => "hit");
   const mockMissGameboardValue = jest.fn(() => "miss");
   const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
     mockHitGameboardValue(),
     mockMissGameboardValue(),
-    mockFreeMissGameboardValue()
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
   )).toBe(true);
 });
 
@@ -75,13 +83,81 @@ test("isValidPlayerTurn returns false if it isn't the players turn", () => {
   const mockHitGameboardValue = jest.fn(() => "hit");
   const mockMissGameboardValue = jest.fn(() => "miss");
   const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
     mockHitGameboardValue(),
     mockMissGameboardValue(),
-    mockFreeMissGameboardValue()
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
+  )).toBe(false);
+});
+
+test("isValidPlayerTurn returns false if the game hasn't started yet", () => {
+  const mockGameboard = jest.fn(() => ([
+    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  ]));
+  const mockId = jest.fn(() => 4);
+  const mockIsPlayerTurn = jest.fn(() => true);
+  const mockHitGameboardValue = jest.fn(() => "hit");
+  const mockMissGameboardValue = jest.fn(() => "miss");
+  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => false);
+  const mockIsGameOver = jest.fn(() => false);
+  expect(isValidPlayerTurn(
+    mockGameboard(),
+    mockId(),
+    mockIsPlayerTurn(),
+    mockHitGameboardValue(),
+    mockMissGameboardValue(),
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
+  )).toBe(false);
+});
+
+test("isValidPlayerTurn returns false if the game is over", () => {
+  const mockGameboard = jest.fn(() => ([
+    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  ]));
+  const mockId = jest.fn(() => 4);
+  const mockIsPlayerTurn = jest.fn(() => true);
+  const mockHitGameboardValue = jest.fn(() => "hit");
+  const mockMissGameboardValue = jest.fn(() => "miss");
+  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => true);
+  expect(isValidPlayerTurn(
+    mockGameboard(),
+    mockId(),
+    mockIsPlayerTurn(),
+    mockHitGameboardValue(),
+    mockMissGameboardValue(),
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
   )).toBe(false);
 });
 
@@ -99,17 +175,21 @@ test("isValidPlayerTurn returns false if the gameboard cell is a hit", () => {
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]));
   const mockId = jest.fn(() => 4);
-  const mockIsPlayerTurn = jest.fn(() => false);
+  const mockIsPlayerTurn = jest.fn(() => true);
   const mockHitGameboardValue = jest.fn(() => "hit");
   const mockMissGameboardValue = jest.fn(() => "miss");
   const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
     mockHitGameboardValue(),
     mockMissGameboardValue(),
-    mockFreeMissGameboardValue()
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
   )).toBe(false);
 });
 
@@ -127,17 +207,21 @@ test("isValidPlayerTurn returns false if the gameboard cell is a miss", () => {
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]));
   const mockId = jest.fn(() => 5);
-  const mockIsPlayerTurn = jest.fn(() => false);
+  const mockIsPlayerTurn = jest.fn(() => true);
   const mockHitGameboardValue = jest.fn(() => "hit");
   const mockMissGameboardValue = jest.fn(() => "miss");
   const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
     mockHitGameboardValue(),
     mockMissGameboardValue(),
-    mockFreeMissGameboardValue()
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
   )).toBe(false);
 });
 
@@ -155,16 +239,20 @@ test("isValidPlayerTurn returns false if the gameboard cell is a freemiss", () =
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]));
   const mockId = jest.fn(() => 5);
-  const mockIsPlayerTurn = jest.fn(() => false);
+  const mockIsPlayerTurn = jest.fn(() => true);
   const mockHitGameboardValue = jest.fn(() => "hit");
   const mockMissGameboardValue = jest.fn(() => "miss");
   const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
+  const mockIsGameStarted = jest.fn(() => true);
+  const mockIsGameOver = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
     mockHitGameboardValue(),
     mockMissGameboardValue(),
-    mockFreeMissGameboardValue()
+    mockFreeMissGameboardValue(),
+    mockIsGameStarted(),
+    mockIsGameOver()
   )).toBe(false);
 });

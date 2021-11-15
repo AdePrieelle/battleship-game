@@ -19,6 +19,9 @@ import { GameboardPlayerGrid } from './GameboardPlayerGrid';
 import { GameboardComputerGrid } from './GameboardComputerGrid';
 import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
 import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
+import { StartGameButton } from './StartGameButton/StartGameButton';
+import { NewGameButton } from './NewGameButton/NewGameButton';
+import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
 import './Game.scss';
 
 export const Game = () => {
@@ -35,6 +38,9 @@ export const Game = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [playerWonGame, setPlayerWonGame] = useState(false);
   const [computerWonGame, setComputerWonGame] = useState(false);
+
+  // logic for isGameStarted
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
     if (playerWonGame) {
@@ -142,24 +148,57 @@ export const Game = () => {
 
   useEffect(() => {
     setGameboardPlayer(gameboardPlayerInitialState);
-    setGameboardComputer(gameboardComputerInitialState);
-  }, [gameboardPlayerInitialState, gameboardComputerInitialState]);
+  }, [gameboardPlayerInitialState]);
 
   useEffect(() => {
-    if (!isPlayerTurn && !computerHitTurnAgain) {
-      const computerTurnTimeout = setTimeout(() => {
-        handleComputerMove();
-      }, 150);
-      return () => clearTimeout(computerTurnTimeout);
+    setGameboardComputer(gameboardComputerInitialState);
+  }, [gameboardComputerInitialState]);
+
+  useEffect(() => {
+    if (isValidComputerTurn(isPlayerTurn, isGameStarted, isGameOver)) {
+      if (!computerHitTurnAgain) {
+        const computerTurnTimeout = setTimeout(() => {
+          handleComputerMove();
+        }, 150);
+        return () => clearTimeout(computerTurnTimeout);
+      }
+      // if the computer hits a ship increase the "virtual thinking time" for the next step
+      if (computerHitTurnAgain) {
+        const computerTurnTimeout = setTimeout(() => {
+          handleComputerMove();
+        }, 750);
+        return () => clearTimeout(computerTurnTimeout);
+      }
     }
-    // if the computer hits a ship increase the "virtual thinking time" for the next step
-    if (!isPlayerTurn && computerHitTurnAgain) {
-      const computerTurnTimeout = setTimeout(() => {
-        handleComputerMove();
-      }, 750);
-      return () => clearTimeout(computerTurnTimeout);
+  }, [isPlayerTurn, isGameStarted, isGameOver, gameboardComputer, computerHitTurnAgain]);
+
+
+  const handleIsGameOver = (isComputer) => {
+    setIsGameStarted(false);
+    setIsGameOver(true);
+    if (isComputer) {
+      setComputerWonGame(true);
+    } else if (!isComputer) {
+      setPlayerWonGame(true);
     }
-  }, [isPlayerTurn, gameboardComputer, computerHitTurnAgain]);
+  };
+
+  const handleStartGame = () => {
+    setIsGameOver(false);
+    setIsPlayerTurn(true);
+    setComputerHitTurnAgain(false);
+    setIsGameStarted(true);
+  }
+
+  const handleNewGame = () => {
+    setIsGameOver(true);
+    setIsGameStarted(false);
+    setComputerWonGame(false);
+    setPlayerWonGame(false);
+    setGameboardPlayerInitialState([...gameboardPlayerInitialState]);
+    setGameboardComputerInitialState([...gameboardComputerInitialState]);
+  }
+
 
   // update the gameboard with a hit or miss or freemiss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
@@ -184,12 +223,7 @@ export const Game = () => {
       // logic for isGameOver
       const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
       if (allShipsSunken) {
-        setIsGameOver(true);
-        if (isComputer) {
-          setComputerWonGame(true);
-        } else if (!isComputer) {
-          setPlayerWonGame(true);
-        }
+        handleIsGameOver(isComputer);
       }
 
 
@@ -210,7 +244,9 @@ export const Game = () => {
       isPlayerTurn, 
       hitGameboardValue, 
       missGameboardValue, 
-      freemissGameboardValue
+      freemissGameboardValue,
+      isGameStarted,
+      isGameOver
     )) {
       updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
     }
@@ -263,6 +299,12 @@ export const Game = () => {
         emptyGameboardValue={emptyGameboardValue}
         generateRandomValidShipPosition={generateRandomValidShipPosition}
         ships={ships}
+      />
+      <StartGameButton 
+        handleStartGame={handleStartGame}
+      />
+      <NewGameButton 
+        handleNewGame={handleNewGame}
       />
     </>
   )
