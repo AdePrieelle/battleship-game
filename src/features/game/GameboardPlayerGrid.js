@@ -21,12 +21,14 @@ export const GameboardPlayerGrid = ({
           id={id} 
           className={`gameboard-cell ${
                 gameboardPlayer[id] === hitGameboardValue 
-              ? " hit" 
+              ? "hit" 
               : gameboardPlayer[id] === missGameboardValue 
-              ? " miss" 
+              ? "miss" 
               : gameboardPlayer[id] === freemissGameboardValue 
-              ? " freemiss" 
-              : ""
+              ? "freemiss" 
+              : gameboardPlayer[id] === "empty"
+              ? ""
+              : "ship"
             }`
           } 
           onClick={handlePlayerMove}

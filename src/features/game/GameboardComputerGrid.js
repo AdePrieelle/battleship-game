@@ -21,11 +21,11 @@ export const GameboardComputerGrid = ({
           id={id} 
           className={`gameboard-cell ${
                 gameboardComputer[id] === hitGameboardValue 
-              ? " hit" 
+              ? "hit" 
               : gameboardComputer[id] === missGameboardValue 
-              ? " miss" 
+              ? "miss" 
               : gameboardComputer[id] === freemissGameboardValue 
-              ? " freemiss" 
+              ? "freemiss" 
               : gameboardComputer[id] === emptyGameboardValue
               ? ""
               : "ship"

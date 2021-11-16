@@ -1,50 +1,54 @@
 @import "../../styles/partials/variables";
 
-.gameboard-wrapper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 600px;
-  // margin: 0 auto;
-  .gameboard {
+.game {
+  // width: 100vw;
+  // height: 100vh;
+  .gameboard-wrapper {
     display: grid;
-    grid-gap: $gameboard-grid-gap;
-    margin: 20px;
-    max-width: 300px;
-    background-color: $gameboard-bg-color;
-    border: $gameboard-grid-gap solid $gameboard-bg-color;
-    .gameboard-cell {
-      padding-top: 100%;
-      background-color: $gameboard-cell-bg-color;
-      pointer-events: all;
-    }
-    .hit {
-      background-color: rgb(168, 56, 56);
-    }
-    .miss {
-      background-color: rgb(216, 216, 216);
-    }
-    .freemiss {
-      background-color: rgb(248, 236, 168);
-    }
-    .ship {
-      background-color: rgb(58, 163, 223);
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
+    // margin: 0 auto;
+    .gameboard {
+      display: grid;
+      grid-gap: $gameboard-grid-gap;
+      margin: 20px;
+      max-width: 300px;
+      background-color: $gameboard-bg-color;
+      border: $gameboard-grid-gap solid $gameboard-bg-color;
+      .gameboard-cell {
+        padding-top: 100%;
+        background-color: $gameboard-cell-bg-color;
+        pointer-events: all;
+      }
+      .hit {
+        background-color: rgb(168, 56, 56);
+      }
+      .miss {
+        background-color: rgb(216, 216, 216);
+      }
+      .freemiss {
+        background-color: rgb(248, 236, 168);
+      }
+      .ship {
+        background-color: rgb(58, 163, 223);
+      }
     }
   }
-}
 
-.ui-button {
-  display: inline-block;
-  margin-left: 20px;
-  padding: 8px 10px;
-  color: $primary-text-color-create-new-random-gameboard-button;
-  font-size: 16px;
-  font-weight: 500;
-  background-color: $primary-background-color-create-new-random-gameboard-button;
-  border-radius: 4px;
-  cursor: pointer;
-}
+  .ui-button {
+    display: inline-block;
+    margin-left: 20px;
+    padding: 8px 10px;
+    color: $primary-text-color-create-new-random-gameboard-button;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: $primary-background-color-create-new-random-gameboard-button;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 
-.ui-button-disabled {
-  opacity: 0.6;
-  pointer-events: none;
+  .ui-button-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }

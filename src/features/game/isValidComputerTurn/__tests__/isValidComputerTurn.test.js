@@ -21,7 +21,7 @@ test("isValidComputerTurn returns false if isGameStarted is false", () => {
   expect(isValidComputerTurn(mockIsPlayerTurn(), mockIsGameStarted(), mockIsGameOver())).toBe(false);
 });
 
-test("isValidComputerTurn returns true if isGameOver is true", () => {
+test("isValidComputerTurn returns false if isGameOver is true", () => {
   const mockIsPlayerTurn = jest.fn(() => false);
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => true);
