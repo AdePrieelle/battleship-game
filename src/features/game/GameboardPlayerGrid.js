@@ -6,10 +6,12 @@ export const GameboardPlayerGrid = ({
   missGameboardValue,
   freemissGameboardValue,
   handlePlayerMove,
+  isPlayerTurn,
+  isGameStarted
 }) => {
   return (
     <div 
-      className="gameboard gameboard-player" 
+      className={`gameboard ${isPlayerTurn && isGameStarted ? "" : "gameboard-inactive"} gameboard-player`}
       style={{
         gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
         gridTemplateRows: `repeat(${amountOfRows}, auto)`,

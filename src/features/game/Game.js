@@ -85,14 +85,14 @@ export const Game = () => {
       if (!computerHitTurnAgain) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
-        }, 150);
+        }, 500);
         return () => clearTimeout(computerTurnTimeout);
       }
       // if the computer hits a ship increase the "virtual thinking time" for the next step
       if (computerHitTurnAgain) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
-        }, 750);
+        }, 1000);
         return () => clearTimeout(computerTurnTimeout);
       }
     }
@@ -214,6 +214,8 @@ export const Game = () => {
           missGameboardValue={missGameboardValue}
           freemissGameboardValue={freemissGameboardValue}
           handlePlayerMove={handlePlayerMove}
+          isPlayerTurn={isPlayerTurn}
+          isGameStarted={isGameStarted}
         />
         <GameboardComputerGrid 
           gameboardComputer={gameboardComputer}
@@ -223,6 +225,8 @@ export const Game = () => {
           missGameboardValue={missGameboardValue}
           freemissGameboardValue={freemissGameboardValue}
           emptyGameboardValue={emptyGameboardValue}
+          isPlayerTurn={isPlayerTurn}
+          isGameStarted={isGameStarted}
         />
       </div>
       <CreateNewRandomGameboardButton
