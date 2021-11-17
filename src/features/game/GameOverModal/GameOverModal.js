@@ -10,15 +10,9 @@ export const GameOverModal = ({
   <>
     <div className="game-over-modal-overlay"></div>
     <div className="game-over-modal">
-      <button 
-        className="game-over-modal-close-button" 
-        onClick={() => setShowGameOverModal(false)}
-      >
-        <i className="fas fa-times"></i>
-      </button>
       <div className="game-over-modal-content">
         <div className="game-over-modal-winner">
-          {`${playerWonGame ? "Player" : computerWonGame ? "Computer" : "Noone"} won the game!`}
+          {`${playerWonGame ? "Player" : computerWonGame ? "Computer" : "Noone"} won!`}
         </div>
         <button 
           className="game-over-modal-play-again-button"
@@ -27,6 +21,12 @@ export const GameOverModal = ({
           Play again
         </button>
       </div>
+      <button 
+        className="game-over-modal-close-button" 
+        onClick={() => setShowGameOverModal(false)}
+      >
+        <i className="fas fa-times"></i>
+      </button>
     </div>
   </>
   );

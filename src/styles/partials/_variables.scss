@@ -14,10 +14,21 @@ $gameboard-grid-gap: 2px;
 $gameboard-cell-bg-color: white;
 $gameboard-bg-color: #b4b4ff;
 
-// CreateNewRandomGameboardButton
-$primary-text-color-create-new-random-gameboard-button: white;
-$primary-background-color-create-new-random-gameboard-button: rgb(
-  221,
-  101,
-  107
-);
+// ui button
+$primary-text-color-ui-button: white;
+$primary-background-color-ui-button: rgb(221, 101, 107);
+
+// GameOverModal
+$game-over-modal-bg-overlay-color: rgba(0, 0, 0, 0.6);
+$game-over-modal-bg-color: white;
+$game-over-modal-box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+$game-over-modal-content-color: black;
+$game-over-modal-content-font-size: 36px;
+$game-over-modal-content-font-weight: 700;
+$game-over-modal-play-again-button-bg-color: rgb(233, 73, 33);
+$game-over-modal-play-again-button-color: white;
+$game-over-modal-play-again-button-font-size: 16px;
+$game-over-modal-play-again-button-font-weight: 700;
+$game-over-modal-close-button-color: white;
+$game-over-modal-close-button-bg-color: black;
+$game-over-modal-close-button-font-size: 22px;
