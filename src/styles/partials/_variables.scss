@@ -13,6 +13,10 @@ $primary-text-color: white;
 $gameboard-grid-gap: 2px;
 $gameboard-cell-bg-color: white;
 $gameboard-bg-color: #b4b4ff;
+$gameboard-hit-bg-color: rgb(168, 56, 56);
+$gameboard-miss-bg-color: rgb(216, 216, 216);
+$gameboard-freemiss-bg-color: rgb(248, 236, 168);
+$gameboard-ship-bg-color: rgb(58, 163, 223);
 
 // ui button
 $primary-text-color-ui-button: white;
@@ -32,3 +36,13 @@ $game-over-modal-play-again-button-font-weight: 700;
 $game-over-modal-close-button-color: white;
 $game-over-modal-close-button-bg-color: black;
 $game-over-modal-close-button-font-size: 22px;
+
+// gameboardShipStats
+$gameboard-ship-stats-max-width: 200px;
+$gameboard-ship-stats-ship-margin-top-bottom: 8px;
+$gameboard-ship-stats-ship-margin-right-left: 10px;
+$gameboard-ship-stats-ship-cell-width: 18px;
+$gameboard-ship-stats-ship-cell-height: 18px;
+$gameboard-ship-stats-ship-cell-margin-left: 2px;
+$gameboard-ship-stats-ship-hidden: $gameboard-ship-bg-color;
+$gameboard-ship-stats-ship-sunken: $gameboard-hit-bg-color;

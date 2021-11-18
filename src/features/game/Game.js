@@ -23,6 +23,7 @@ import { StartGameButton } from './StartGameButton/StartGameButton';
 import { NewGameButton } from './NewGameButton/NewGameButton';
 import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
 import { GameOverModal } from './GameOverModal/GameOverModal';
+import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import './Game.scss';
 
 export const Game = () => {
@@ -249,6 +250,15 @@ export const Game = () => {
         handleNewGame={handleNewGame}
         isGameStarted={isGameStarted}
         isGameOver={isGameOver}
+      />
+
+      <GameboardShipStats 
+        gameboard={gameboardPlayer}
+        ships={ships}
+      />
+      <GameboardShipStats 
+        gameboard={gameboardComputer}
+        ships={ships}
       />
       {
           showGameOverModal

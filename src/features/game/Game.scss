@@ -21,16 +21,16 @@
         pointer-events: all;
       }
       .hit {
-        background-color: rgb(168, 56, 56);
+        background-color: $gameboard-hit-bg-color;
       }
       .miss {
-        background-color: rgb(216, 216, 216);
+        background-color: $gameboard-miss-bg-color;
       }
       .freemiss {
-        background-color: rgb(248, 236, 168);
+        background-color: $gameboard-freemiss-bg-color;
       }
       .ship {
-        background-color: rgb(58, 163, 223);
+        background-color: $gameboard-ship-bg-color;
       }
     }
     .gameboard-inactive {

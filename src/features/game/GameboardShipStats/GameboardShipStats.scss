@@ -1,0 +1,30 @@
+@import "../../../styles/partials/variables";
+
+.gameboard-ship-stats {
+  // background-color: blue;
+  display: flex;
+  flex-wrap: wrap;
+  // flex-direction: column;
+  max-width: $gameboard-ship-stats-max-width;
+  .gameboard-ship-stats-ship {
+    display: flex;
+    margin: $gameboard-ship-stats-ship-margin-top-bottom
+      $gameboard-ship-stats-ship-margin-right-left;
+    // border: 1px solid rgb(127, 84, 226);
+    // background-color: rgb(127, 84, 226);
+    .gameboard-ship-stats-ship-cell {
+      width: $gameboard-ship-stats-ship-cell-width;
+      height: $gameboard-ship-stats-ship-cell-height;
+      margin-left: $gameboard-ship-stats-ship-cell-margin-left;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+    .gameboard-ship-stats-ship-hidden {
+      background-color: $gameboard-ship-stats-ship-hidden;
+    }
+    .gameboard-ship-stats-ship-sunken {
+      background-color: $gameboard-ship-stats-ship-sunken;
+    }
+  }
+}
