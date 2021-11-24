@@ -24,6 +24,7 @@ import { NewGameButton } from './NewGameButton/NewGameButton';
 import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
 import { GameOverModal } from './GameOverModal/GameOverModal';
 import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
+import { getPreviousHitDirectionNotSunkenShip } from './getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
 import './Game.scss';
 
 export const Game = () => {
@@ -42,28 +43,41 @@ export const Game = () => {
   const [showGameOverModal, setShowGameOverModal] = useState(false);
 
   const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
-    "hit", "miss", "hit", "miss", "hit", "miss", "d4", "miss", "miss", "empty",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "s1", "s1", "miss", "hit", "hit", "miss", "hit", "hit", "miss", "empty",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss", "miss", "miss",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
   ]);
 
+  // const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
+  //   "hit", "miss", "hit", "miss", "hit", "miss", "d4", "miss", "miss", "empty",
+  //   "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+  //   "s1", "s1", "miss", "hit", "hit", "miss", "hit", "hit", "miss", "empty",
+  //   "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+  //   "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+  //   "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+  //   "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  //   "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  //   "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss", "miss", "miss",
+  //   "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  // ]);
+
   const [gameboardComputerInitialState, setGameboardComputerInitialState] = useState([
-    "hit", "miss", "hit", "miss", "hit", "miss", "d4", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "s1", "s1", "miss", "hit", "hit", "miss", "hit", "hit", "miss", "empty",
+    "c1", "c1", "c1", "c1", "miss", "miss", "hit", "hit", "miss", "empty",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
     "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
     "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
     "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "hit", "hit", "hit", "hit", "miss", "miss", "miss", "miss", "miss", "miss",
+    "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
   ]);
   
@@ -123,6 +137,8 @@ export const Game = () => {
     setIsGameStarted(false);
     setComputerWonGame(false);
     setPlayerWonGame(false);
+    setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
+    setPreviousHitDirectionNotSunkenShip(null);
     // setGameboardPlayerInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
     setGameboardPlayerInitialState([...gameboardPlayerInitialState]);
     // setGameboardComputerInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
@@ -134,6 +150,41 @@ export const Game = () => {
     handleNewGame();
   }
 
+  const previousHitComputerCellsNotSunkenShipDefaultValue = [];
+  const previousHitDirectionNotSunkenShipHorizontalValue = "horizontal";
+  const previousHitDirectionNotSunkenShipVerticalValue = "vertical";
+
+  const [previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip] = useState(previousHitComputerCellsNotSunkenShipDefaultValue);
+  const [previousHitDirectionNotSunkenShip, setPreviousHitDirectionNotSunkenShip] = useState(null);
+
+  useEffect(() => {
+    if (previousHitComputerCellsNotSunkenShip.length === 2 && !previousHitDirectionNotSunkenShip) {
+      const previousHitDirectionNotSunkenShipValue = getPreviousHitDirectionNotSunkenShip(
+        previousHitDirectionNotSunkenShipVerticalValue, 
+        previousHitDirectionNotSunkenShipHorizontalValue,
+        previousHitComputerCellsNotSunkenShip,
+      );
+      setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipValue);
+    }
+  }, [previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip]);
+
+  console.log(previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip);
+
+  const updatePreviousHitComputerCellNumbersInfo = (gameboard, index, isComputer, hitGameboardValue, isSunkenShip, previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip, setPreviousHitDirectionNotSunkenShip, previousHitComputerCellsNotSunkenShipDefaultValue) => {
+    // get index of not sunken ship
+    let copyGameboard = [...gameboard];
+    const shipName = copyGameboard[index];
+    copyGameboard[index] = hitGameboardValue;
+    const isShipNameSunken = isSunkenShip(copyGameboard, shipName);
+    if (isComputer && !isShipNameSunken) {
+      let copyPreviousHitComputerCellNumbersInfo = [...previousHitComputerCellsNotSunkenShip];
+      copyPreviousHitComputerCellNumbersInfo.push(+index);
+      setPreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo)
+    } else if (isComputer && isShipNameSunken) {
+      setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
+      setPreviousHitDirectionNotSunkenShip(null);
+    }
+  };
 
   // update the gameboard with a hit or miss or freemiss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
@@ -150,6 +201,10 @@ export const Game = () => {
         emptyGameboardValue,
         addFreeMissGameboardValueCellsAroundCellDiagonally
       )
+
+      // updatePreviousHitComputerCellNumersInfo
+      updatePreviousHitComputerCellNumbersInfo(gameboard, index, isComputer, hitGameboardValue, isSunkenShip, previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip, setPreviousHitDirectionNotSunkenShip, previousHitComputerCellsNotSunkenShipDefaultValue);
+
       setGameboard(newGameboardStateAfterHitLogicWithFreeMissCells);
       if (isComputer) {
         setComputerHitTurnAgain(true);
