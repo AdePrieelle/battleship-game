@@ -25,6 +25,7 @@ import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
 import { GameOverModal } from './GameOverModal/GameOverModal';
 import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { getPreviousHitDirectionNotSunkenShip } from './getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
+import { isSunkenShipAfterHit } from './isSunkenShipAfterHit/isSunkenShipAfterHit';
 import './Game.scss';
 
 export const Game = () => {
@@ -170,21 +171,7 @@ export const Game = () => {
 
   console.log(previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip);
 
-  const updatePreviousHitComputerCellNumbersInfo = (gameboard, index, isComputer, hitGameboardValue, isSunkenShip, previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip, setPreviousHitDirectionNotSunkenShip, previousHitComputerCellsNotSunkenShipDefaultValue) => {
-    // get index of not sunken ship
-    let copyGameboard = [...gameboard];
-    const shipName = copyGameboard[index];
-    copyGameboard[index] = hitGameboardValue;
-    const isShipNameSunken = isSunkenShip(copyGameboard, shipName);
-    if (isComputer && !isShipNameSunken) {
-      let copyPreviousHitComputerCellNumbersInfo = [...previousHitComputerCellsNotSunkenShip];
-      copyPreviousHitComputerCellNumbersInfo.push(+index);
-      setPreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo)
-    } else if (isComputer && isShipNameSunken) {
-      setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
-      setPreviousHitDirectionNotSunkenShip(null);
-    }
-  };
+  
 
   // update the gameboard with a hit or miss or freemiss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
@@ -202,14 +189,23 @@ export const Game = () => {
         addFreeMissGameboardValueCellsAroundCellDiagonally
       )
 
-      // updatePreviousHitComputerCellNumersInfo
-      updatePreviousHitComputerCellNumbersInfo(gameboard, index, isComputer, hitGameboardValue, isSunkenShip, previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip, setPreviousHitDirectionNotSunkenShip, previousHitComputerCellsNotSunkenShipDefaultValue);
-
-      setGameboard(newGameboardStateAfterHitLogicWithFreeMissCells);
+      
       if (isComputer) {
+        if (isSunkenShipAfterHit(gameboard, index, hitGameboardValue, isSunkenShip)) {
+          // currently "hit" ship is sunken
+          setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
+          setPreviousHitDirectionNotSunkenShip(null);
+        } else {
+          // currently "hit" ship isn't sunken
+          let copyPreviousHitComputerCellNumbersInfo = [...previousHitComputerCellsNotSunkenShip];
+          copyPreviousHitComputerCellNumbersInfo.push(+index);
+          setPreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo);
+        }
         setComputerHitTurnAgain(true);
       }
 
+      setGameboard(newGameboardStateAfterHitLogicWithFreeMissCells);
+      
       // logic for isGameOver
       const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
       if (allShipsSunken) {
