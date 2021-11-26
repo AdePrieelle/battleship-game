@@ -169,7 +169,7 @@ export const Game = () => {
     }
   }, [previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip]);
 
-  console.log(previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip);
+  // console.log(previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip);
 
   
 
