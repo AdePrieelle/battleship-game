@@ -128,8 +128,12 @@ export const getAvailableNextSmartComputerMovesAfterHit = (
 
     if (!(indexesLeft.indexOf(indexMin) > -1) && !(indexesRight.indexOf(indexMax) > -1)) {
       // indexMin isn't on the left border and indexMax isn't on the right border
-      availableNextSmartComputerMoves.push(indexMin - 1);
-      availableNextSmartComputerMoves.push(indexMax + 1);
+      if (isShipOrEmptyGameboardValue(copyGameboardComputer, (indexMin - 1), hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
+        availableNextSmartComputerMoves.push(indexMin - 1);
+      }
+      if (isShipOrEmptyGameboardValue(copyGameboardComputer, (indexMax + 1), hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
+        availableNextSmartComputerMoves.push(indexMax + 1);
+      }
     }
   }
 
@@ -154,8 +158,12 @@ export const getAvailableNextSmartComputerMovesAfterHit = (
 
     if (!(indexesTop.indexOf(indexMin) > -1) && !(indexesBottom.indexOf(indexMax) > -1)) {
       // indexMin isn't on the top border and indexMax isn't on the bottom border
-      availableNextSmartComputerMoves.push(indexMin - 10);
-      availableNextSmartComputerMoves.push(indexMax + 10);
+      if (isShipOrEmptyGameboardValue(copyGameboardComputer, (indexMin - 10), hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
+        availableNextSmartComputerMoves.push(indexMin - 10);
+      }
+      if (isShipOrEmptyGameboardValue(copyGameboardComputer, (indexMax + 10), hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
+        availableNextSmartComputerMoves.push(indexMax + 10);
+      }
     }
   }
   

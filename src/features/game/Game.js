@@ -26,6 +26,8 @@ import { GameOverModal } from './GameOverModal/GameOverModal';
 import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { getPreviousHitDirectionNotSunkenShip } from './getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
 import { isSunkenShipAfterHit } from './isSunkenShipAfterHit/isSunkenShipAfterHit';
+import { getAvailableNextSmartComputerMovesAfterHit } from './getAvailableNextSmartComputerMovesAfterHit/getAvailableNextSmartComputerMovesAfterHit';
+import { isShipOrEmptyGameboardValue } from './isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
 import './Game.scss';
 
 export const Game = () => {
@@ -36,7 +38,7 @@ export const Game = () => {
   const missGameboardValue = "miss";
   const freemissGameboardValue = "freemiss";
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
-  const [computerHitTurnAgain, setComputerHitTurnAgain] = useState(false);
+  const [computerHitTurnAgainCount, setComputerHitTurnAgainCount] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [playerWonGame, setPlayerWonGame] = useState(false);
@@ -98,22 +100,21 @@ export const Game = () => {
 
   useEffect(() => {
     if (isValidComputerTurn(isPlayerTurn, isGameStarted, isGameOver)) {
-      if (!computerHitTurnAgain) {
+      if (!computerHitTurnAgainCount) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
         }, 500);
         return () => clearTimeout(computerTurnTimeout);
       }
       // if the computer hits a ship increase the "virtual thinking time" for the next step
-      if (computerHitTurnAgain) {
+      if (computerHitTurnAgainCount) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
         }, 1000);
         return () => clearTimeout(computerTurnTimeout);
       }
     }
-  }, [isPlayerTurn, isGameStarted, isGameOver, gameboardComputer, computerHitTurnAgain]);
-
+  }, [isPlayerTurn, isGameStarted, isGameOver, gameboardComputer, computerHitTurnAgainCount]);
 
   const handleIsGameOver = (isComputer) => {
     setIsGameStarted(false);
@@ -129,7 +130,7 @@ export const Game = () => {
   const handleStartGame = () => {
     setIsGameOver(false);
     setIsPlayerTurn(true);
-    setComputerHitTurnAgain(false);
+    setComputerHitTurnAgainCount(0);
     setIsGameStarted(true);
   }
 
@@ -154,7 +155,6 @@ export const Game = () => {
   const previousHitComputerCellsNotSunkenShipDefaultValue = [];
   const previousHitDirectionNotSunkenShipHorizontalValue = "horizontal";
   const previousHitDirectionNotSunkenShipVerticalValue = "vertical";
-
   const [previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip] = useState(previousHitComputerCellsNotSunkenShipDefaultValue);
   const [previousHitDirectionNotSunkenShip, setPreviousHitDirectionNotSunkenShip] = useState(null);
 
@@ -168,10 +168,6 @@ export const Game = () => {
       setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipValue);
     }
   }, [previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip]);
-
-  // console.log(previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip);
-
-  
 
   // update the gameboard with a hit or miss or freemiss value
   const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
@@ -188,8 +184,6 @@ export const Game = () => {
         emptyGameboardValue,
         addFreeMissGameboardValueCellsAroundCellDiagonally
       )
-
-      
       if (isComputer) {
         if (isSunkenShipAfterHit(gameboard, index, hitGameboardValue, isSunkenShip)) {
           // currently "hit" ship is sunken
@@ -201,24 +195,21 @@ export const Game = () => {
           copyPreviousHitComputerCellNumbersInfo.push(+index);
           setPreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo);
         }
-        setComputerHitTurnAgain(true);
+        setComputerHitTurnAgainCount(computerHitTurnAgainCount + 1);
       }
-
+      // updated gameboard
       setGameboard(newGameboardStateAfterHitLogicWithFreeMissCells);
-      
       // logic for isGameOver
       const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships);
       if (allShipsSunken) {
         handleIsGameOver(isComputer);
       }
-
-
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
       setGameboard(newGameboardStateAfterMissLogicWithMissCell);
       setIsPlayerTurn(!isPlayerTurn);
       if (isComputer) {
-        setComputerHitTurnAgain(false);
+        setComputerHitTurnAgainCount(0);
       }
     }
   }
@@ -239,19 +230,37 @@ export const Game = () => {
   }
   
   const handleComputerMove = () => {
-    // array of indexes of computercells that are either "empty" or a hidden ship
-    const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardComputer, hitGameboardValue, missGameboardValue, freemissGameboardValue);
-    const randomGameboardComputerCellNumber = getAvailableRandomGameboardComputerCellNumber(
-      getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips,
-      gameboardComputer,
-      hitGameboardValue,
-      missGameboardValue,
-      freemissGameboardValue,
-      getRandomIndexFromArray,
-    )
-    if (gameboardComputerCellsAvailable.length > 0) {
-      // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-      updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer, gameboardComputerInitialState, true);
+    if (previousHitComputerCellsNotSunkenShip.length === 0) {
+      // array of indexes of computercells that are either "empty" or a hidden ship
+      const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardComputer, hitGameboardValue, missGameboardValue, freemissGameboardValue);
+      const randomGameboardComputerCellNumber = getAvailableRandomGameboardComputerCellNumber(
+        getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips,
+        gameboardComputer,
+        hitGameboardValue,
+        missGameboardValue,
+        freemissGameboardValue,
+        getRandomIndexFromArray,
+        );
+      if (gameboardComputerCellsAvailable.length > 0) {
+        // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
+        updateGameboardCellHitOrMiss(gameboardComputer, randomGameboardComputerCellNumber, setGameboardComputer, gameboardComputerInitialState, true);
+      }
+    } else if (previousHitComputerCellsNotSunkenShip.length > 0) {
+      // array of indexes for next possible smart computer move if a ship has been hit but isn't sunken yet
+      const availableNextSmartComputerMovesAfterHit = getAvailableNextSmartComputerMovesAfterHit(
+        gameboardComputer,
+        previousHitComputerCellsNotSunkenShip,
+        previousHitDirectionNotSunkenShip,
+        hitGameboardValue,
+        missGameboardValue,
+        freemissGameboardValue,
+        previousHitDirectionNotSunkenShipHorizontalValue,
+        previousHitDirectionNotSunkenShipVerticalValue,
+        isShipOrEmptyGameboardValue
+      );
+      const availableNextSmartComputerMovesAfterHitRandomIndex = getRandomIndexFromArray(availableNextSmartComputerMovesAfterHit);
+      const smartComputerMoveIndex = availableNextSmartComputerMovesAfterHit[availableNextSmartComputerMovesAfterHitRandomIndex];
+      updateGameboardCellHitOrMiss(gameboardComputer, smartComputerMoveIndex, setGameboardComputer, gameboardComputerInitialState, true);
     }
   }
 
