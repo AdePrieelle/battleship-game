@@ -1,9 +1,10 @@
 export const isValidComputerTurn = (
-  isPlayerTurn,
+  isPlayerTwoComputer,
+  isPlayerOneTurn,
   isGameStarted,
   isGameOver
 ) => {
-  if (!isPlayerTurn && isGameStarted && !isGameOver) {
+  if (isPlayerTwoComputer && !isPlayerOneTurn && isGameStarted && !isGameOver) {
     return true;
   }
   return false;
