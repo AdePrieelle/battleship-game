@@ -31,6 +31,7 @@ import { Modal } from './Modal/Modal';
 import { ModalButton } from './ModalButton/ModalButton';
 import { ModalButtonsWrapper } from './ModalButtonsWrapper/ModalButtonsWrapper';
 import { ModalMessage } from './ModalMessage/ModalMessage';
+import { NextButton } from './NextButton/NextButton';
 import './Game.scss';
 
 export const Game = () => {
@@ -236,8 +237,7 @@ export const Game = () => {
 
 
 
-  const [showModalGameOver, setShowModalGameOver] = useState(false);
-
+  
   const handleIsGameOver = (isComputer) => {
     setIsGameStarted(false);
     setIsGameOver(true);
@@ -253,14 +253,14 @@ export const Game = () => {
     }
     setShowModalGameOver(true);
   };
-
+  
   const handleStartGame = () => {
     setIsGameOver(false);
     setIsPlayerOneTurn(true);
     setComputerHitTurnAgainCount(0);
     setIsGameStarted(true);
   }
-
+  
   const handleNewGame = () => {
     setIsGameOver(false);
     setIsGameStarted(false);
@@ -275,7 +275,12 @@ export const Game = () => {
     setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
   }
   
+  const [showModalGameOver, setShowModalGameOver] = useState(false);
   const [showModalPickOpponent, setShowModalPickOpponent] = useState(false);
+  const [showPreGamePlayerOne, setShowPreGamePlayerOne] = useState(false);
+  const [showModalPreGameSwitchTurnToPlayerTwo, setShowModalPreGameSwitchTurnToPlayerTwo] = useState(false);
+  const [showPreGamePlayerTwo, setShowPreGamePlayerTwo] = useState(false);
+  const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
 
   const handleModalButtonNewGame = () => {
     handleNewGame();
@@ -288,80 +293,119 @@ export const Game = () => {
     setShowModalPickOpponent(false);
   }
 
-  const handleModalButtonOpponentIsPlayer = () => {
+  const handleModalButtonShowPreGamePlayerOne = () => {
     setIsPlayerTwoComputer(false);
     setShowModalPickOpponent(false);
+    setShowPreGamePlayerOne(true);
+  }
+
+  const handleModalCloseButtonPreGameSwitchTurnPlayerOne = () => {
+    setShowModalPreGameSwitchTurnToPlayerTwo(false);
+    setShowPreGamePlayerOne(true);
+  }
+
+  const handleModalCloseButtonPreGameSwitchTurnPlayerTwo = () => {
+    setShowModalPreGameSwitchTurnToPlayerOne(false);
+    setShowPreGamePlayerTwo(true);
+  }
+
+  const handleNextPreGamePlayerOne = () => {
+    setShowPreGamePlayerOne(false);
+    setShowModalPreGameSwitchTurnToPlayerTwo(true);
+  }
+
+  const handleModalButtonShowPreGamePlayerTwo = () => {
+    setShowModalPreGameSwitchTurnToPlayerTwo(false);
+    setShowPreGamePlayerTwo(true);
+  }
+
+  const handleNextPreGamePlayerTwo = () => {
+    setShowPreGamePlayerTwo(false);
+    setShowModalPreGameSwitchTurnToPlayerOne(true);
+  }
+
+  const handleModalButtonStartGame = () => {
+    setShowModalPreGameSwitchTurnToPlayerOne(false);
+    handleStartGame();
   }
 
   return (
     <div className="game">
-      <div className="gameboard-wrapper">
-        <GameboardPlayerGrid 
-          gameboardPlayer={gameboardPlayerOne}
-          amountOfColumns={amountOfColumns}
-          amountOfRows={amountOfRows}
-          hitGameboardValue={hitGameboardValue}
-          missGameboardValue={missGameboardValue}
-          freemissGameboardValue={freemissGameboardValue}
-          // handlePlayerMove={handlePlayerOneMove}
-          handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
-          isPlayerTurn={isPlayerOneTurn}
-          isGameStarted={isGameStarted}
-        />
-        <GameboardPlayerGrid 
-          gameboardPlayer={gameboardPlayerTwo}
-          amountOfColumns={amountOfColumns}
-          amountOfRows={amountOfRows}
-          hitGameboardValue={hitGameboardValue}
-          missGameboardValue={missGameboardValue}
-          freemissGameboardValue={freemissGameboardValue}
-          // handlePlayerMove={handlePlayerTwoMove}
-          handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
-          isPlayerTurn={!isPlayerOneTurn}
-          isGameStarted={isGameStarted}
-        />
-        {/* <GameboardComputerGrid 
-          gameboardComputer={gameboardPlayerTwo}
-          amountOfColumns={amountOfColumns}
-          amountOfRows={amountOfRows}
-          hitGameboardValue={hitGameboardValue}
-          missGameboardValue={missGameboardValue}
-          freemissGameboardValue={freemissGameboardValue}
-          emptyGameboardValue={emptyGameboardValue}
-          isPlayerTurn={isPlayerOneTurn}
-          isGameStarted={isGameStarted}
-        /> */}
-      </div>
-      <CreateNewRandomGameboardButton
-        setGameboardComputerInitialState={setGameboardPlayerTwoInitialState}
-        createRandomGameboard={createRandomGameboard}
-        amountOfColumns={amountOfColumns}
-        amountOfRows={amountOfRows}
-        emptyGameboardValue={emptyGameboardValue}
-        generateRandomValidShipPosition={generateRandomValidShipPosition}
-        ships={ships}
-        isGameStarted={isGameStarted}
-        isGameOver={isGameOver}
-      />
-      <StartGameButton 
-        handleStartGame={handleStartGame}
-        isGameStarted={isGameStarted}
-        isGameOver={isGameOver}
-      />
-      <NewGameButton 
-        handleNewGame={handleNewGame}
-        isGameStarted={isGameStarted}
-        isGameOver={isGameOver}
-      />
-
-      <GameboardShipStats 
-        gameboard={gameboardPlayerOne}
-        ships={ships}
-      />
-      <GameboardShipStats 
-        gameboard={gameboardPlayerTwo}
-        ships={ships}
-      />
+      {
+          (!showPreGamePlayerOne && !showPreGamePlayerTwo && !showModalPreGameSwitchTurnToPlayerTwo && !showModalPreGameSwitchTurnToPlayerOne)
+        ? <>
+            <div className="gameboard-wrapper">
+              <GameboardPlayerGrid 
+                gameboardPlayer={gameboardPlayerOne}
+                amountOfColumns={amountOfColumns}
+                amountOfRows={amountOfRows}
+                hitGameboardValue={hitGameboardValue}
+                missGameboardValue={missGameboardValue}
+                freemissGameboardValue={freemissGameboardValue}
+                emptyGameboardValue={emptyGameboardValue}
+                // handlePlayerMove={handlePlayerOneMove}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
+                isPlayerTurn={isPlayerOneTurn}
+                isGameStarted={isGameStarted}
+              />
+              <GameboardPlayerGrid 
+                gameboardPlayer={gameboardPlayerTwo}
+                amountOfColumns={amountOfColumns}
+                amountOfRows={amountOfRows}
+                hitGameboardValue={hitGameboardValue}
+                missGameboardValue={missGameboardValue}
+                freemissGameboardValue={freemissGameboardValue}
+                emptyGameboardValue={emptyGameboardValue}
+                // handlePlayerMove={handlePlayerTwoMove}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                isPlayerTurn={!isPlayerOneTurn}
+                isGameStarted={isGameStarted}
+              />
+              {/* <GameboardComputerGrid 
+                gameboardComputer={gameboardPlayerTwo}
+                amountOfColumns={amountOfColumns}
+                amountOfRows={amountOfRows}
+                hitGameboardValue={hitGameboardValue}
+                missGameboardValue={missGameboardValue}
+                freemissGameboardValue={freemissGameboardValue}
+                emptyGameboardValue={emptyGameboardValue}
+                isPlayerTurn={isPlayerOneTurn}
+                isGameStarted={isGameStarted}
+              /> */}
+            </div>
+            <CreateNewRandomGameboardButton
+              setGameboardComputerInitialState={setGameboardPlayerTwoInitialState}
+              createRandomGameboard={createRandomGameboard}
+              amountOfColumns={amountOfColumns}
+              amountOfRows={amountOfRows}
+              emptyGameboardValue={emptyGameboardValue}
+              generateRandomValidShipPosition={generateRandomValidShipPosition}
+              ships={ships}
+              isGameStarted={isGameStarted}
+              isGameOver={isGameOver}
+            />
+            <StartGameButton 
+              handleStartGame={handleStartGame}
+              isGameStarted={isGameStarted}
+              isGameOver={isGameOver}
+            />
+            <NewGameButton 
+              handleNewGame={handleNewGame}
+              isGameStarted={isGameStarted}
+              isGameOver={isGameOver}
+            />
+      
+            <GameboardShipStats 
+              gameboard={gameboardPlayerOne}
+              ships={ships}
+            />
+            <GameboardShipStats 
+              gameboard={gameboardPlayerTwo}
+              ships={ships}
+            />
+          </>
+        : null 
+      }
       {/* {
           showGameOverModal
         ? <GameOverModal 
@@ -408,7 +452,117 @@ export const Game = () => {
               />
               <ModalButton 
                 modalButtonLabel={"Player"}
-                modalButtonOnClick={handleModalButtonOpponentIsPlayer}
+                modalButtonOnClick={handleModalButtonShowPreGamePlayerOne}
+              />
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+      {
+          showPreGamePlayerOne
+        ? 
+          <>
+            <h1>Player 1 ship placements</h1>
+            <div className="gameboard-wrapper">
+              <GameboardPlayerGrid 
+                gameboardPlayer={gameboardPlayerTwo}
+                amountOfColumns={amountOfColumns}
+                amountOfRows={amountOfRows}
+                hitGameboardValue={hitGameboardValue}
+                missGameboardValue={missGameboardValue}
+                freemissGameboardValue={freemissGameboardValue}
+                emptyGameboardValue={emptyGameboardValue}
+                // handlePlayerMove={handlePlayerTwoMove}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                isPlayerTurn={!isPlayerOneTurn}
+                isGameStarted={isGameStarted}
+              />
+            </div>
+            <CreateNewRandomGameboardButton
+              setGameboardComputerInitialState={setGameboardPlayerTwoInitialState}
+              createRandomGameboard={createRandomGameboard}
+              amountOfColumns={amountOfColumns}
+              amountOfRows={amountOfRows}
+              emptyGameboardValue={emptyGameboardValue}
+              generateRandomValidShipPosition={generateRandomValidShipPosition}
+              ships={ships}
+              isGameStarted={isGameStarted}
+              isGameOver={isGameOver}
+            />
+            <NextButton 
+              handleNextButtonOnClick={handleNextPreGamePlayerOne}
+            />
+          </>
+        : null
+      }
+      {
+          showModalPreGameSwitchTurnToPlayerTwo
+        ? <Modal 
+            setShowModal={handleModalCloseButtonPreGameSwitchTurnPlayerOne}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={"Hand over to Player 2"}
+            />
+            <ModalButtonsWrapper>
+              <ModalButton 
+                modalButtonLabel={"Next"}
+                modalButtonOnClick={handleModalButtonShowPreGamePlayerTwo}
+              />
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+      {
+          showPreGamePlayerTwo
+        ? 
+          <>
+            <h1>Player 2 ship placements</h1>
+            <div className="gameboard-wrapper">
+              <GameboardPlayerGrid 
+                gameboardPlayer={gameboardPlayerOne}
+                amountOfColumns={amountOfColumns}
+                amountOfRows={amountOfRows}
+                hitGameboardValue={hitGameboardValue}
+                missGameboardValue={missGameboardValue}
+                freemissGameboardValue={freemissGameboardValue}
+                emptyGameboardValue={emptyGameboardValue}
+                // handlePlayerMove={handlePlayerTwoMove}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                isPlayerTurn={!isPlayerOneTurn}
+                isGameStarted={isGameStarted}
+              />
+            </div>
+            <CreateNewRandomGameboardButton
+              setGameboardComputerInitialState={setGameboardPlayerOneInitialState}
+              createRandomGameboard={createRandomGameboard}
+              amountOfColumns={amountOfColumns}
+              amountOfRows={amountOfRows}
+              emptyGameboardValue={emptyGameboardValue}
+              generateRandomValidShipPosition={generateRandomValidShipPosition}
+              ships={ships}
+              isGameStarted={isGameStarted}
+              isGameOver={isGameOver}
+            />
+            <NextButton 
+              handleNextButtonOnClick={handleNextPreGamePlayerTwo}
+            />
+          </>
+        : null
+      }
+      {
+          showModalPreGameSwitchTurnToPlayerOne
+        ? <Modal 
+            setShowModal={handleModalCloseButtonPreGameSwitchTurnPlayerTwo}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={"Hand over to Player 1"}
+            />
+            <ModalButtonsWrapper>
+              <ModalButton 
+                modalButtonLabel={"Start"}
+                modalButtonOnClick={handleModalButtonStartGame}
               />
             </ModalButtonsWrapper>
           </Modal>

@@ -8,7 +8,6 @@ export const GameboardComputerGrid = ({
   emptyGameboardValue,
   isPlayerTurn,
   isGameStarted,
-  isGameOver
 }) => {
   return (
     <div 
@@ -30,7 +29,7 @@ export const GameboardComputerGrid = ({
               : gameboardComputer[id] === freemissGameboardValue 
               ? "freemiss" 
               : gameboardComputer[id] === emptyGameboardValue
-              ? ""
+              ? "empty"
               : "ship"
             }`
           } 

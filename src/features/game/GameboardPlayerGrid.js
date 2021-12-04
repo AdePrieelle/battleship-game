@@ -5,6 +5,7 @@ export const GameboardPlayerGrid = ({
   hitGameboardValue, 
   missGameboardValue,
   freemissGameboardValue,
+  emptyGameboardValue,
   handlePlayerMove,
   isPlayerTurn,
   isGameStarted
@@ -28,8 +29,8 @@ export const GameboardPlayerGrid = ({
               ? "miss" 
               : gameboardPlayer[id] === freemissGameboardValue 
               ? "freemiss" 
-              : gameboardPlayer[id] === "empty"
-              ? ""
+              : gameboardPlayer[id] === emptyGameboardValue
+              ? "empty"
               : "ship"
             }`
           } 
