@@ -54,4 +54,14 @@
     opacity: 0.6;
     pointer-events: none;
   }
+
+  .button-text-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+  }
+
+  .randomise-icon {
+    margin-left: 4px;
+  }
 }

@@ -1,0 +1,18 @@
+@import "../../../styles/partials/variables";
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: $button-margin;
+  width: $button-width;
+  height: $button-height;
+  color: $button-color;
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  text-align: center;
+  background-color: $button-bg-color;
+  border: 0;
+  border-radius: $button-border-radius;
+  // cursor: pointer;
+}

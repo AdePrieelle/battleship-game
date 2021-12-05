@@ -18,9 +18,9 @@ import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
 import { GameboardPlayerGrid } from './GameboardPlayerGrid';
 import { GameboardComputerGrid } from './GameboardComputerGrid';
 import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
-import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
-import { StartGameButton } from './StartGameButton/StartGameButton';
-import { NewGameButton } from './NewGameButton/NewGameButton';
+// import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
+// import { StartGameButton } from './StartGameButton/StartGameButton';
+// import { NewGameButton } from './NewGameButton/NewGameButton';
 import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
 import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { getPreviousHitDirectionNotSunkenShip } from './getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
@@ -28,10 +28,10 @@ import { isSunkenShipAfterHit } from './isSunkenShipAfterHit/isSunkenShipAfterHi
 import { getAvailableNextSmartComputerMovesAfterHit } from './getAvailableNextSmartComputerMovesAfterHit/getAvailableNextSmartComputerMovesAfterHit';
 import { isShipOrEmptyGameboardValue } from './isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
 import { Modal } from './Modal/Modal';
-import { ModalButton } from './ModalButton/ModalButton';
+import { Button } from './Button/Button';
 import { ModalButtonsWrapper } from './ModalButtonsWrapper/ModalButtonsWrapper';
 import { ModalMessage } from './ModalMessage/ModalMessage';
-import { NextButton } from './NextButton/NextButton';
+// import { NextButton } from './NextButton/NextButton';
 import './Game.scss';
 
 export const Game = () => {
@@ -373,7 +373,7 @@ export const Game = () => {
                 isGameStarted={isGameStarted}
               /> */}
             </div>
-            <CreateNewRandomGameboardButton
+            {/* <CreateNewRandomGameboardButton
               setGameboardComputerInitialState={setGameboardPlayerTwoInitialState}
               createRandomGameboard={createRandomGameboard}
               amountOfColumns={amountOfColumns}
@@ -383,17 +383,17 @@ export const Game = () => {
               ships={ships}
               isGameStarted={isGameStarted}
               isGameOver={isGameOver}
-            />
-            <StartGameButton 
-              handleStartGame={handleStartGame}
-              isGameStarted={isGameStarted}
-              isGameOver={isGameOver}
-            />
-            <NewGameButton 
-              handleNewGame={handleNewGame}
-              isGameStarted={isGameStarted}
-              isGameOver={isGameOver}
-            />
+            /> */}
+            <Button 
+              buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}
+            >
+              <div className="button-text-wrapper">
+                <div>Randomise</div>
+                <i className="fas fa-sync-alt randomise-icon"></i>
+              </div>
+            </Button>
+            <Button buttonOnClick={handleStartGame}>Start game</Button>
+            <Button buttonOnClick={handleNewGame}>New game</Button>
       
             <GameboardShipStats 
               gameboard={gameboardPlayerOne}
@@ -406,17 +406,7 @@ export const Game = () => {
           </>
         : null 
       }
-      {/* {
-          showGameOverModal
-        ? <GameOverModal 
-            playerOneWonGame={playerOneWonGame}
-            playerTwoWonGame={playerTwoWonGame}
-            computerWonGame={computerWonGame}
-            setShowGameOverModal={setShowGameOverModal}
-            handleNewGameCloseGameOverModal={handleNewGameCloseGameOverModal}
-          />
-        : null
-      } */}
+      
       {/* showModalGameOver */}
       {
           showModalGameOver
@@ -427,10 +417,7 @@ export const Game = () => {
               modalMessage={`${playerOneWonGame ? "Player 1" : playerTwoWonGame ? "Player 2" : computerWonGame ? "Computer" : "Noone"} won!`}
             />
             <ModalButtonsWrapper>
-              <ModalButton 
-                modalButtonLabel={"Play again"}
-                modalButtonOnClick={handleModalButtonNewGame}
-              />
+              <Button buttonOnClick={handleModalButtonNewGame}>Play again</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
@@ -446,14 +433,8 @@ export const Game = () => {
               modalMessage={"Pick your opponent"}
             />
             <ModalButtonsWrapper>
-              <ModalButton 
-                modalButtonLabel={"Computer"}
-                modalButtonOnClick={handleModalButtonOpponentIsComputer}
-              />
-              <ModalButton 
-                modalButtonLabel={"Player"}
-                modalButtonOnClick={handleModalButtonShowPreGamePlayerOne}
-              />
+              <Button buttonOnClick={handleModalButtonOpponentIsComputer}>Computer</Button>
+              <Button buttonOnClick={handleModalButtonShowPreGamePlayerOne}>Player</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
@@ -478,20 +459,13 @@ export const Game = () => {
                 isGameStarted={isGameStarted}
               />
             </div>
-            <CreateNewRandomGameboardButton
-              setGameboardComputerInitialState={setGameboardPlayerTwoInitialState}
-              createRandomGameboard={createRandomGameboard}
-              amountOfColumns={amountOfColumns}
-              amountOfRows={amountOfRows}
-              emptyGameboardValue={emptyGameboardValue}
-              generateRandomValidShipPosition={generateRandomValidShipPosition}
-              ships={ships}
-              isGameStarted={isGameStarted}
-              isGameOver={isGameOver}
-            />
-            <NextButton 
-              handleNextButtonOnClick={handleNextPreGamePlayerOne}
-            />
+            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
+              <div className="button-text-wrapper">
+                <div>Randomise</div>
+                <i className="fas fa-sync-alt randomise-icon"></i>
+              </div>
+            </Button>
+            <Button buttonOnClick={handleNextPreGamePlayerOne}>Next</Button>
           </>
         : null
       }
@@ -505,10 +479,7 @@ export const Game = () => {
               modalMessage={"Hand over to Player 2"}
             />
             <ModalButtonsWrapper>
-              <ModalButton 
-                modalButtonLabel={"Next"}
-                modalButtonOnClick={handleModalButtonShowPreGamePlayerTwo}
-              />
+              <Button buttonOnClick={handleModalButtonShowPreGamePlayerTwo}>Next</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
@@ -533,20 +504,13 @@ export const Game = () => {
                 isGameStarted={isGameStarted}
               />
             </div>
-            <CreateNewRandomGameboardButton
-              setGameboardComputerInitialState={setGameboardPlayerOneInitialState}
-              createRandomGameboard={createRandomGameboard}
-              amountOfColumns={amountOfColumns}
-              amountOfRows={amountOfRows}
-              emptyGameboardValue={emptyGameboardValue}
-              generateRandomValidShipPosition={generateRandomValidShipPosition}
-              ships={ships}
-              isGameStarted={isGameStarted}
-              isGameOver={isGameOver}
-            />
-            <NextButton 
-              handleNextButtonOnClick={handleNextPreGamePlayerTwo}
-            />
+            <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
+              <div className="button-text-wrapper">
+                <div>Randomise</div>
+                <i className="fas fa-sync-alt randomise-icon"></i>
+              </div>
+            </Button>
+            <Button buttonOnClick={handleNextPreGamePlayerTwo}>Next</Button>
           </>
         : null
       }
@@ -560,10 +524,7 @@ export const Game = () => {
               modalMessage={"Hand over to Player 1"}
             />
             <ModalButtonsWrapper>
-              <ModalButton 
-                modalButtonLabel={"Start"}
-                modalButtonOnClick={handleModalButtonStartGame}
-              />
+              <Button buttonOnClick={handleModalButtonStartGame}>Start</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
