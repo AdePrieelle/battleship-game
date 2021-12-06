@@ -141,7 +141,7 @@ export const Game = () => {
   }, [previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip]);
 
   // update the gameboard with a hit or miss or freemiss value
-  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
+  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer, isPlayerOne) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
         gameboard, 
@@ -182,10 +182,16 @@ export const Game = () => {
       if (isComputer) {
         setComputerHitTurnAgainCount(0);
       }
+      if (isPlayerOne && !isComputer) {
+        setShowModalSwitchTurnToPlayerTwo(true);
+      }
+      if (!isPlayerOne && !isComputer) {
+        setShowModalSwitchTurnToPlayerOne(true);
+      }
     }
   }
 
-  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState) => {
+  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState, isPlayerOne) => {
     if (isValidPlayerTurn(
       gameboardPlayer, 
       +event.target.id,
@@ -196,7 +202,7 @@ export const Game = () => {
       isGameStarted,
       isGameOver
     )) {
-      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
+      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false, isPlayerOne);
     }
   }
   
@@ -214,7 +220,7 @@ export const Game = () => {
         );
       if (gameboardComputerCellsAvailable.length > 0) {
         // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-        updateGameboardCellHitOrMiss(gameboardPlayerTwo, randomGameboardComputerCellNumber, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true);
+        updateGameboardCellHitOrMiss(gameboardPlayerTwo, randomGameboardComputerCellNumber, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true, false);
       }
     } else if (previousHitComputerCellsNotSunkenShip.length > 0) {
       // array of indexes for next possible smart computer move if a ship has been hit but isn't sunken yet
@@ -231,7 +237,7 @@ export const Game = () => {
       );
       const availableNextSmartComputerMovesAfterHitRandomIndex = getRandomIndexFromArray(availableNextSmartComputerMovesAfterHit);
       const smartComputerMoveIndex = availableNextSmartComputerMovesAfterHit[availableNextSmartComputerMovesAfterHitRandomIndex];
-      updateGameboardCellHitOrMiss(gameboardPlayerTwo, smartComputerMoveIndex, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true);
+      updateGameboardCellHitOrMiss(gameboardPlayerTwo, smartComputerMoveIndex, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true, false);
     }
   }
 
@@ -281,6 +287,8 @@ export const Game = () => {
   const [showModalPreGameSwitchTurnToPlayerTwo, setShowModalPreGameSwitchTurnToPlayerTwo] = useState(false);
   const [showPreGamePlayerTwo, setShowPreGamePlayerTwo] = useState(false);
   const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
+  const [showModalSwitchTurnToPlayerTwo, setShowModalSwitchTurnToPlayerTwo] = useState(false);
+  const [showModalSwitchTurnToPlayerOne, setShowModalSwitchTurnToPlayerOne] = useState(false);
 
   const handleModalButtonNewGame = () => {
     handleNewGame();
@@ -311,6 +319,7 @@ export const Game = () => {
 
   const handleNextPreGamePlayerOne = () => {
     setShowPreGamePlayerOne(false);
+    setIsPlayerOneTurn(false);
     setShowModalPreGameSwitchTurnToPlayerTwo(true);
   }
 
@@ -329,10 +338,26 @@ export const Game = () => {
     handleStartGame();
   }
 
+  const handleModalSwitchTurnToPlayerTwo = () => {
+    setShowModalSwitchTurnToPlayerTwo(false);
+  }
+
+  const handleModalSwitchTurnToPlayerOne = () => {
+    setShowModalSwitchTurnToPlayerOne(false);
+  }
+
+
   return (
     <div className="game">
       {
-          (!showPreGamePlayerOne && !showPreGamePlayerTwo && !showModalPreGameSwitchTurnToPlayerTwo && !showModalPreGameSwitchTurnToPlayerOne)
+          (
+               !showPreGamePlayerOne 
+            && !showPreGamePlayerTwo 
+            && !showModalPreGameSwitchTurnToPlayerTwo 
+            && !showModalPreGameSwitchTurnToPlayerOne 
+            && !showModalSwitchTurnToPlayerTwo 
+            && !showModalSwitchTurnToPlayerOne
+          )
         ? <>
             <div className="gameboard-wrapper">
               <GameboardPlayerGrid 
@@ -344,9 +369,12 @@ export const Game = () => {
                 freemissGameboardValue={freemissGameboardValue}
                 emptyGameboardValue={emptyGameboardValue}
                 // handlePlayerMove={handlePlayerOneMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, true)}
                 isPlayerTurn={isPlayerOneTurn}
+                isPlayerOne={true}
+                isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
+                isGameOver={isGameOver}
               />
               <GameboardPlayerGrid 
                 gameboardPlayer={gameboardPlayerTwo}
@@ -357,9 +385,12 @@ export const Game = () => {
                 freemissGameboardValue={freemissGameboardValue}
                 emptyGameboardValue={emptyGameboardValue}
                 // handlePlayerMove={handlePlayerTwoMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
                 isPlayerTurn={!isPlayerOneTurn}
+                isPlayerOne={false}
+                isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
+                isGameOver={isGameOver}
               />
               {/* <GameboardComputerGrid 
                 gameboardComputer={gameboardPlayerTwo}
@@ -384,16 +415,17 @@ export const Game = () => {
               isGameStarted={isGameStarted}
               isGameOver={isGameOver}
             /> */}
-            <Button 
+            {/* <Button 
               buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}
             >
               <div className="button-text-wrapper">
                 <div>Randomise</div>
                 <i className="fas fa-sync-alt randomise-icon"></i>
               </div>
-            </Button>
-            <Button buttonOnClick={handleStartGame}>Start game</Button>
-            <Button buttonOnClick={handleNewGame}>New game</Button>
+            </Button> */}
+            {/* <Button buttonOnClick={handleStartGame}>Start game</Button> */}
+            {/* <Button buttonOnClick={handleNewGame}>New game</Button> */}
+            <Button buttonOnClick={handleModalButtonNewGame}>New game</Button>
       
             <GameboardShipStats 
               gameboard={gameboardPlayerOne}
@@ -472,7 +504,7 @@ export const Game = () => {
       {
           showModalPreGameSwitchTurnToPlayerTwo
         ? <Modal 
-            setShowModal={handleModalCloseButtonPreGameSwitchTurnPlayerOne}
+            setShowModal={setShowModalPreGameSwitchTurnToPlayerTwo}
             HideCloseButton={true}
           >
             <ModalMessage 
@@ -499,8 +531,8 @@ export const Game = () => {
                 freemissGameboardValue={freemissGameboardValue}
                 emptyGameboardValue={emptyGameboardValue}
                 // handlePlayerMove={handlePlayerTwoMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
-                isPlayerTurn={!isPlayerOneTurn}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
+                isPlayerTurn={isPlayerOneTurn}
                 isGameStarted={isGameStarted}
               />
             </div>
@@ -517,7 +549,7 @@ export const Game = () => {
       {
           showModalPreGameSwitchTurnToPlayerOne
         ? <Modal 
-            setShowModal={handleModalCloseButtonPreGameSwitchTurnPlayerTwo}
+            setShowModal={setShowModalPreGameSwitchTurnToPlayerOne}
             HideCloseButton={true}
           >
             <ModalMessage 
@@ -525,6 +557,38 @@ export const Game = () => {
             />
             <ModalButtonsWrapper>
               <Button buttonOnClick={handleModalButtonStartGame}>Start</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+
+      {
+          showModalSwitchTurnToPlayerTwo
+        ? <Modal 
+            setShowModal={setShowModalSwitchTurnToPlayerTwo}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={"Hand over to Player 2"}
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalSwitchTurnToPlayerTwo}>Go</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+
+      {
+          showModalSwitchTurnToPlayerOne
+        ? <Modal 
+            setShowModal={setShowModalSwitchTurnToPlayerOne}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={"Hand over to Player 1"}
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalSwitchTurnToPlayerOne}>Go</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null

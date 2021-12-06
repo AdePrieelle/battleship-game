@@ -8,7 +8,10 @@ export const GameboardPlayerGrid = ({
   emptyGameboardValue,
   handlePlayerMove,
   isPlayerTurn,
-  isGameStarted
+  isPlayerOne,
+  isPlayerTwoComputer,
+  isGameStarted,
+  isGameOver
 }) => {
   return (
     <div 
@@ -31,7 +34,16 @@ export const GameboardPlayerGrid = ({
               ? "freemiss" 
               : gameboardPlayer[id] === emptyGameboardValue
               ? "empty"
-              : "ship"
+              // : "ship"
+              : isGameOver
+              ? "ship"
+              : isPlayerOne && isPlayerTwoComputer 
+              ? "" 
+              : !isPlayerOne && isPlayerTwoComputer 
+              ? "ship" 
+              : !isPlayerTurn 
+              ? "ship" 
+              : ""
             }`
           } 
           onClick={handlePlayerMove}
