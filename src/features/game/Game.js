@@ -289,10 +289,14 @@ export const Game = () => {
   const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
   const [showModalSwitchTurnToPlayerTwo, setShowModalSwitchTurnToPlayerTwo] = useState(false);
   const [showModalSwitchTurnToPlayerOne, setShowModalSwitchTurnToPlayerOne] = useState(false);
-  const [showModalPreGamePlayerOneAgainstComputer, setShowModalPreGamePlayerOneAgainstComputer] = useState(false);
+  const [showModalPreGamePlayerOneGameboardAgainstComputer, setShowModalPreGamePlayerOneGameboardAgainstComputer] = useState(false);
   const [playerOneName, setPlayerOneName] = useState("Player 1");
   const [playerTwoName, setPlayerTwoName] = useState("Player 2");
   const [computerName, setComputerName] = useState("Computer");
+  const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);
+  const [showModalPreGamePlayerOneName, setShowModalPreGamePlayerOneName] = useState(false);
+  const [showModalPreGamePlayerTwoName, setShowModalPreGamePlayerTwoName] = useState(false);
+  const [showModalPreGameSwitchToPlayerOneGameboard, setShowModalPreGameSwitchToPlayerOneGameboard] = useState(false);
 
   const handleModalButtonNewGame = () => {
     handleNewGame();
@@ -303,12 +307,28 @@ export const Game = () => {
   const handleModalButtonOpponentIsComputer = () => {
     setShowModalPickOpponent(false);
     setIsPlayerTwoComputer(true);
-    setShowModalPreGamePlayerOneAgainstComputer(true);
+    setShowModalPreGamePlayerOneNameAgainstComputer(true);
   }
 
   const handleModalButtonShowPreGamePlayerOne = () => {
     setIsPlayerTwoComputer(false);
     setShowModalPickOpponent(false);
+    // setShowPreGamePlayerOne(true);
+    setShowModalPreGamePlayerOneName(true);
+  }
+
+  const handleModalPreGamePlayerOneName = () => {
+    setShowModalPreGamePlayerOneName(false);
+    setShowModalPreGamePlayerTwoName(true);
+  }
+
+  const handleModalPreGamePlayerTwoName = () => {
+    setShowModalPreGamePlayerTwoName(false);
+    setShowModalPreGameSwitchToPlayerOneGameboard(true);
+  }
+
+  const handleModalPreGameSwitchToPlayerOneGameboard = () => {
+    setShowModalPreGameSwitchToPlayerOneGameboard(false);
     setShowPreGamePlayerOne(true);
   }
 
@@ -341,8 +361,13 @@ export const Game = () => {
     setShowModalSwitchTurnToPlayerOne(false);
   }
 
-  const handleModalPreGamePlayerOneAgainstComputer = () => {
-    setShowModalPreGamePlayerOneAgainstComputer(false);
+  const handleModalPreGamePlayerOneNameAgainstComputer = () => {
+    setShowModalPreGamePlayerOneNameAgainstComputer(false);
+    setShowModalPreGamePlayerOneGameboardAgainstComputer(true);
+  }
+
+  const handleModalPreGamePlayerOneGameboardAgainstComputer = () => {
+    setShowModalPreGamePlayerOneGameboardAgainstComputer(false);
     handleStartGame();
   }
 
@@ -356,7 +381,8 @@ export const Game = () => {
             && !showModalPreGameSwitchTurnToPlayerOne 
             && !showModalSwitchTurnToPlayerTwo 
             && !showModalSwitchTurnToPlayerOne
-            && !showModalPreGamePlayerOneAgainstComputer
+            && !showModalPreGamePlayerOneNameAgainstComputer
+            && !showModalPreGamePlayerOneGameboardAgainstComputer
           )
         ? <>
             <div className="gameboard-wrapper">
@@ -475,11 +501,83 @@ export const Game = () => {
           </Modal>
         : null
       }
+
+      {
+          showModalPreGamePlayerOneName
+        ? 
+          <Modal 
+            setShowModal={setShowModalPreGamePlayerOneName}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={
+                <>
+                  <h1>{`Enter Player 1's name`}</h1>
+                  <input 
+                    type="text" 
+                    className="input-name"
+                    value={playerOneName}
+                    onChange={(e) => setPlayerOneName(e.target.value)}
+                  />
+                </>
+              }
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalPreGamePlayerOneName}>Next</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+
+      {
+          showModalPreGamePlayerTwoName
+        ? 
+          <Modal 
+            setShowModal={setShowModalPreGamePlayerTwoName}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={
+                <>
+                  <h1>{`Enter Player 2's name`}</h1>
+                  <input 
+                    type="text" 
+                    className="input-name"
+                    value={playerTwoName}
+                    onChange={(e) => setPlayerTwoName(e.target.value)}
+                  />
+                </>
+              }
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalPreGamePlayerTwoName}>Next</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+
+      {
+          showModalPreGameSwitchToPlayerOneGameboard
+        ? 
+          <Modal 
+            setShowModal={setShowModalPreGameSwitchToPlayerOneGameboard}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={`Hand over to ${playerOneName}`}
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>Next</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null 
+      }
+
       {
           showPreGamePlayerOne
         ? 
           <>
-            <h1>Player 1 ship placements</h1>
+            <h1>{`${playerOneName}'s ship placements`}</h1>
             <div className="gameboard-wrapper">
               <GameboardPlayerGrid 
                 gameboardPlayer={gameboardPlayerTwo}
@@ -512,7 +610,7 @@ export const Game = () => {
             HideCloseButton={true}
           >
             <ModalMessage 
-              modalMessage={"Hand over to Player 2"}
+              modalMessage={`Hand over to ${playerTwoName}`}
             />
             <ModalButtonsWrapper>
               <Button buttonOnClick={handleModalButtonShowPreGamePlayerTwo}>Next</Button>
@@ -599,7 +697,34 @@ export const Game = () => {
       }
 
       {
-          showModalPreGamePlayerOneAgainstComputer
+          showModalPreGamePlayerOneNameAgainstComputer
+        ? 
+          <Modal 
+            setShowModal={setShowModalPreGamePlayerOneNameAgainstComputer}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={
+                <>
+                  <h1>{`Enter Player 1's name`}</h1>
+                  <input 
+                    type="text" 
+                    className="input-name"
+                    value={playerOneName}
+                    onChange={(e) => setPlayerOneName(e.target.value)}
+                  />
+                </>
+              }
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+
+      {
+          showModalPreGamePlayerOneGameboardAgainstComputer
         ? 
           <>
             <h1>{`${playerOneName}'s ship placements`}</h1>
@@ -624,7 +749,7 @@ export const Game = () => {
                 <i className="fas fa-sync-alt randomise-icon"></i>
               </div>
             </Button>
-            <Button buttonOnClick={handleModalPreGamePlayerOneAgainstComputer}>Start game</Button>
+            <Button buttonOnClick={handleModalPreGamePlayerOneGameboardAgainstComputer}>Start game</Button>
           </>
       : null
       }
