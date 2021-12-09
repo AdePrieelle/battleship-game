@@ -281,39 +281,63 @@ export const Game = () => {
     setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
   }
   
-  const [showModalGameOver, setShowModalGameOver] = useState(false);
-  const [showModalPickOpponent, setShowModalPickOpponent] = useState(false);
-  const [showPreGamePlayerOne, setShowPreGamePlayerOne] = useState(false);
-  const [showModalPreGameSwitchTurnToPlayerTwo, setShowModalPreGameSwitchTurnToPlayerTwo] = useState(false);
-  const [showPreGamePlayerTwo, setShowPreGamePlayerTwo] = useState(false);
-  const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
-  const [showModalSwitchTurnToPlayerTwo, setShowModalSwitchTurnToPlayerTwo] = useState(false);
-  const [showModalSwitchTurnToPlayerOne, setShowModalSwitchTurnToPlayerOne] = useState(false);
-  const [showModalPreGamePlayerOneGameboardAgainstComputer, setShowModalPreGamePlayerOneGameboardAgainstComputer] = useState(false);
+  // names for players and computer
   const [playerOneName, setPlayerOneName] = useState("Player 1");
   const [playerTwoName, setPlayerTwoName] = useState("Player 2");
   const [computerName, setComputerName] = useState("Computer");
+
+  // game over modal logic
+  const [showModalGameOver, setShowModalGameOver] = useState(false);
+
+  // new game modal logic
+  const [showModalPickOpponent, setShowModalPickOpponent] = useState(false);
+
+  // pre game logic for opponent is computer
   const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);
-  const [showModalPreGamePlayerOneName, setShowModalPreGamePlayerOneName] = useState(false);
-  const [showModalPreGamePlayerTwoName, setShowModalPreGamePlayerTwoName] = useState(false);
+  const [showModalPreGamePlayerOneGameboardAgainstComputer, setShowModalPreGamePlayerOneGameboardAgainstComputer] = useState(false);
   const [showModalPreGameSwitchToPlayerOneGameboard, setShowModalPreGameSwitchToPlayerOneGameboard] = useState(false);
 
-  const handleModalButtonNewGame = () => {
+  // pre game logic for opponent is a player
+  const [showModalPreGamePlayerOneName, setShowModalPreGamePlayerOneName] = useState(false);
+  const [showModalPreGamePlayerTwoName, setShowModalPreGamePlayerTwoName] = useState(false);
+  const [showModalPreGamePlayerOneGameboard, setShowModalPreGamePlayerOneGameboard] = useState(false);
+  const [showModalPreGameSwitchTurnToPlayerTwo, setShowModalPreGameSwitchTurnToPlayerTwo] = useState(false);
+  const [showModalPreGamePlayerTwoGameboard, setShowModalPreGamePlayerTwoGameboard] = useState(false);
+  const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
+
+  // game logic for opponent is a player
+  const [showModalGameSwitchTurnToPlayerTwo, setShowModalGameSwitchTurnToPlayerTwo] = useState(false);
+  const [showModalGameSwitchTurnToPlayerOne, setShowModalGameSwitchTurnToPlayerOne] = useState(false);
+
+  
+  // new game modal logic
+  const handleButtonNewGame = () => {
     handleNewGame();
     setShowModalGameOver(false);
     setShowModalPickOpponent(true);
   }
 
-  const handleModalButtonOpponentIsComputer = () => {
+  // Pre game opponent is a computer logic
+  const handleModalPickOpponentComputer = () => {
     setShowModalPickOpponent(false);
     setIsPlayerTwoComputer(true);
     setShowModalPreGamePlayerOneNameAgainstComputer(true);
   }
 
-  const handleModalButtonShowPreGamePlayerOne = () => {
+  const handleModalPreGamePlayerOneNameAgainstComputer = () => {
+    setShowModalPreGamePlayerOneNameAgainstComputer(false);
+    setShowModalPreGamePlayerOneGameboardAgainstComputer(true);
+  }
+
+  const handleModalPreGamePlayerOneGameboardAgainstComputer = () => {
+    setShowModalPreGamePlayerOneGameboardAgainstComputer(false);
+    handleStartGame();
+  }
+
+  // Pre game opponent is a player logic
+  const handleModalPickOpponentPlayer = () => {
     setIsPlayerTwoComputer(false);
     setShowModalPickOpponent(false);
-    // setShowPreGamePlayerOne(true);
     setShowModalPreGamePlayerOneName(true);
   }
 
@@ -329,62 +353,58 @@ export const Game = () => {
 
   const handleModalPreGameSwitchToPlayerOneGameboard = () => {
     setShowModalPreGameSwitchToPlayerOneGameboard(false);
-    setShowPreGamePlayerOne(true);
+    setShowModalPreGamePlayerOneGameboard(true);
   }
 
-  const handleNextPreGamePlayerOne = () => {
-    setShowPreGamePlayerOne(false);
+  const handleModalPreGamePlayerOneGameboard = () => {
+    setShowModalPreGamePlayerOneGameboard(false);
     setIsPlayerOneTurn(false);
     setShowModalPreGameSwitchTurnToPlayerTwo(true);
   }
 
-  const handleModalButtonShowPreGamePlayerTwo = () => {
+  const handleModalPreGameSwitchTurnToPlayerTwo = () => {
     setShowModalPreGameSwitchTurnToPlayerTwo(false);
-    setShowPreGamePlayerTwo(true);
+    setShowModalPreGamePlayerTwoGameboard(true);
   }
 
-  const handleNextPreGamePlayerTwo = () => {
-    setShowPreGamePlayerTwo(false);
+  const handleModalPreGamePlayerTwoGameboard = () => {
+    setShowModalPreGamePlayerTwoGameboard(false);
     setShowModalPreGameSwitchTurnToPlayerOne(true);
   }
 
-  const handleModalButtonStartGame = () => {
+  const handleModalPreGameSwitchTurnToPlayerOne = () => {
     setShowModalPreGameSwitchTurnToPlayerOne(false);
     handleStartGame();
   }
 
-  const handleModalSwitchTurnToPlayerTwo = () => {
-    setShowModalSwitchTurnToPlayerTwo(false);
+
+  // modal game switch turns for opponent is a player
+  const handleModalGameSwitchTurnToPlayerTwo = () => {
+    setShowModalGameSwitchTurnToPlayerTwo(false);
   }
 
-  const handleModalSwitchTurnToPlayerOne = () => {
-    setShowModalSwitchTurnToPlayerOne(false);
+  const handleModalGameSwitchTurnToPlayerOne = () => {
+    setShowModalGameSwitchTurnToPlayerOne(false);
   }
 
-  const handleModalPreGamePlayerOneNameAgainstComputer = () => {
-    setShowModalPreGamePlayerOneNameAgainstComputer(false);
-    setShowModalPreGamePlayerOneGameboardAgainstComputer(true);
-  }
-
-  const handleModalPreGamePlayerOneGameboardAgainstComputer = () => {
-    setShowModalPreGamePlayerOneGameboardAgainstComputer(false);
-    handleStartGame();
-  }
 
   return (
     <div className="game">
       {
           (
-               !showPreGamePlayerOne 
-            && !showPreGamePlayerTwo 
-            && !showModalPreGameSwitchTurnToPlayerTwo 
-            && !showModalPreGameSwitchTurnToPlayerOne 
-            && !showModalSwitchTurnToPlayerTwo 
-            && !showModalSwitchTurnToPlayerOne
-            && !showModalPreGamePlayerOneNameAgainstComputer
+               !showModalPreGamePlayerOneNameAgainstComputer
             && !showModalPreGamePlayerOneGameboardAgainstComputer
+            && !showModalPreGamePlayerOneName
+            && !showModalPreGamePlayerTwoName
+            && !showModalPreGamePlayerOneGameboard
+            && !showModalPreGameSwitchTurnToPlayerTwo 
+            && !showModalPreGamePlayerTwoGameboard
+            && !showModalPreGameSwitchTurnToPlayerOne 
+            && !showModalGameSwitchTurnToPlayerTwo 
+            && !showModalGameSwitchTurnToPlayerOne
           )
-        ? <>
+        ? 
+          <>
             <div className="gameboard-wrapper">
               {
                   (!isPlayerOneTurn && !isPlayerTwoComputer)
@@ -456,7 +476,7 @@ export const Game = () => {
                 </>
               }
             </div>
-            <Button buttonOnClick={handleModalButtonNewGame}>New game</Button>
+            <Button buttonOnClick={handleButtonNewGame}>New game</Button>
             <GameboardShipStats 
               gameboard={gameboardPlayerOne}
               ships={ships}
@@ -479,7 +499,7 @@ export const Game = () => {
               modalMessage={`${playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!`}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalButtonNewGame}>Play again</Button>
+              <Button buttonOnClick={handleButtonNewGame}>Play again</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
@@ -495,11 +515,69 @@ export const Game = () => {
               modalMessage={"Pick your opponent"}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalButtonOpponentIsComputer}>Computer</Button>
-              <Button buttonOnClick={handleModalButtonShowPreGamePlayerOne}>Player</Button>
+              <Button buttonOnClick={handleModalPickOpponentComputer}>Computer</Button>
+              <Button buttonOnClick={handleModalPickOpponentPlayer}>Player</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
+      }
+
+      {
+          showModalPreGamePlayerOneNameAgainstComputer
+        ? 
+          <Modal 
+            setShowModal={setShowModalPreGamePlayerOneNameAgainstComputer}
+            HideCloseButton={true}
+          >
+            <ModalMessage 
+              modalMessage={
+                <>
+                  <h1>{`Enter Player 1's name`}</h1>
+                  <input 
+                    type="text" 
+                    className="input-name"
+                    value={playerOneName}
+                    onChange={(e) => setPlayerOneName(e.target.value)}
+                  />
+                </>
+              }
+            />
+            <ModalButtonsWrapper>
+              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
+            </ModalButtonsWrapper>
+          </Modal>
+        : null
+      }
+
+      {
+          showModalPreGamePlayerOneGameboardAgainstComputer
+        ? 
+          <>
+            <h1>{`${playerOneName}'s ship placements`}</h1>
+            <div className="gameboard-wrapper">
+              <GameboardPlayerGrid 
+                gameboardPlayer={gameboardPlayerTwo}
+                amountOfColumns={amountOfColumns}
+                amountOfRows={amountOfRows}
+                hitGameboardValue={hitGameboardValue}
+                missGameboardValue={missGameboardValue}
+                freemissGameboardValue={freemissGameboardValue}
+                emptyGameboardValue={emptyGameboardValue}
+                // handlePlayerMove={handlePlayerTwoMove}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                isPlayerTurn={!isPlayerOneTurn}
+                isGameStarted={isGameStarted}
+              />
+            </div>
+            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
+              <div className="button-text-wrapper">
+                <div>Randomise</div>
+                <i className="fas fa-sync-alt randomise-icon"></i>
+              </div>
+            </Button>
+            <Button buttonOnClick={handleModalPreGamePlayerOneGameboardAgainstComputer}>Start game</Button>
+          </>
+      : null
       }
 
       {
@@ -574,7 +652,7 @@ export const Game = () => {
       }
 
       {
-          showPreGamePlayerOne
+          showModalPreGamePlayerOneGameboard
         ? 
           <>
             <h1>{`${playerOneName}'s ship placements`}</h1>
@@ -599,7 +677,7 @@ export const Game = () => {
                 <i className="fas fa-sync-alt randomise-icon"></i>
               </div>
             </Button>
-            <Button buttonOnClick={handleNextPreGamePlayerOne}>Next</Button>
+            <Button buttonOnClick={handleModalPreGamePlayerOneGameboard}>Next</Button>
           </>
         : null
       }
@@ -613,13 +691,13 @@ export const Game = () => {
               modalMessage={`Hand over to ${playerTwoName}`}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalButtonShowPreGamePlayerTwo}>Next</Button>
+              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>Next</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
       }
       {
-          showPreGamePlayerTwo
+          showModalPreGamePlayerTwoGameboard
         ? 
           <>
             <h1>{`${playerTwoName}'s ship placements`}</h1>
@@ -644,7 +722,7 @@ export const Game = () => {
                 <i className="fas fa-sync-alt randomise-icon"></i>
               </div>
             </Button>
-            <Button buttonOnClick={handleNextPreGamePlayerTwo}>Next</Button>
+            <Button buttonOnClick={handleModalPreGamePlayerTwoGameboard}>Next</Button>
           </>
         : null
       }
@@ -658,101 +736,44 @@ export const Game = () => {
               modalMessage={`Hand over to ${playerOneName}`}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalButtonStartGame}>Start game</Button>
+              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerOne}>Start game</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
       }
 
       {
-          showModalSwitchTurnToPlayerTwo
+          showModalGameSwitchTurnToPlayerTwo
         ? <Modal 
-            setShowModal={setShowModalSwitchTurnToPlayerTwo}
+            setShowModal={setShowModalGameSwitchTurnToPlayerTwo}
             HideCloseButton={true}
           >
             <ModalMessage 
               modalMessage={`Hand over to ${playerTwoName}`}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalSwitchTurnToPlayerTwo}>Go</Button>
+              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerTwo}>Go</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
       }
 
       {
-          showModalSwitchTurnToPlayerOne
+          showModalGameSwitchTurnToPlayerOne
         ? <Modal 
-            setShowModal={setShowModalSwitchTurnToPlayerOne}
+            setShowModal={setShowModalGameSwitchTurnToPlayerOne}
             HideCloseButton={true}
           >
             <ModalMessage 
               modalMessage={`Hand over to ${playerOneName}`}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalSwitchTurnToPlayerOne}>Start game</Button>
+              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Start game</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
       }
 
-      {
-          showModalPreGamePlayerOneNameAgainstComputer
-        ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerOneNameAgainstComputer}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 1's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerOneName}
-                    onChange={(e) => setPlayerOneName(e.target.value)}
-                  />
-                </>
-              }
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
-
-      {
-          showModalPreGamePlayerOneGameboardAgainstComputer
-        ? 
-          <>
-            <h1>{`${playerOneName}'s ship placements`}</h1>
-            <div className="gameboard-wrapper">
-              <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerTwo}
-                amountOfColumns={amountOfColumns}
-                amountOfRows={amountOfRows}
-                hitGameboardValue={hitGameboardValue}
-                missGameboardValue={missGameboardValue}
-                freemissGameboardValue={freemissGameboardValue}
-                emptyGameboardValue={emptyGameboardValue}
-                // handlePlayerMove={handlePlayerTwoMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
-                isPlayerTurn={!isPlayerOneTurn}
-                isGameStarted={isGameStarted}
-              />
-            </div>
-            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
-              <div className="button-text-wrapper">
-                <div>Randomise</div>
-                <i className="fas fa-sync-alt randomise-icon"></i>
-              </div>
-            </Button>
-            <Button buttonOnClick={handleModalPreGamePlayerOneGameboardAgainstComputer}>Start game</Button>
-          </>
-      : null
-      }
     </div>
   )
 }
