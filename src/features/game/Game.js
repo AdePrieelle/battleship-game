@@ -50,17 +50,30 @@ export const Game = () => {
   const [computerWonGame, setComputerWonGame] = useState(false);
   const [isPlayerTwoComputer, setIsPlayerTwoComputer] = useState(false);
 
+  // const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState([
+  //   "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
+  //   "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+  // ]);
+
   const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState([
-    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "b1", "empty", "b2", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
-    "c1", "c1", "c1", "c1", "empty", "empty", "empty", "empty", "empty", "empty",
-    "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
+    "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "c1", "c1", "c1", "c1", "miss", "miss", "hit", "hit", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
   ]);
 
   // const [gameboardPlayerInitialState, setGameboardPlayerInitialState] = useState([
@@ -119,7 +132,7 @@ export const Game = () => {
         return () => clearTimeout(computerTurnTimeout);
       }
     }
-  }, [isPlayerTwoComputer, isPlayerOneTurn, isGameStarted, isGameOver, gameboardPlayerTwo, computerHitTurnAgainCount]);
+  }, [isPlayerTwoComputer, isPlayerOneTurn, isGameStarted, isGameOver, gameboardPlayerOne, computerHitTurnAgainCount]);
 
   
 
@@ -183,10 +196,10 @@ export const Game = () => {
         setComputerHitTurnAgainCount(0);
       }
       if (isPlayerOne && !isComputer && !isPlayerTwoComputer) {
-        setShowModalSwitchTurnToPlayerTwo(true);
+        setShowModalGameSwitchTurnToPlayerTwo(true);
       }
       if (!isPlayerOne && !isComputer && !isPlayerTwoComputer) {
-        setShowModalSwitchTurnToPlayerOne(true);
+        setShowModalGameSwitchTurnToPlayerOne(true);
       }
     }
   }
@@ -209,10 +222,10 @@ export const Game = () => {
   const handleComputerMove = () => {
     if (previousHitComputerCellsNotSunkenShip.length === 0) {
       // array of indexes of computercells that are either "empty" or a hidden ship
-      const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardPlayerTwo, hitGameboardValue, missGameboardValue, freemissGameboardValue);
+      const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardPlayerOne, hitGameboardValue, missGameboardValue, freemissGameboardValue);
       const randomGameboardComputerCellNumber = getAvailableRandomGameboardComputerCellNumber(
         getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips,
-        gameboardPlayerTwo,
+        gameboardPlayerOne,
         hitGameboardValue,
         missGameboardValue,
         freemissGameboardValue,
@@ -220,12 +233,12 @@ export const Game = () => {
         );
       if (gameboardComputerCellsAvailable.length > 0) {
         // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-        updateGameboardCellHitOrMiss(gameboardPlayerTwo, randomGameboardComputerCellNumber, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true, false);
+        updateGameboardCellHitOrMiss(gameboardPlayerOne, randomGameboardComputerCellNumber, setGameboardPlayerOne, gameboardPlayerOneInitialState, true, false);
       }
     } else if (previousHitComputerCellsNotSunkenShip.length > 0) {
       // array of indexes for next possible smart computer move if a ship has been hit but isn't sunken yet
       const availableNextSmartComputerMovesAfterHit = getAvailableNextSmartComputerMovesAfterHit(
-        gameboardPlayerTwo,
+        gameboardPlayerOne,
         previousHitComputerCellsNotSunkenShip,
         previousHitDirectionNotSunkenShip,
         hitGameboardValue,
@@ -237,12 +250,15 @@ export const Game = () => {
       );
       const availableNextSmartComputerMovesAfterHitRandomIndex = getRandomIndexFromArray(availableNextSmartComputerMovesAfterHit);
       const smartComputerMoveIndex = availableNextSmartComputerMovesAfterHit[availableNextSmartComputerMovesAfterHitRandomIndex];
-      updateGameboardCellHitOrMiss(gameboardPlayerTwo, smartComputerMoveIndex, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true, false);
+      updateGameboardCellHitOrMiss(gameboardPlayerOne, smartComputerMoveIndex, setGameboardPlayerOne, gameboardPlayerOneInitialState, true, false);
     }
   }
 
 
-
+  const resetRandomGameboards = () => {
+    setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+  }
   
   const handleIsGameOver = (isComputer) => {
     setIsGameStarted(false);
@@ -275,10 +291,10 @@ export const Game = () => {
     setPlayerTwoWonGame(false);
     setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
     setPreviousHitDirectionNotSunkenShip(null);
-    // setGameboardPlayerInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
-    setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
-    // setGameboardComputerInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
-    setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
+    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    // setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
+    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    // setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
   }
   
   // names for players and computer
@@ -322,14 +338,17 @@ export const Game = () => {
     setShowModalPickOpponent(false);
     setIsPlayerTwoComputer(true);
     setShowModalPreGamePlayerOneNameAgainstComputer(true);
+    resetRandomGameboards();
   }
 
   const handleModalPreGamePlayerOneNameAgainstComputer = () => {
+    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
     setShowModalPreGamePlayerOneNameAgainstComputer(false);
     setShowModalPreGamePlayerOneGameboardAgainstComputer(true);
   }
 
   const handleModalPreGamePlayerOneGameboardAgainstComputer = () => {
+    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
     setShowModalPreGamePlayerOneGameboardAgainstComputer(false);
     handleStartGame();
   }
@@ -339,6 +358,7 @@ export const Game = () => {
     setIsPlayerTwoComputer(false);
     setShowModalPickOpponent(false);
     setShowModalPreGamePlayerOneName(true);
+    resetRandomGameboards();
   }
 
   const handleModalPreGamePlayerOneName = () => {
@@ -348,11 +368,13 @@ export const Game = () => {
 
   const handleModalPreGamePlayerTwoName = () => {
     setShowModalPreGamePlayerTwoName(false);
+    setIsPlayerOneTurn(true);
     setShowModalPreGameSwitchToPlayerOneGameboard(true);
   }
 
   const handleModalPreGameSwitchToPlayerOneGameboard = () => {
     setShowModalPreGameSwitchToPlayerOneGameboard(false);
+    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
     setShowModalPreGamePlayerOneGameboard(true);
   }
 
@@ -364,6 +386,7 @@ export const Game = () => {
 
   const handleModalPreGameSwitchTurnToPlayerTwo = () => {
     setShowModalPreGameSwitchTurnToPlayerTwo(false);
+    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))
     setShowModalPreGamePlayerTwoGameboard(true);
   }
 
@@ -411,54 +434,39 @@ export const Game = () => {
                 ? 
                   <>
                     <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerTwo}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
-                    isPlayerTurn={!isPlayerOneTurn}
-                    isPlayerOne={false}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                  />
-                  <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerOne}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, true)}
-                    isPlayerTurn={isPlayerOneTurn}
-                    isPlayerOne={true}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                  />
-                </>
+                      gameboardPlayer={gameboardPlayerOne}
+                      amountOfColumns={amountOfColumns}
+                      amountOfRows={amountOfRows}
+                      hitGameboardValue={hitGameboardValue}
+                      missGameboardValue={missGameboardValue}
+                      freemissGameboardValue={freemissGameboardValue}
+                      emptyGameboardValue={emptyGameboardValue}
+                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+                      isPlayerTurn={!isPlayerOneTurn}
+                      isPlayerOne={false}
+                      isPlayerTwoComputer={isPlayerTwoComputer}
+                      isGameStarted={isGameStarted}
+                      isGameOver={isGameOver}
+                    />
+                    <GameboardPlayerGrid 
+                      gameboardPlayer={gameboardPlayerTwo}
+                      amountOfColumns={amountOfColumns}
+                      amountOfRows={amountOfRows}
+                      hitGameboardValue={hitGameboardValue}
+                      missGameboardValue={missGameboardValue}
+                      freemissGameboardValue={freemissGameboardValue}
+                      emptyGameboardValue={emptyGameboardValue}
+                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+                      isPlayerTurn={isPlayerOneTurn}
+                      isPlayerOne={true}
+                      isPlayerTwoComputer={isPlayerTwoComputer}
+                      isGameStarted={isGameStarted}
+                      isGameOver={isGameOver}
+                    />
+                  </>
               :
                 <>
                   <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerOne}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, true)}
-                    isPlayerTurn={isPlayerOneTurn}
-                    isPlayerOne={true}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                  />
-                  <GameboardPlayerGrid 
                     gameboardPlayer={gameboardPlayerTwo}
                     amountOfColumns={amountOfColumns}
                     amountOfRows={amountOfRows}
@@ -466,7 +474,22 @@ export const Game = () => {
                     missGameboardValue={missGameboardValue}
                     freemissGameboardValue={freemissGameboardValue}
                     emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
+                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+                    isPlayerTurn={isPlayerOneTurn}
+                    isPlayerOne={true}
+                    isPlayerTwoComputer={isPlayerTwoComputer}
+                    isGameStarted={isGameStarted}
+                    isGameOver={isGameOver}
+                  />
+                  <GameboardPlayerGrid 
+                    gameboardPlayer={gameboardPlayerOne}
+                    amountOfColumns={amountOfColumns}
+                    amountOfRows={amountOfRows}
+                    hitGameboardValue={hitGameboardValue}
+                    missGameboardValue={missGameboardValue}
+                    freemissGameboardValue={freemissGameboardValue}
+                    emptyGameboardValue={emptyGameboardValue}
+                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
                     isPlayerTurn={!isPlayerOneTurn}
                     isPlayerOne={false}
                     isPlayerTwoComputer={isPlayerTwoComputer}
@@ -478,11 +501,11 @@ export const Game = () => {
             </div>
             <Button buttonOnClick={handleButtonNewGame}>New game</Button>
             <GameboardShipStats 
-              gameboard={gameboardPlayerOne}
+              gameboard={gameboardPlayerTwo}
               ships={ships}
             />
             <GameboardShipStats 
-              gameboard={gameboardPlayerTwo}
+              gameboard={gameboardPlayerOne}
               ships={ships}
             />
           </>
@@ -556,20 +579,22 @@ export const Game = () => {
             <h1>{`${playerOneName}'s ship placements`}</h1>
             <div className="gameboard-wrapper">
               <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerTwo}
+                gameboardPlayer={gameboardPlayerOne}
                 amountOfColumns={amountOfColumns}
                 amountOfRows={amountOfRows}
                 hitGameboardValue={hitGameboardValue}
                 missGameboardValue={missGameboardValue}
                 freemissGameboardValue={freemissGameboardValue}
                 emptyGameboardValue={emptyGameboardValue}
-                // handlePlayerMove={handlePlayerTwoMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
                 isPlayerTurn={!isPlayerOneTurn}
+                isPlayerOne={false}
+                isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
+                isGameOver={isGameOver}
               />
             </div>
-            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
+            <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
               <div className="button-text-wrapper">
                 <div>Randomise</div>
                 <i className="fas fa-sync-alt randomise-icon"></i>
@@ -658,20 +683,22 @@ export const Game = () => {
             <h1>{`${playerOneName}'s ship placements`}</h1>
             <div className="gameboard-wrapper">
               <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerTwo}
+                gameboardPlayer={gameboardPlayerOne}
                 amountOfColumns={amountOfColumns}
                 amountOfRows={amountOfRows}
                 hitGameboardValue={hitGameboardValue}
                 missGameboardValue={missGameboardValue}
                 freemissGameboardValue={freemissGameboardValue}
                 emptyGameboardValue={emptyGameboardValue}
-                // handlePlayerMove={handlePlayerTwoMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, !isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
                 isPlayerTurn={!isPlayerOneTurn}
+                isPlayerOne={false}
+                isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
+                isGameOver={isGameOver}
               />
             </div>
-            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
+            <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
               <div className="button-text-wrapper">
                 <div>Randomise</div>
                 <i className="fas fa-sync-alt randomise-icon"></i>
@@ -703,20 +730,22 @@ export const Game = () => {
             <h1>{`${playerTwoName}'s ship placements`}</h1>
             <div className="gameboard-wrapper">
               <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerOne}
+                gameboardPlayer={gameboardPlayerTwo}
                 amountOfColumns={amountOfColumns}
                 amountOfRows={amountOfRows}
                 hitGameboardValue={hitGameboardValue}
                 missGameboardValue={missGameboardValue}
                 freemissGameboardValue={freemissGameboardValue}
                 emptyGameboardValue={emptyGameboardValue}
-                // handlePlayerMove={handlePlayerTwoMove}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
+                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
                 isPlayerTurn={isPlayerOneTurn}
+                isPlayerOne={true}
+                isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
+                isGameOver={isGameOver}
               />
             </div>
-            <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
+            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
               <div className="button-text-wrapper">
                 <div>Randomise</div>
                 <i className="fas fa-sync-alt randomise-icon"></i>
@@ -768,7 +797,7 @@ export const Game = () => {
               modalMessage={`Hand over to ${playerOneName}`}
             />
             <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Start game</Button>
+              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Go</Button>
             </ModalButtonsWrapper>
           </Modal>
         : null
