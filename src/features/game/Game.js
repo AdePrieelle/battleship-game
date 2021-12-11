@@ -256,8 +256,10 @@ export const Game = () => {
 
 
   const resetRandomGameboards = () => {
-    setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
-    setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
+    setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
+    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
   }
   
   const handleIsGameOver = (isComputer) => {
@@ -291,10 +293,7 @@ export const Game = () => {
     setPlayerTwoWonGame(false);
     setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
     setPreviousHitDirectionNotSunkenShip(null);
-    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
-    // setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
-    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
-    // setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
+    resetRandomGameboards();
   }
   
   // names for players and computer
@@ -311,13 +310,13 @@ export const Game = () => {
   // pre game logic for opponent is computer
   const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);
   const [showModalPreGamePlayerOneGameboardAgainstComputer, setShowModalPreGamePlayerOneGameboardAgainstComputer] = useState(false);
-  const [showModalPreGameSwitchToPlayerOneGameboard, setShowModalPreGameSwitchToPlayerOneGameboard] = useState(false);
-
+  
   // pre game logic for opponent is a player
   const [showModalPreGamePlayerOneName, setShowModalPreGamePlayerOneName] = useState(false);
   const [showModalPreGamePlayerTwoName, setShowModalPreGamePlayerTwoName] = useState(false);
+  const [showModalPreGameSwitchTurnToPlayerOneGameboard, setShowModalPreGameSwitchTurnToPlayerOneGameboard] = useState(false);
   const [showModalPreGamePlayerOneGameboard, setShowModalPreGamePlayerOneGameboard] = useState(false);
-  const [showModalPreGameSwitchTurnToPlayerTwo, setShowModalPreGameSwitchTurnToPlayerTwo] = useState(false);
+  const [showModalPreGameSwitchTurnToPlayerTwoGameboard, setShowModalPreGameSwitchTurnToPlayerTwoGameboard] = useState(false);
   const [showModalPreGamePlayerTwoGameboard, setShowModalPreGamePlayerTwoGameboard] = useState(false);
   const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
 
@@ -328,7 +327,7 @@ export const Game = () => {
   
   // new game modal logic
   const handleButtonNewGame = () => {
-    handleNewGame();
+    // handleNewGame();
     setShowModalGameOver(false);
     setShowModalPickOpponent(true);
   }
@@ -336,29 +335,27 @@ export const Game = () => {
   // Pre game opponent is a computer logic
   const handleModalPickOpponentComputer = () => {
     setShowModalPickOpponent(false);
+    handleNewGame();
     setIsPlayerTwoComputer(true);
     setShowModalPreGamePlayerOneNameAgainstComputer(true);
-    resetRandomGameboards();
   }
 
   const handleModalPreGamePlayerOneNameAgainstComputer = () => {
-    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
     setShowModalPreGamePlayerOneNameAgainstComputer(false);
     setShowModalPreGamePlayerOneGameboardAgainstComputer(true);
   }
 
   const handleModalPreGamePlayerOneGameboardAgainstComputer = () => {
-    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
     setShowModalPreGamePlayerOneGameboardAgainstComputer(false);
     handleStartGame();
   }
 
   // Pre game opponent is a player logic
   const handleModalPickOpponentPlayer = () => {
-    setIsPlayerTwoComputer(false);
     setShowModalPickOpponent(false);
+    handleNewGame();
+    setIsPlayerTwoComputer(false);
     setShowModalPreGamePlayerOneName(true);
-    resetRandomGameboards();
   }
 
   const handleModalPreGamePlayerOneName = () => {
@@ -368,25 +365,21 @@ export const Game = () => {
 
   const handleModalPreGamePlayerTwoName = () => {
     setShowModalPreGamePlayerTwoName(false);
-    setIsPlayerOneTurn(true);
-    setShowModalPreGameSwitchToPlayerOneGameboard(true);
+    setShowModalPreGameSwitchTurnToPlayerOneGameboard(true);
   }
 
   const handleModalPreGameSwitchToPlayerOneGameboard = () => {
-    setShowModalPreGameSwitchToPlayerOneGameboard(false);
-    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    setShowModalPreGameSwitchTurnToPlayerOneGameboard(false);
     setShowModalPreGamePlayerOneGameboard(true);
   }
 
   const handleModalPreGamePlayerOneGameboard = () => {
     setShowModalPreGamePlayerOneGameboard(false);
-    setIsPlayerOneTurn(false);
-    setShowModalPreGameSwitchTurnToPlayerTwo(true);
+    setShowModalPreGameSwitchTurnToPlayerTwoGameboard(true);
   }
 
   const handleModalPreGameSwitchTurnToPlayerTwo = () => {
-    setShowModalPreGameSwitchTurnToPlayerTwo(false);
-    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))
+    setShowModalPreGameSwitchTurnToPlayerTwoGameboard(false);
     setShowModalPreGamePlayerTwoGameboard(true);
   }
 
@@ -419,8 +412,10 @@ export const Game = () => {
             && !showModalPreGamePlayerOneGameboardAgainstComputer
             && !showModalPreGamePlayerOneName
             && !showModalPreGamePlayerTwoName
+            && !showModalPreGameSwitchTurnToPlayerOneGameboard
             && !showModalPreGamePlayerOneGameboard
-            && !showModalPreGameSwitchTurnToPlayerTwo 
+            && !showModalPreGamePlayerOneGameboard
+            && !showModalPreGameSwitchTurnToPlayerTwoGameboard 
             && !showModalPreGamePlayerTwoGameboard
             && !showModalPreGameSwitchTurnToPlayerOne 
             && !showModalGameSwitchTurnToPlayerTwo 
@@ -660,10 +655,10 @@ export const Game = () => {
       }
 
       {
-          showModalPreGameSwitchToPlayerOneGameboard
+          showModalPreGameSwitchTurnToPlayerOneGameboard
         ? 
           <Modal 
-            setShowModal={setShowModalPreGameSwitchToPlayerOneGameboard}
+            setShowModal={setShowModalPreGameSwitchTurnToPlayerOneGameboard}
             HideCloseButton={true}
           >
             <ModalMessage 
@@ -709,9 +704,9 @@ export const Game = () => {
         : null
       }
       {
-          showModalPreGameSwitchTurnToPlayerTwo
+          showModalPreGameSwitchTurnToPlayerTwoGameboard
         ? <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerTwo}
+            setShowModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
             HideCloseButton={true}
           >
             <ModalMessage 

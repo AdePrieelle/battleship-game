@@ -15,7 +15,7 @@ export const GameboardPlayerGrid = ({
 }) => {
   return (
     <div 
-      className={`gameboard ${isPlayerTurn && isGameStarted ? "" : "gameboard-inactive"} gameboard-player`}
+      className={`gameboard ${isPlayerTurn && isGameStarted ? "" : isGameStarted ? "gameboard-inactive" : isGameOver ? "gameboard-inactive" : ""} gameboard-player`}
       style={{
         gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
         gridTemplateRows: `repeat(${amountOfRows}, auto)`,
@@ -43,6 +43,8 @@ export const GameboardPlayerGrid = ({
               ? "ship" 
               : !isPlayerTurn 
               ? "ship" 
+              : !isGameStarted && !isGameOver
+              ? "ship"
               : ""
             }`
           } 

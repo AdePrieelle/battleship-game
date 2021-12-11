@@ -8,10 +8,11 @@ export const GameboardComputerGrid = ({
   emptyGameboardValue,
   isPlayerTurn,
   isGameStarted,
+  isGameOver
 }) => {
   return (
     <div 
-      className={`gameboard ${!isPlayerTurn && isGameStarted ? "" : "gameboard-inactive"} gameboard-computer`}
+      className={`gameboard ${isPlayerTurn && isGameStarted ? "" : isGameStarted ? "gameboard-inactive" : isGameOver ? "gameboard-inactive" : ""} gameboard-computer`}
       style={{
         gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
         gridTemplateRows: `repeat(${amountOfRows}, auto)`, 
