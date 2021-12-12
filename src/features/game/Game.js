@@ -48,7 +48,7 @@ export const Game = () => {
   const [playerOneWonGame, setPlayerOneWonGame] = useState(false);
   const [playerTwoWonGame, setPlayerTwoWonGame] = useState(false);
   const [computerWonGame, setComputerWonGame] = useState(false);
-  const [isPlayerTwoComputer, setIsPlayerTwoComputer] = useState(false);
+  const [isPlayerTwoComputer, setIsPlayerTwoComputer] = useState(true);
 
   // const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState([
   //   "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
@@ -191,15 +191,22 @@ export const Game = () => {
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
       setGameboard(newGameboardStateAfterMissLogicWithMissCell);
-      setIsPlayerOneTurn(!isPlayerOneTurn);
+      // setIsPlayerOneTurn(!isPlayerOneTurn);
       if (isComputer) {
         setComputerHitTurnAgainCount(0);
       }
-      if (isPlayerOne && !isComputer && !isPlayerTwoComputer) {
-        setShowModalGameSwitchTurnToPlayerTwo(true);
+      // if (isPlayerOne && !isComputer && !isPlayerTwoComputer) {
+      //   setShowModalGameSwitchTurnToPlayerTwo(true);
+      // }
+      // if (!isPlayerOne && !isComputer && !isPlayerTwoComputer) {
+      //   setShowModalGameSwitchTurnToPlayerOne(true);
+      // }
+      if (isPlayerTwoComputer) {
+        setIsPlayerOneTurn(!isPlayerOneTurn);
       }
-      if (!isPlayerOne && !isComputer && !isPlayerTwoComputer) {
-        setShowModalGameSwitchTurnToPlayerOne(true);
+      if (!isComputer && !isPlayerTwoComputer) {
+        setDisablePlayerMove(true);
+        setDisableButtonGameSwitchPlayerTurn(false);
       }
     }
   }
@@ -282,6 +289,7 @@ export const Game = () => {
     setIsGameOver(false);
     setIsPlayerOneTurn(true);
     setComputerHitTurnAgainCount(0);
+    setGameboardPreGameActive(false);
     setIsGameStarted(true);
   }
   
@@ -294,8 +302,12 @@ export const Game = () => {
     setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
     setPreviousHitDirectionNotSunkenShip(null);
     resetRandomGameboards();
+    setGameboardPreGameActive(true);
   }
   
+  // prevent faded low opacity gameboard-inactive in pre game
+  const [gameboardPreGameActive, setGameboardPreGameActive] = useState(false);
+
   // names for players and computer
   const [playerOneName, setPlayerOneName] = useState("Player 1");
   const [playerTwoName, setPlayerTwoName] = useState("Player 2");
@@ -324,7 +336,12 @@ export const Game = () => {
   const [showModalGameSwitchTurnToPlayerTwo, setShowModalGameSwitchTurnToPlayerTwo] = useState(false);
   const [showModalGameSwitchTurnToPlayerOne, setShowModalGameSwitchTurnToPlayerOne] = useState(false);
 
-  
+  // disable player moves once missed before handing over to other player
+  const [disablePlayerMove, setDisablePlayerMove] = useState(false);
+
+  // show button for players to hand over
+  const [disableButtonGameSwitchPlayerTurn, setDisableButtonGameSwitchPlayerTurn] = useState(true);
+
   // new game modal logic
   const handleButtonNewGame = () => {
     // handleNewGame();
@@ -403,6 +420,18 @@ export const Game = () => {
     setShowModalGameSwitchTurnToPlayerOne(false);
   }
 
+  // handle button to hand over turns
+  const handleButtonGameSwitchPlayerTurn = () => {
+    setDisablePlayerMove(false);
+    setDisableButtonGameSwitchPlayerTurn(true);
+    if (isPlayerOneTurn) {
+      setShowModalGameSwitchTurnToPlayerTwo(true);
+    } else if (!isPlayerOneTurn) {
+      setShowModalGameSwitchTurnToPlayerOne(true);
+    }
+    setIsPlayerOneTurn(!isPlayerOneTurn);
+  }
+
 
   return (
     <div className="game">
@@ -442,6 +471,8 @@ export const Game = () => {
                       isPlayerTwoComputer={isPlayerTwoComputer}
                       isGameStarted={isGameStarted}
                       isGameOver={isGameOver}
+                      gameboardPreGameActive={gameboardPreGameActive}
+                      disablePlayerMove={disablePlayerMove}
                     />
                     <GameboardPlayerGrid 
                       gameboardPlayer={gameboardPlayerTwo}
@@ -457,6 +488,8 @@ export const Game = () => {
                       isPlayerTwoComputer={isPlayerTwoComputer}
                       isGameStarted={isGameStarted}
                       isGameOver={isGameOver}
+                      gameboardPreGameActive={gameboardPreGameActive}
+                      disablePlayerMove={disablePlayerMove}
                     />
                   </>
               :
@@ -475,6 +508,8 @@ export const Game = () => {
                     isPlayerTwoComputer={isPlayerTwoComputer}
                     isGameStarted={isGameStarted}
                     isGameOver={isGameOver}
+                    gameboardPreGameActive={gameboardPreGameActive}
+                    disablePlayerMove={disablePlayerMove}
                   />
                   <GameboardPlayerGrid 
                     gameboardPlayer={gameboardPlayerOne}
@@ -490,11 +525,24 @@ export const Game = () => {
                     isPlayerTwoComputer={isPlayerTwoComputer}
                     isGameStarted={isGameStarted}
                     isGameOver={isGameOver}
+                    gameboardPreGameActive={gameboardPreGameActive}
+                    disablePlayerMove={disablePlayerMove}
                   />
                 </>
               }
             </div>
             <Button buttonOnClick={handleButtonNewGame}>New game</Button>
+            {
+                isPlayerTwoComputer
+              ? null
+              : 
+                <Button 
+                  buttonOnClick={handleButtonGameSwitchPlayerTurn} 
+                  disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+                >
+                  Hand over
+                </Button>
+            }
             <GameboardShipStats 
               gameboard={gameboardPlayerTwo}
               ships={ships}
@@ -587,6 +635,7 @@ export const Game = () => {
                 isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
                 isGameOver={isGameOver}
+                gameboardPreGameActive={gameboardPreGameActive}
               />
             </div>
             <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
@@ -691,6 +740,7 @@ export const Game = () => {
                 isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
                 isGameOver={isGameOver}
+                gameboardPreGameActive={gameboardPreGameActive}
               />
             </div>
             <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
@@ -738,6 +788,7 @@ export const Game = () => {
                 isPlayerTwoComputer={isPlayerTwoComputer}
                 isGameStarted={isGameStarted}
                 isGameOver={isGameOver}
+                gameboardPreGameActive={gameboardPreGameActive}
               />
             </div>
             <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>

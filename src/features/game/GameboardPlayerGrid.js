@@ -11,11 +11,13 @@ export const GameboardPlayerGrid = ({
   isPlayerOne,
   isPlayerTwoComputer,
   isGameStarted,
-  isGameOver
+  isGameOver,
+  gameboardPreGameActive,
+  disablePlayerMove
 }) => {
   return (
     <div 
-      className={`gameboard ${isPlayerTurn && isGameStarted ? "" : isGameStarted ? "gameboard-inactive" : isGameOver ? "gameboard-inactive" : ""} gameboard-player`}
+      className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "" : isGameStarted ? "gameboard-inactive" : isGameOver ? "gameboard-inactive" : gameboardPreGameActive ? "" : "gameboard-inactive"} gameboard-player`}
       style={{
         gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
         gridTemplateRows: `repeat(${amountOfRows}, auto)`,
@@ -48,7 +50,7 @@ export const GameboardPlayerGrid = ({
               : ""
             }`
           } 
-          onClick={handlePlayerMove}
+          onClick={disablePlayerMove ? null : handlePlayerMove}
         >
         </div>
       ))}
