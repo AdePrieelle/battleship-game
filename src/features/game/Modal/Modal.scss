@@ -18,14 +18,18 @@
   display: block;
   width: 500px;
   max-width: calc(100% - 40px);
-  height: 200px;
-  max-height: 100%;
+  // min-height: 200px;
+  max-height: calc(100% - 40px);
   transform: translate(-50%, -50%);
+  transform-origin: top left;
   background: $modal-bg-color;
   // background: url("../../../images/battleship-image.webp") no-repeat;
   // background-size: 100% 100%;
   box-shadow: $modal-box-shadow;
   border-radius: $modal-border-radius;
+  overflow: auto;
+  animation: showModal 400ms ease;
+  animation-direction: alternate;
   .modal-content {
     display: flex;
     flex-direction: column;
@@ -56,5 +60,17 @@
     color: $modal-close-button-color;
     background: $modal-close-button-bg-color;
     border: 0;
+  }
+}
+
+@keyframes showModal {
+  0% {
+    opacity: 1;
+    transform: scale(0.8) translate(-50%, -50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
   }
 }
