@@ -10,10 +10,8 @@ import { generateRandomShipPosition } from '../generateRandomShipPosition/genera
 import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
 import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
 
-export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, callback) => {
+export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, callback) => {
   const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);
-  const horizontalDirectionValue = "horizontal";
-  const verticalDirectionValue = "vertical";
   const maxAmountTimesTriedToPlaceShip = 25;
   const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
 

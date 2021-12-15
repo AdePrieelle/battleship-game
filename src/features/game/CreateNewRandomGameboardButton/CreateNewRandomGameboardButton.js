@@ -9,12 +9,14 @@ export const CreateNewRandomGameboardButton = ({
   generateRandomValidShipPosition,
   ships,
   isGameStarted,
-  isGameOver
+  isGameOver,
+  horizontalDirectionValue,
+  verticalDirectionValue
 }) => {
   return (
     <div 
       className={`ui-button ${isGameStarted || isGameOver ? "ui-button-disabled" : ""} create-new-random-gameboard-button`}
-      onClick={() => setGameboardComputerInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}
+      onClick={() => setGameboardComputerInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))}
     >
       <div className="create-new-random-gameboard-button-text-icon-wrapper">
         <div className="create-new-random-gameboard-button-text">

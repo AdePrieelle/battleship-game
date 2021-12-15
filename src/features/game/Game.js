@@ -31,8 +31,16 @@ import { Modal } from './Modal/Modal';
 import { Button } from './Button/Button';
 import { ModalButtonsWrapper } from './ModalButtonsWrapper/ModalButtonsWrapper';
 import { ModalMessage } from './ModalMessage/ModalMessage';
+import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 // import { NextButton } from './NextButton/NextButton';
 import './Game.scss';
+import { createGameboard } from './createGameboard/createGameboard';
+import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
+import { isValidShipPosition } from './isValidShipPosition/isValidShipPosition';
+import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from './checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
+import { getFirstDigitOfNumber } from './getFirstDigitOfNumber/getFirstDigitOfNumber';
+import { checkIfShipIsNotSurroundedByAnotherShip } from './checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip';
+import { calculateShipCoords } from './calculateShipCoords/calculateShipCoords';
 
 export const Game = () => {
   const amountOfRows = 10;
@@ -41,6 +49,8 @@ export const Game = () => {
   const hitGameboardValue = "hit";
   const missGameboardValue = "miss";
   const freemissGameboardValue = "freemiss";
+  const horizontalDirectionValue = "horizontal";
+  const verticalDirectionValue = "vertical";
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
   const [computerHitTurnAgainCount, setComputerHitTurnAgainCount] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
@@ -102,10 +112,10 @@ export const Game = () => {
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
   ]);
   
-  // const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+  // const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard));
   const [gameboardPlayerOne, setGameboardPlayerOne] = useState([]);
 
-  // const [gameboardPlayerTwoInitialState, setGameboardPlayerTwoInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+  // const [gameboardPlayerTwoInitialState, setGameboardPlayerTwoInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard));
   const [gameboardPlayerTwo, setGameboardPlayerTwo] = useState([]);
 
   useEffect(() => {
@@ -265,8 +275,8 @@ export const Game = () => {
   const resetRandomGameboards = () => {
     setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
     setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
-    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
-    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard));
+    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard));
+    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard));
   }
   
   const handleIsGameOver = (isComputer) => {
@@ -434,421 +444,480 @@ export const Game = () => {
 
 
   return (
-    <div className="game">
-      {
-          (
-               !showModalPreGamePlayerOneNameAgainstComputer
-            && !showModalPreGamePlayerOneGameboardAgainstComputer
-            && !showModalPreGamePlayerOneName
-            && !showModalPreGamePlayerTwoName
-            && !showModalPreGameSwitchTurnToPlayerOneGameboard
-            && !showModalPreGamePlayerOneGameboard
-            && !showModalPreGamePlayerOneGameboard
-            && !showModalPreGameSwitchTurnToPlayerTwoGameboard 
-            && !showModalPreGamePlayerTwoGameboard
-            && !showModalPreGameSwitchTurnToPlayerOne 
-            && !showModalGameSwitchTurnToPlayerTwo 
-            && !showModalGameSwitchTurnToPlayerOne
-          )
-        ? 
-          <>
-            <div className="gameboard-wrapper">
-              {
-                  (!isPlayerOneTurn && !isPlayerTwoComputer)
-                ? 
-                  <>
-                    <GameboardPlayerGrid 
-                      gameboardPlayer={gameboardPlayerOne}
-                      amountOfColumns={amountOfColumns}
-                      amountOfRows={amountOfRows}
-                      hitGameboardValue={hitGameboardValue}
-                      missGameboardValue={missGameboardValue}
-                      freemissGameboardValue={freemissGameboardValue}
-                      emptyGameboardValue={emptyGameboardValue}
-                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
-                      isPlayerTurn={!isPlayerOneTurn}
-                      isPlayerOne={false}
-                      isPlayerTwoComputer={isPlayerTwoComputer}
-                      isGameStarted={isGameStarted}
-                      isGameOver={isGameOver}
-                      gameboardPreGameActive={gameboardPreGameActive}
-                      disablePlayerMove={disablePlayerMove}
-                    />
-                    <GameboardPlayerGrid 
-                      gameboardPlayer={gameboardPlayerTwo}
-                      amountOfColumns={amountOfColumns}
-                      amountOfRows={amountOfRows}
-                      hitGameboardValue={hitGameboardValue}
-                      missGameboardValue={missGameboardValue}
-                      freemissGameboardValue={freemissGameboardValue}
-                      emptyGameboardValue={emptyGameboardValue}
-                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
-                      isPlayerTurn={isPlayerOneTurn}
-                      isPlayerOne={true}
-                      isPlayerTwoComputer={isPlayerTwoComputer}
-                      isGameStarted={isGameStarted}
-                      isGameOver={isGameOver}
-                      gameboardPreGameActive={gameboardPreGameActive}
-                      disablePlayerMove={disablePlayerMove}
-                    />
-                  </>
-              :
-                <>
-                  <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerTwo}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
-                    isPlayerTurn={isPlayerOneTurn}
-                    isPlayerOne={true}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                    gameboardPreGameActive={gameboardPreGameActive}
-                    disablePlayerMove={disablePlayerMove}
-                  />
-                  <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerOne}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
-                    isPlayerTurn={!isPlayerOneTurn}
-                    isPlayerOne={false}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                    gameboardPreGameActive={gameboardPreGameActive}
-                    disablePlayerMove={disablePlayerMove}
-                  />
-                </>
-              }
-            </div>
-            <Button buttonOnClick={handleButtonNewGame}>New game</Button>
-            {
-                isPlayerTwoComputer
-              ? null
-              : 
-                <Button 
-                  buttonOnClick={handleButtonGameSwitchPlayerTurn} 
-                  disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
-                >
-                  Hand over
-                </Button>
-            }
-            <GameboardShipStats 
-              gameboard={gameboardPlayerTwo}
-              ships={ships}
-            />
-            <GameboardShipStats 
-              gameboard={gameboardPlayerOne}
-              ships={ships}
-            />
-          </>
-        : null 
-      }
+      <div className="game">
+        <div className="gameboard-wrapper">
+          <GameboardPlayerGridShipPlacement
+            gameboardPlayer={gameboardPlayerOne}
+            amountOfColumns={amountOfColumns}
+            amountOfRows={amountOfRows}
+            hitGameboardValue={hitGameboardValue}
+            missGameboardValue={missGameboardValue}
+            freemissGameboardValue={freemissGameboardValue}
+            emptyGameboardValue={emptyGameboardValue}
+            handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+            isPlayerTurn={!isPlayerOneTurn}
+            isPlayerOne={false}
+            isPlayerTwoComputer={isPlayerTwoComputer}
+            isGameStarted={isGameStarted}
+            isGameOver={isGameOver}
+            gameboardPreGameActive={gameboardPreGameActive}
+            disablePlayerMove={disablePlayerMove}
+            ships={ships}
+            createGameboard={createGameboard}
+            gameboardPlayerInitialState={gameboardPlayerOneInitialState}
+            setGameboardPlayerInitialState={setGameboardPlayerOneInitialState}
+            sortArrayOfObjectsBasedOnAPropertyValue={sortArrayOfObjectsBasedOnAPropertyValue}
+            isValidShipPosition={isValidShipPosition}
+            isEmptyGameboardCell={isEmptyGameboardCell}
+            checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds={checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds}
+            horizontalDirectionValue={horizontalDirectionValue}
+            verticalDirectionValue={verticalDirectionValue}
+            getFirstDigitOfNumber={getFirstDigitOfNumber}
+            checkIfShipIsNotSurroundedByAnotherShip={checkIfShipIsNotSurroundedByAnotherShip}
+            calculateShipCoords={calculateShipCoords}
+          />
+        </div>
+      </div>
+    // <div className="game">
+    //   {
+    //       (
+    //            !showModalPreGamePlayerOneNameAgainstComputer
+    //         && !showModalPreGamePlayerOneGameboardAgainstComputer
+    //         && !showModalPreGamePlayerOneName
+    //         && !showModalPreGamePlayerTwoName
+    //         && !showModalPreGameSwitchTurnToPlayerOneGameboard
+    //         && !showModalPreGamePlayerOneGameboard
+    //         && !showModalPreGamePlayerOneGameboard
+    //         && !showModalPreGameSwitchTurnToPlayerTwoGameboard 
+    //         && !showModalPreGamePlayerTwoGameboard
+    //         && !showModalPreGameSwitchTurnToPlayerOne 
+    //         && !showModalGameSwitchTurnToPlayerTwo 
+    //         && !showModalGameSwitchTurnToPlayerOne
+    //       )
+    //     ? 
+    //       <>
+    //         <div className="gameboard-wrapper">
+    //           {
+    //               (!isPlayerOneTurn && !isPlayerTwoComputer)
+    //             ? 
+    //               <>
+    //                 <GameboardPlayerGrid 
+    //                   gameboardPlayer={gameboardPlayerOne}
+    //                   amountOfColumns={amountOfColumns}
+    //                   amountOfRows={amountOfRows}
+    //                   hitGameboardValue={hitGameboardValue}
+    //                   missGameboardValue={missGameboardValue}
+    //                   freemissGameboardValue={freemissGameboardValue}
+    //                   emptyGameboardValue={emptyGameboardValue}
+    //                   handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+    //                   isPlayerTurn={!isPlayerOneTurn}
+    //                   isPlayerOne={false}
+    //                   isPlayerTwoComputer={isPlayerTwoComputer}
+    //                   isGameStarted={isGameStarted}
+    //                   isGameOver={isGameOver}
+    //                   gameboardPreGameActive={gameboardPreGameActive}
+    //                   disablePlayerMove={disablePlayerMove}
+    //                 />
+    //                 <GameboardPlayerGrid 
+    //                   gameboardPlayer={gameboardPlayerTwo}
+    //                   amountOfColumns={amountOfColumns}
+    //                   amountOfRows={amountOfRows}
+    //                   hitGameboardValue={hitGameboardValue}
+    //                   missGameboardValue={missGameboardValue}
+    //                   freemissGameboardValue={freemissGameboardValue}
+    //                   emptyGameboardValue={emptyGameboardValue}
+    //                   handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+    //                   isPlayerTurn={isPlayerOneTurn}
+    //                   isPlayerOne={true}
+    //                   isPlayerTwoComputer={isPlayerTwoComputer}
+    //                   isGameStarted={isGameStarted}
+    //                   isGameOver={isGameOver}
+    //                   gameboardPreGameActive={gameboardPreGameActive}
+    //                   disablePlayerMove={disablePlayerMove}
+    //                 />
+    //               </>
+    //           :
+    //             <>
+    //               <GameboardPlayerGrid 
+    //                 gameboardPlayer={gameboardPlayerTwo}
+    //                 amountOfColumns={amountOfColumns}
+    //                 amountOfRows={amountOfRows}
+    //                 hitGameboardValue={hitGameboardValue}
+    //                 missGameboardValue={missGameboardValue}
+    //                 freemissGameboardValue={freemissGameboardValue}
+    //                 emptyGameboardValue={emptyGameboardValue}
+    //                 handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+    //                 isPlayerTurn={isPlayerOneTurn}
+    //                 isPlayerOne={true}
+    //                 isPlayerTwoComputer={isPlayerTwoComputer}
+    //                 isGameStarted={isGameStarted}
+    //                 isGameOver={isGameOver}
+    //                 gameboardPreGameActive={gameboardPreGameActive}
+    //                 disablePlayerMove={disablePlayerMove}
+    //               />
+    //               <GameboardPlayerGrid 
+    //                 gameboardPlayer={gameboardPlayerOne}
+    //                 amountOfColumns={amountOfColumns}
+    //                 amountOfRows={amountOfRows}
+    //                 hitGameboardValue={hitGameboardValue}
+    //                 missGameboardValue={missGameboardValue}
+    //                 freemissGameboardValue={freemissGameboardValue}
+    //                 emptyGameboardValue={emptyGameboardValue}
+    //                 handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+    //                 isPlayerTurn={!isPlayerOneTurn}
+    //                 isPlayerOne={false}
+    //                 isPlayerTwoComputer={isPlayerTwoComputer}
+    //                 isGameStarted={isGameStarted}
+    //                 isGameOver={isGameOver}
+    //                 gameboardPreGameActive={gameboardPreGameActive}
+    //                 disablePlayerMove={disablePlayerMove}
+    //               />
+    //             </>
+    //           }
+    //         </div>
+    //         <Button buttonOnClick={handleButtonNewGame}>New game</Button>
+    //         {
+    //             isPlayerTwoComputer
+    //           ? null
+    //           : 
+    //             <Button 
+    //               buttonOnClick={handleButtonGameSwitchPlayerTurn} 
+    //               disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+    //             >
+    //               Hand over
+    //             </Button>
+    //         }
+    //         <GameboardShipStats 
+    //           gameboard={gameboardPlayerTwo}
+    //           ships={ships}
+    //         />
+    //         <GameboardShipStats 
+    //           gameboard={gameboardPlayerOne}
+    //           ships={ships}
+    //         />
+    //       </>
+    //     : null 
+    //   }
       
-      {/* showModalGameOver */}
-      {
-          showModalGameOver
-        ? <Modal 
-            setShowModal={setShowModalGameOver}
-          >
-            <ModalMessage 
-              modalMessage={`${playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!`}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleButtonNewGame}>Play again</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {/* showModalGameOver */}
+    //   {
+    //       showModalGameOver
+    //     ? <Modal 
+    //         setShowModal={setShowModalGameOver}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={`${playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!`}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleButtonNewGame}>Play again</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {/* showModalPickOpponent */}
-      {
-          showModalPickOpponent
-        ? <Modal 
-            setShowModal={setShowModalPickOpponent}
-          >
-            <ModalMessage 
-              modalMessage={"Pick your opponent"}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPickOpponentComputer}>Computer</Button>
-              <Button buttonOnClick={handleModalPickOpponentPlayer}>Player</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {/* showModalPickOpponent */}
+    //   {
+    //       showModalPickOpponent
+    //     ? <Modal 
+    //         setShowModal={setShowModalPickOpponent}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={"Pick your opponent"}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPickOpponentComputer}>Computer</Button>
+    //           <Button buttonOnClick={handleModalPickOpponentPlayer}>Player</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {
-          showModalPreGamePlayerOneNameAgainstComputer
-        ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerOneNameAgainstComputer}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 1's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerOneName}
-                    onChange={(e) => setPlayerOneName(e.target.value)}
-                  />
-                </>
-              }
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {
+    //       showModalPreGamePlayerOneNameAgainstComputer
+    //     ? 
+    //       <Modal 
+    //         setShowModal={setShowModalPreGamePlayerOneNameAgainstComputer}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={
+    //             <>
+    //               <h1>{`Enter Player 1's name`}</h1>
+    //               <input 
+    //                 type="text" 
+    //                 className="input-name"
+    //                 value={playerOneName}
+    //                 onChange={(e) => setPlayerOneName(e.target.value)}
+    //               />
+    //             </>
+    //           }
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {
-          showModalPreGamePlayerOneGameboardAgainstComputer
-        ? 
-          <>
-            <h1>{`${playerOneName}'s ship placements`}</h1>
-            <div className="gameboard-wrapper">
-              <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerOne}
-                amountOfColumns={amountOfColumns}
-                amountOfRows={amountOfRows}
-                hitGameboardValue={hitGameboardValue}
-                missGameboardValue={missGameboardValue}
-                freemissGameboardValue={freemissGameboardValue}
-                emptyGameboardValue={emptyGameboardValue}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
-                isPlayerTurn={!isPlayerOneTurn}
-                isPlayerOne={false}
-                isPlayerTwoComputer={isPlayerTwoComputer}
-                isGameStarted={isGameStarted}
-                isGameOver={isGameOver}
-                gameboardPreGameActive={gameboardPreGameActive}
-              />
-            </div>
-            <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
-              <div className="button-text-wrapper">
-                <div>Randomise</div>
-                <i className="fas fa-sync-alt randomise-icon"></i>
-              </div>
-            </Button>
-            <Button buttonOnClick={handleModalPreGamePlayerOneGameboardAgainstComputer}>Start game</Button>
-          </>
-      : null
-      }
+    //   {
+    //       showModalPreGamePlayerOneGameboardAgainstComputer
+    //     ? 
+    //       <>
+    //         <h1>{`${playerOneName}'s ship placements`}</h1>
+    //         <div className="gameboard-wrapper">
+    //           <GameboardPlayerGrid 
+    //             gameboardPlayer={gameboardPlayerOne}
+    //             amountOfColumns={amountOfColumns}
+    //             amountOfRows={amountOfRows}
+    //             hitGameboardValue={hitGameboardValue}
+    //             missGameboardValue={missGameboardValue}
+    //             freemissGameboardValue={freemissGameboardValue}
+    //             emptyGameboardValue={emptyGameboardValue}
+    //             handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+    //             isPlayerTurn={!isPlayerOneTurn}
+    //             isPlayerOne={false}
+    //             isPlayerTwoComputer={isPlayerTwoComputer}
+    //             isGameStarted={isGameStarted}
+    //             isGameOver={isGameOver}
+    //             gameboardPreGameActive={gameboardPreGameActive}
+    //             disablePlayerMove={disablePlayerMove}
+    //           />
+    //           {/* <GameboardPlayerGridShipPlacement
+    //             gameboardPlayer={gameboardPlayerOne}
+    //             amountOfColumns={amountOfColumns}
+    //             amountOfRows={amountOfRows}
+    //             hitGameboardValue={hitGameboardValue}
+    //             missGameboardValue={missGameboardValue}
+    //             freemissGameboardValue={freemissGameboardValue}
+    //             emptyGameboardValue={emptyGameboardValue}
+    //             handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+    //             isPlayerTurn={!isPlayerOneTurn}
+    //             isPlayerOne={false}
+    //             isPlayerTwoComputer={isPlayerTwoComputer}
+    //             isGameStarted={isGameStarted}
+    //             isGameOver={isGameOver}
+    //             gameboardPreGameActive={gameboardPreGameActive}
+    //             disablePlayerMove={disablePlayerMove}
+    //             ships={ships}
+    //             createGameboard={createGameboard}
+    //             gameboardPlayerInitialState={gameboardPlayerOneInitialState}
+    //             setGameboardPlayerInitialState={setGameboardPlayerOneInitialState}
+    //             sortArrayOfObjectsBasedOnAPropertyValue={sortArrayOfObjectsBasedOnAPropertyValue}
+    //           /> */}
+    //         </div>
+    //         <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))}>
+    //           <div className="button-text-wrapper">
+    //             <div>Randomise</div>
+    //             <i className="fas fa-sync-alt randomise-icon"></i>
+    //           </div>
+    //         </Button>
+    //         <Button buttonOnClick={handleModalPreGamePlayerOneGameboardAgainstComputer}>Start game</Button>
+    //       </>
+    //   : null
+    //   }
 
-      {
-          showModalPreGamePlayerOneName
-        ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerOneName}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 1's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerOneName}
-                    onChange={(e) => setPlayerOneName(e.target.value)}
-                  />
-                </>
-              }
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneName}>Next</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {
+    //       showModalPreGamePlayerOneName
+    //     ? 
+    //       <Modal 
+    //         setShowModal={setShowModalPreGamePlayerOneName}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={
+    //             <>
+    //               <h1>{`Enter Player 1's name`}</h1>
+    //               <input 
+    //                 type="text" 
+    //                 className="input-name"
+    //                 value={playerOneName}
+    //                 onChange={(e) => setPlayerOneName(e.target.value)}
+    //               />
+    //             </>
+    //           }
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPreGamePlayerOneName}>Next</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {
-          showModalPreGamePlayerTwoName
-        ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerTwoName}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 2's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerTwoName}
-                    onChange={(e) => setPlayerTwoName(e.target.value)}
-                  />
-                </>
-              }
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerTwoName}>Next</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {
+    //       showModalPreGamePlayerTwoName
+    //     ? 
+    //       <Modal 
+    //         setShowModal={setShowModalPreGamePlayerTwoName}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={
+    //             <>
+    //               <h1>{`Enter Player 2's name`}</h1>
+    //               <input 
+    //                 type="text" 
+    //                 className="input-name"
+    //                 value={playerTwoName}
+    //                 onChange={(e) => setPlayerTwoName(e.target.value)}
+    //               />
+    //             </>
+    //           }
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPreGamePlayerTwoName}>Next</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {
-          showModalPreGameSwitchTurnToPlayerOneGameboard
-        ? 
-          <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerOneGameboard}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerOneName}`}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>Next</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null 
-      }
+    //   {
+    //       showModalPreGameSwitchTurnToPlayerOneGameboard
+    //     ? 
+    //       <Modal 
+    //         setShowModal={setShowModalPreGameSwitchTurnToPlayerOneGameboard}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={`Hand over to ${playerOneName}`}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>Next</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null 
+    //   }
 
-      {
-          showModalPreGamePlayerOneGameboard
-        ? 
-          <>
-            <h1>{`${playerOneName}'s ship placements`}</h1>
-            <div className="gameboard-wrapper">
-              <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerOne}
-                amountOfColumns={amountOfColumns}
-                amountOfRows={amountOfRows}
-                hitGameboardValue={hitGameboardValue}
-                missGameboardValue={missGameboardValue}
-                freemissGameboardValue={freemissGameboardValue}
-                emptyGameboardValue={emptyGameboardValue}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
-                isPlayerTurn={!isPlayerOneTurn}
-                isPlayerOne={false}
-                isPlayerTwoComputer={isPlayerTwoComputer}
-                isGameStarted={isGameStarted}
-                isGameOver={isGameOver}
-                gameboardPreGameActive={gameboardPreGameActive}
-              />
-            </div>
-            <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
-              <div className="button-text-wrapper">
-                <div>Randomise</div>
-                <i className="fas fa-sync-alt randomise-icon"></i>
-              </div>
-            </Button>
-            <Button buttonOnClick={handleModalPreGamePlayerOneGameboard}>Next</Button>
-          </>
-        : null
-      }
-      {
-          showModalPreGameSwitchTurnToPlayerTwoGameboard
-        ? <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerTwoName}`}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>Next</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
-      {
-          showModalPreGamePlayerTwoGameboard
-        ? 
-          <>
-            <h1>{`${playerTwoName}'s ship placements`}</h1>
-            <div className="gameboard-wrapper">
-              <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerTwo}
-                amountOfColumns={amountOfColumns}
-                amountOfRows={amountOfRows}
-                hitGameboardValue={hitGameboardValue}
-                missGameboardValue={missGameboardValue}
-                freemissGameboardValue={freemissGameboardValue}
-                emptyGameboardValue={emptyGameboardValue}
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
-                isPlayerTurn={isPlayerOneTurn}
-                isPlayerOne={true}
-                isPlayerTwoComputer={isPlayerTwoComputer}
-                isGameStarted={isGameStarted}
-                isGameOver={isGameOver}
-                gameboardPreGameActive={gameboardPreGameActive}
-              />
-            </div>
-            <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, createRandomGameboard))}>
-              <div className="button-text-wrapper">
-                <div>Randomise</div>
-                <i className="fas fa-sync-alt randomise-icon"></i>
-              </div>
-            </Button>
-            <Button buttonOnClick={handleModalPreGamePlayerTwoGameboard}>Next</Button>
-          </>
-        : null
-      }
-      {
-          showModalPreGameSwitchTurnToPlayerOne
-        ? <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerOne}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerOneName}`}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerOne}>Start game</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {
+    //       showModalPreGamePlayerOneGameboard
+    //     ? 
+    //       <>
+    //         <h1>{`${playerOneName}'s ship placements`}</h1>
+    //         <div className="gameboard-wrapper">
+    //           <GameboardPlayerGrid 
+    //             gameboardPlayer={gameboardPlayerOne}
+    //             amountOfColumns={amountOfColumns}
+    //             amountOfRows={amountOfRows}
+    //             hitGameboardValue={hitGameboardValue}
+    //             missGameboardValue={missGameboardValue}
+    //             freemissGameboardValue={freemissGameboardValue}
+    //             emptyGameboardValue={emptyGameboardValue}
+    //             handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+    //             isPlayerTurn={!isPlayerOneTurn}
+    //             isPlayerOne={false}
+    //             isPlayerTwoComputer={isPlayerTwoComputer}
+    //             isGameStarted={isGameStarted}
+    //             isGameOver={isGameOver}
+    //             gameboardPreGameActive={gameboardPreGameActive}
+    //             disablePlayerMove={disablePlayerMove}
+    //           />
+    //         </div>
+    //         <Button buttonOnClick={() => setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))}>
+    //           <div className="button-text-wrapper">
+    //             <div>Randomise</div>
+    //             <i className="fas fa-sync-alt randomise-icon"></i>
+    //           </div>
+    //         </Button>
+    //         <Button buttonOnClick={handleModalPreGamePlayerOneGameboard}>Next</Button>
+    //       </>
+    //     : null
+    //   }
+    //   {
+    //       showModalPreGameSwitchTurnToPlayerTwoGameboard
+    //     ? <Modal 
+    //         setShowModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={`Hand over to ${playerTwoName}`}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>Next</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
+    //   {
+    //       showModalPreGamePlayerTwoGameboard
+    //     ? 
+    //       <>
+    //         <h1>{`${playerTwoName}'s ship placements`}</h1>
+    //         <div className="gameboard-wrapper">
+    //           <GameboardPlayerGrid 
+    //             gameboardPlayer={gameboardPlayerTwo}
+    //             amountOfColumns={amountOfColumns}
+    //             amountOfRows={amountOfRows}
+    //             hitGameboardValue={hitGameboardValue}
+    //             missGameboardValue={missGameboardValue}
+    //             freemissGameboardValue={freemissGameboardValue}
+    //             emptyGameboardValue={emptyGameboardValue}
+    //             handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+    //             isPlayerTurn={isPlayerOneTurn}
+    //             isPlayerOne={true}
+    //             isPlayerTwoComputer={isPlayerTwoComputer}
+    //             isGameStarted={isGameStarted}
+    //             isGameOver={isGameOver}
+    //             gameboardPreGameActive={gameboardPreGameActive}
+    //             disablePlayerMove={disablePlayerMove}
+    //           />
+    //         </div>
+    //         <Button buttonOnClick={() => setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))}>
+    //           <div className="button-text-wrapper">
+    //             <div>Randomise</div>
+    //             <i className="fas fa-sync-alt randomise-icon"></i>
+    //           </div>
+    //         </Button>
+    //         <Button buttonOnClick={handleModalPreGamePlayerTwoGameboard}>Next</Button>
+    //       </>
+    //     : null
+    //   }
+    //   {
+    //       showModalPreGameSwitchTurnToPlayerOne
+    //     ? <Modal 
+    //         setShowModal={setShowModalPreGameSwitchTurnToPlayerOne}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={`Hand over to ${playerOneName}`}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerOne}>Start game</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {
-          showModalGameSwitchTurnToPlayerTwo
-        ? <Modal 
-            setShowModal={setShowModalGameSwitchTurnToPlayerTwo}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerTwoName}`}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerTwo}>Go</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {
+    //       showModalGameSwitchTurnToPlayerTwo
+    //     ? <Modal 
+    //         setShowModal={setShowModalGameSwitchTurnToPlayerTwo}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={`Hand over to ${playerTwoName}`}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalGameSwitchTurnToPlayerTwo}>Go</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-      {
-          showModalGameSwitchTurnToPlayerOne
-        ? <Modal 
-            setShowModal={setShowModalGameSwitchTurnToPlayerOne}
-            HideCloseButton={true}
-          >
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerOneName}`}
-            />
-            <ModalButtonsWrapper>
-              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Go</Button>
-            </ModalButtonsWrapper>
-          </Modal>
-        : null
-      }
+    //   {
+    //       showModalGameSwitchTurnToPlayerOne
+    //     ? <Modal 
+    //         setShowModal={setShowModalGameSwitchTurnToPlayerOne}
+    //         HideCloseButton={true}
+    //       >
+    //         <ModalMessage 
+    //           modalMessage={`Hand over to ${playerOneName}`}
+    //         />
+    //         <ModalButtonsWrapper>
+    //           <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Go</Button>
+    //         </ModalButtonsWrapper>
+    //       </Modal>
+    //     : null
+    //   }
 
-    </div>
+    // </div>
   )
 }
