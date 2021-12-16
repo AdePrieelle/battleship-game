@@ -24,4 +24,7 @@
 
 .button-disabled {
   opacity: 0.6;
+  &:active {
+    scale: 1;
+  }
 }

@@ -444,8 +444,6 @@ export const Game = () => {
 
 
   return (
-      <div className="game">
-        <div className="gameboard-wrapper">
           <GameboardPlayerGridShipPlacement
             gameboardPlayer={gameboardPlayerOne}
             amountOfColumns={amountOfColumns}
@@ -476,8 +474,6 @@ export const Game = () => {
             checkIfShipIsNotSurroundedByAnotherShip={checkIfShipIsNotSurroundedByAnotherShip}
             calculateShipCoords={calculateShipCoords}
           />
-        </div>
-      </div>
     // <div className="game">
     //   {
     //       (
