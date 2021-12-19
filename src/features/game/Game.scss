@@ -33,11 +33,13 @@
         background-color: $gameboard-ship-bg-color;
       }
       .hovered-valid-ship-position {
-        background-color: $gameboard-ship-bg-color;
+        // background-color: $gameboard-ship-bg-color;
+        background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
       }
       .hovered-invalid-ship-position {
-        // background-color: $gameboard-hit-bg-color;
-        cursor: not-allowed;
+        // background-color: red;
+        background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
+        // cursor: not-allowed;
       }
     }
     .gameboard-inactive {

@@ -19,3 +19,8 @@ test("check if startIndex with the direction vertical generate ship coords that 
   const mockGetFirstDigitOfNumber = jest.fn(() => 7);
   expect(checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(79, { name: "c1", shipLength: 4}, "vertical", "horizontal", "vertical", mockGetFirstDigitOfNumber)).toBe(false);
 })
+
+test("check if startIndex with a single digit and the direction vertical generate ship coords that aren't placed out of bounds in the gameboard works correctly", () => {
+  const mockGetFirstDigitOfNumber = jest.fn(() => 9);
+  expect(checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(9, { name: "c1", shipLength: 4}, "vertical", "horizontal", "vertical", mockGetFirstDigitOfNumber)).toBe(true);
+})

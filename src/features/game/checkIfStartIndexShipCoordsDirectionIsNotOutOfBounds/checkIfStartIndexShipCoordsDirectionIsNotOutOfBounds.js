@@ -8,7 +8,12 @@ export const checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds = (startIndex,
   }
 
   if (direction === verticalDirectionValue) {
-    const firstDigitOfStartIndex = getFirstDigitOfNumber(startIndex)
+    let firstDigitOfStartIndex;
+    if (startIndex < 10) {
+      firstDigitOfStartIndex = 0;
+    } else {
+      firstDigitOfStartIndex = getFirstDigitOfNumber(startIndex)
+    }
     if (firstDigitOfStartIndex + (ship.shipLength - 1) <= 9) {
       return true;
     }
