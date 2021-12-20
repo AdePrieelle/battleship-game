@@ -1,36 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./Button/Button";
 import { replaceAllSpecificArrayValuesWithNewValue } from './replaceAllSpecificArrayValuesWithNewValue/replaceAllSpecificArrayValuesWithNewValue';
+import { createRandomGameboard } from "./createRandomGameboard/createRandomGameboard";
+import { generateRandomValidShipPosition } from "./generateRandomValidShipPosition/generateRandomValidShipPosition";
+import { ships } from "./ships";
+import { createGameboard } from "./createGameboard/createGameboard";
+import { sortArrayOfObjectsBasedOnAPropertyValue } from "./sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue";
+import { isValidShipPosition } from "./isValidShipPosition/isValidShipPosition";
+import { isEmptyGameboardCell } from "./isEmptyGameboardCell/isEmptyGameboardCell";
+import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from "./checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds";
+import { getFirstDigitOfNumber } from "./getFirstDigitOfNumber/getFirstDigitOfNumber";
+import { checkIfShipIsNotSurroundedByAnotherShip } from "./checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip";
+import { calculateShipCoords } from "./calculateShipCoords/calculateShipCoords";
 
 export const GameboardPlayerGridShipPlacement = ({ 
-  gameboardPlayer, 
   amountOfColumns, 
   amountOfRows, 
-  hitGameboardValue, 
-  missGameboardValue,
-  freemissGameboardValue,
   emptyGameboardValue,
-  handlePlayerMove,
-  isPlayerTurn,
-  isPlayerOne,
-  isPlayerTwoComputer,
-  isGameStarted,
-  isGameOver,
-  gameboardPreGameActive,
-  disablePlayerMove,
-  ships,
-  createGameboard,
-  gameboardPlayerInitialState,
-  setGameboardPlayerInitialState,
-  sortArrayOfObjectsBasedOnAPropertyValue,
-  isValidShipPosition,
-  isEmptyGameboardCell,
-  checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
   horizontalDirectionValue,
   verticalDirectionValue,
-  getFirstDigitOfNumber,
-  checkIfShipIsNotSurroundedByAnotherShip,
-  calculateShipCoords
+  setGameboardPlayerInitialState,
+  setShowModalPreGameGameboardPlayerGridShipPlacement,
+  handleStartGame,
+  isPlayerTwoComputer,
+  setNextModal = false
 }) => {
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, "empty");
 
@@ -41,6 +34,13 @@ export const GameboardPlayerGridShipPlacement = ({
   const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
 
   const [currentIndexShipToBePlaced, setCurrentIndexShipToBePlaced] = useState(0);
+  const [isAllShipsPlaced, setIsAllShipsPlaced] = useState(false);
+
+  useEffect(() => {
+    if (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length)) {
+      setIsAllShipsPlaced(true);
+    }
+  }, [currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder]);
 
   const toggleShipPlacementDirection = () => {
     if (shipPlacementDirection === horizontalDirectionValue) {
@@ -54,6 +54,7 @@ export const GameboardPlayerGridShipPlacement = ({
     setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementInitialState);
     setShipPlacementdirection(horizontalDirectionValue);
     setCurrentIndexShipToBePlaced(0);
+    setIsAllShipsPlaced(false);
   }
 
   const removeLastShipPlacementFromGameboard = () => {
@@ -64,11 +65,12 @@ export const GameboardPlayerGridShipPlacement = ({
     );
     setGameboardPlayerShipPlacement(removedLastShipPlacementFromGameboard);
   }
-
+  
   const undoLastShipPlacement = () => {
     if (currentIndexShipToBePlaced > 0) {
       removeLastShipPlacementFromGameboard();
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced - 1);
+      setIsAllShipsPlaced(false);
     }
   }
 
@@ -129,6 +131,8 @@ export const GameboardPlayerGridShipPlacement = ({
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced + 1);
 
     } else if (currentIndexShipToBePlaced === sortedShipsLengthDescendingOrder.length) {
+      setIsAllShipsPlaced(true);
+
       // set initial gameboard to this gameboard for player
       // go to next screen
     }
@@ -184,45 +188,64 @@ export const GameboardPlayerGridShipPlacement = ({
     }
 
     const shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validIdForShipLength, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
-    // const shipPlacementIsValid = isValidShipPosition(
-    //   isEmptyGameboardCell(gameboardPlayerShipPlacement, validIdForShipLength, emptyGameboardValue),
-    //   checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(validIdForShipLength, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
-    //   checkIfShipIsNotSurroundedByAnotherShip(gameboardPlayerShipPlacement, shipCoordsShipPlacement, emptyGameboardValue) 
-    // ) 
-    // console.log(shipPlacementIsValid);
-    // if (shipPlacementIsValid) {
-      // setHoveredIds(shipCoordsShipPlacement);
-    // }
+    
     setHoveredIds(shipCoordsShipPlacement);
   };
 
   const handleOnMouseLeave = (id) => {
     setHoveredIds([]);
   }
-  // console.log(hoveredIds);
+
+  const randomizeGameboardPlayerShipPlacement = () => {
+    setCurrentIndexShipToBePlaced(0);
+    setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))
+    setIsAllShipsPlaced(true);
+  }
+
+  const handleModalGameboardPlayerGridShipPlacement = () => {
+    setGameboardPlayerInitialState(gameboardPlayerShipPlacement);
+    setShowModalPreGameGameboardPlayerGridShipPlacement(false);
+    if (setNextModal) {
+      setNextModal(true);
+    }
+    if (isPlayerTwoComputer) {
+      handleStartGame();
+    }
+  }
 
   return (
     <>
       <div>
         {
-            (currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length)
+            ((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced)
           ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength}`
           : "All ships have been placed"
         }
       </div>
-      {/* <button onClick={toggleShipPlacementDirection}>{shipPlacementDirection}</button> */}
       <Button buttonOnClick={toggleShipPlacementDirection}>{shipPlacementDirection}</Button>
       <Button 
         buttonOnClick={resetGameboardPlayerShipPlacement}
-        disableButtonGameSwitchPlayerTurn={currentIndexShipToBePlaced === 0 ? true : false}
+        disableButton={
+            isAllShipsPlaced 
+          ? false
+          : currentIndexShipToBePlaced === 0 
+          ? true 
+          : false
+        }
       >
         Reset
       </Button>
       <Button 
         buttonOnClick={undoLastShipPlacement}
-        disableButtonGameSwitchPlayerTurn={currentIndexShipToBePlaced === 0 ? true : false}
+        disableButton={currentIndexShipToBePlaced === 0 ? true : false}
       >
         Undo
+      </Button>
+      <Button buttonOnClick={randomizeGameboardPlayerShipPlacement}>
+        <div className="button-text-wrapper">
+          <div>Randomise</div>
+          <i className="fas fa-sync-alt randomise-icon"></i>
+        </div>
       </Button>
       <div className="game">
         <div className="gameboard-wrapper">
@@ -238,26 +261,9 @@ export const GameboardPlayerGridShipPlacement = ({
                 key={id} 
                 id={id} 
                 className={`gameboard-cell ${
-                      gameboardPlayerShipPlacement[id] === hitGameboardValue 
-                    ? "hit" 
-                    : gameboardPlayerShipPlacement[id] === missGameboardValue 
-                    ? "miss" 
-                    : gameboardPlayerShipPlacement[id] === freemissGameboardValue 
-                    ? "freemiss" 
-                    : gameboardPlayerShipPlacement[id] === emptyGameboardValue
+                      gameboardPlayerShipPlacement[id] === emptyGameboardValue
                     ? "empty"
-                    // : "ship"
-                    : isGameOver
-                    ? "ship"
-                    : isPlayerOne && isPlayerTwoComputer 
-                    ? "" 
-                    : !isPlayerOne && isPlayerTwoComputer 
-                    ? "ship" 
-                    : !isPlayerTurn 
-                    ? "ship" 
-                    : !isGameStarted && !isGameOver
-                    ? "ship"
-                    : ""
+                    : "ship"
                   } ${
                       (hoveredIds.indexOf(+id) > -1)
                     ? isAValidShipPlacement(hoveredIds[0])
@@ -267,12 +273,12 @@ export const GameboardPlayerGridShipPlacement = ({
                   }`
                 } 
                 onClick={
-                    (currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length)
+                    ((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced)
                   ? (() => handleShipPlacementOnGameboard(+id))
                   : null
                 }
                 onMouseEnter={
-                    (currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length)
+                  ((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced)
                   ? () => handleOnMouseEnter(+id, currentIndexShipToBePlaced)
                   : null
                 }
@@ -283,6 +289,17 @@ export const GameboardPlayerGridShipPlacement = ({
           </div>
         </div>
       </div>
+
+      <Button 
+        buttonOnClick={handleModalGameboardPlayerGridShipPlacement}
+        disableButton={isAllShipsPlaced ? false : true}
+      >
+        {
+          isPlayerTwoComputer
+          ? "Start game"
+          : "Next"
+        }
+      </Button>
     </>
   );
 };

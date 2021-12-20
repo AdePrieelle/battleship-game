@@ -1,10 +1,10 @@
 import "./Button.scss";
 
-export const Button = ({ children, buttonOnClick, disableButtonGameSwitchPlayerTurn=false}) => {
+export const Button = ({ children, buttonOnClick, disableButton=false}) => {
   return (
     <button 
-      className={`${disableButtonGameSwitchPlayerTurn ? "button button-disabled" : "button"}`}
-      onClick={disableButtonGameSwitchPlayerTurn ? null : (() => buttonOnClick())}
+      className={`${disableButton ? "button button-disabled" : "button"}`}
+      onClick={disableButton ? null : (() => buttonOnClick())}
     >
       {children}
     </button>
