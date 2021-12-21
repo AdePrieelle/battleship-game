@@ -11,12 +11,12 @@ import { getAllIndexesOfAnArrayValue } from './getAllIndexesOfAnArrayValue/getAl
 import { getAvailableRandomGameboardComputerCellNumber } from './getAvailableRandomGameboardComputerCellNumber/getAvailableRandomGameboardComputerCellNumber';
 import { getGameboardAfterHitLogic } from './getGameboardAfterHitLogic/getGameboardAfterHitLogic';
 import { getGameboardAfterMissLogic } from './getGameboardAfterMissLogic/getGameboardAfterMissLogic';
-import { createRandomGameboard } from './createRandomGameboard/createRandomGameboard';
-import { generateRandomValidShipPosition } from './generateRandomValidShipPosition/generateRandomValidShipPosition';
+// import { createRandomGameboard } from './createRandomGameboard/createRandomGameboard';
+// import { generateRandomValidShipPosition } from './generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { ships } from './ships';
 import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
 import { GameboardPlayerGrid } from './GameboardPlayerGrid';
-import { GameboardComputerGrid } from './GameboardComputerGrid';
+// import { GameboardComputerGrid } from './GameboardComputerGrid';
 import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
 // import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
 // import { StartGameButton } from './StartGameButton/StartGameButton';
@@ -34,13 +34,13 @@ import { ModalMessage } from './ModalMessage/ModalMessage';
 import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 // import { NextButton } from './NextButton/NextButton';
 import './Game.scss';
-import { createGameboard } from './createGameboard/createGameboard';
-import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
-import { isValidShipPosition } from './isValidShipPosition/isValidShipPosition';
-import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from './checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
-import { getFirstDigitOfNumber } from './getFirstDigitOfNumber/getFirstDigitOfNumber';
-import { checkIfShipIsNotSurroundedByAnotherShip } from './checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip';
-import { calculateShipCoords } from './calculateShipCoords/calculateShipCoords';
+// import { createGameboard } from './createGameboard/createGameboard';
+// import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
+// import { isValidShipPosition } from './isValidShipPosition/isValidShipPosition';
+// import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from './checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
+// import { getFirstDigitOfNumber } from './getFirstDigitOfNumber/getFirstDigitOfNumber';
+// import { checkIfShipIsNotSurroundedByAnotherShip } from './checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip';
+// import { calculateShipCoords } from './calculateShipCoords/calculateShipCoords';
 
 export const Game = () => {
   const amountOfRows = 10;
@@ -300,6 +300,7 @@ export const Game = () => {
     setIsPlayerOneTurn(true);
     setComputerHitTurnAgainCount(0);
     setGameboardPreGameActive(false);
+    setDisablePlayerMove(false);
     setIsGameStarted(true);
   }
   
@@ -321,7 +322,8 @@ export const Game = () => {
   // names for players and computer
   const [playerOneName, setPlayerOneName] = useState("Player 1");
   const [playerTwoName, setPlayerTwoName] = useState("Player 2");
-  const [computerName, setComputerName] = useState("Computer");
+  // const [computerName, setComputerName] = useState("Computer");
+  const computerName = "Computer";
 
   // game over modal logic
   const [showModalGameOver, setShowModalGameOver] = useState(false);

@@ -26,15 +26,13 @@ export const GameboardPlayerGridShipPlacement = ({
   setNextModal = false
 }) => {
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, "empty");
-
   const [gameboardPlayerShipPlacement, setGameboardPlayerShipPlacement] = useState(gameboardPlayerShipPlacementInitialState);
   const [shipPlacementDirection, setShipPlacementdirection] = useState(horizontalDirectionValue);
-
-  // setGameboardPlayerInitialState(gameboardShipPlacement);
-  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
-
   const [currentIndexShipToBePlaced, setCurrentIndexShipToBePlaced] = useState(0);
   const [isAllShipsPlaced, setIsAllShipsPlaced] = useState(false);
+  const [hoveredIds, setHoveredIds] = useState([]);
+  
+  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
 
   useEffect(() => {
     if (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length)) {
@@ -74,74 +72,62 @@ export const GameboardPlayerGridShipPlacement = ({
     }
   }
 
-  const handleShipPlacementOnGameboard = (id) => {
-    let validIdForShipLength;
+  const getValidStartIdShipNotOutOfBounds = (id) => {
+    let validStartIdShipNotOutOfBounds;
+    let firstDigitOfStartIndex;
+    if (id < 10) {
+      firstDigitOfStartIndex = 0;
+    } else {
+      firstDigitOfStartIndex = getFirstDigitOfNumber(id)
+    };
+
     if (shipPlacementDirection === horizontalDirectionValue) {
-      let firstDigitOfStartIndex;
-      if (id < 10) {
-        firstDigitOfStartIndex = 0;
-      } else {
-        firstDigitOfStartIndex = getFirstDigitOfNumber(id)
-      };
-      console.log(firstDigitOfStartIndex);
       const lastIdOfRow = firstDigitOfStartIndex.toString() + 9;
       if ((+id + (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)) > lastIdOfRow) {
-        validIdForShipLength = (lastIdOfRow - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1));
+        validStartIdShipNotOutOfBounds = (lastIdOfRow - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1));
       } else {
-        validIdForShipLength = id
+        validStartIdShipNotOutOfBounds = id
       }
     }
 
     if (shipPlacementDirection === verticalDirectionValue) {
-      let firstDigitOfStartIndex;
-      if (id < 10) {
-        firstDigitOfStartIndex = 0;
-      } else {
-        firstDigitOfStartIndex = getFirstDigitOfNumber(id);
-      };
       const lastDigitOfstartIndex = id % 10;
       if ((firstDigitOfStartIndex + (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)) > 9) {
-        validIdForShipLength = +((9 - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)).toString() + lastDigitOfstartIndex);
+        validStartIdShipNotOutOfBounds = +((9 - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)).toString() + lastDigitOfstartIndex);
       } else {
-        validIdForShipLength = id
+        validStartIdShipNotOutOfBounds = id
       }
     }
-    let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validIdForShipLength, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
+
+    return validStartIdShipNotOutOfBounds;
+  }
+
+  const handleShipPlacementOnGameboard = (id) => {
+    const validStartIdShipNotOutOfBounds = getValidStartIdShipNotOutOfBounds(id);
+    let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
 
     // check if ship with id is valid ship position
     const shipPlacementIsValid = isValidShipPosition(
-      isEmptyGameboardCell(gameboardPlayerShipPlacement, validIdForShipLength, emptyGameboardValue),
-      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(validIdForShipLength, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
+      isEmptyGameboardCell(gameboardPlayerShipPlacement, validStartIdShipNotOutOfBounds, emptyGameboardValue),
+      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(validStartIdShipNotOutOfBounds, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
       checkIfShipIsNotSurroundedByAnotherShip(gameboardPlayerShipPlacement, shipCoordsShipPlacement, emptyGameboardValue) 
     )
 
     // if succesful placement
     if (shipPlacementIsValid) {
-      // setGameboardPlayerShipPlacement(placeShipOnGameboard(gameboardPlayerShipPlacement, id, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name));
-      
-      
       let copyGameboardPlayerShipPlacement = [...gameboardPlayerShipPlacement];
-      
       for (const coord of shipCoordsShipPlacement) {
         copyGameboardPlayerShipPlacement[coord] = sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name;
       }
       setGameboardPlayerShipPlacement(copyGameboardPlayerShipPlacement);
-      // setHoveredIds([...hoveredIds].slice(0, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced + 1].shipLength));
       setHoveredIds([]);
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced + 1);
 
     } else if (currentIndexShipToBePlaced === sortedShipsLengthDescendingOrder.length) {
       setIsAllShipsPlaced(true);
-
-      // set initial gameboard to this gameboard for player
-      // go to next screen
     }
   }
 
-  // console.log(currentIndexShipToBePlaced);
-  // console.log(sortedShipsLengthDescendingOrder);
-
-  const [hoveredIds, setHoveredIds] = useState([]);
 
   const isAValidShipPlacement = (id) => {
     if (currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) {
@@ -155,44 +141,12 @@ export const GameboardPlayerGridShipPlacement = ({
   }
 
   const handleOnMouseEnter = (id, currentIndexShipToBePlaced) => {
-    let validIdForShipLength;
-    if (shipPlacementDirection === horizontalDirectionValue) {
-      let firstDigitOfStartIndex;
-      if (id < 10) {
-        firstDigitOfStartIndex = 0;
-      } else {
-        firstDigitOfStartIndex = getFirstDigitOfNumber(id)
-      };
-      console.log(firstDigitOfStartIndex);
-      const lastIdOfRow = firstDigitOfStartIndex.toString() + 9;
-      if ((+id + (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)) > lastIdOfRow) {
-        validIdForShipLength = (lastIdOfRow - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1));
-      } else {
-        validIdForShipLength = id
-      }
-    }
-
-    if (shipPlacementDirection === verticalDirectionValue) {
-      let firstDigitOfStartIndex;
-      if (id < 10) {
-        firstDigitOfStartIndex = 0;
-      } else {
-        firstDigitOfStartIndex = getFirstDigitOfNumber(id);
-      };
-      const lastDigitOfstartIndex = id % 10;
-      if ((firstDigitOfStartIndex + (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)) > 9) {
-        validIdForShipLength = +((9 - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)).toString() + lastDigitOfstartIndex);
-      } else {
-        validIdForShipLength = id
-      }
-    }
-
-    const shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validIdForShipLength, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
-    
+    const validStartIdShipNotOutOfBounds = getValidStartIdShipNotOutOfBounds(id);
+    const shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
     setHoveredIds(shipCoordsShipPlacement);
   };
 
-  const handleOnMouseLeave = (id) => {
+  const handleOnMouseLeave = () => {
     setHoveredIds([]);
   }
 
@@ -243,7 +197,7 @@ export const GameboardPlayerGridShipPlacement = ({
       </Button>
       <Button buttonOnClick={randomizeGameboardPlayerShipPlacement}>
         <div className="button-text-wrapper">
-          <div>Randomise</div>
+          <div>Randomize</div>
           <i className="fas fa-sync-alt randomise-icon"></i>
         </div>
       </Button>
@@ -255,6 +209,7 @@ export const GameboardPlayerGridShipPlacement = ({
               gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
               gridTemplateRows: `repeat(${amountOfRows}, auto)`,
             }}
+            onMouseLeave={() => handleOnMouseLeave()}
           >
             {gameboardPlayerShipPlacement.map((cell, id) => (
               <div 
@@ -282,7 +237,7 @@ export const GameboardPlayerGridShipPlacement = ({
                   ? () => handleOnMouseEnter(+id, currentIndexShipToBePlaced)
                   : null
                 }
-                onMouseLeave={() => handleOnMouseLeave(+id)}
+                onMouseLeave={() => handleOnMouseLeave}
               >
               </div>
             ))}
