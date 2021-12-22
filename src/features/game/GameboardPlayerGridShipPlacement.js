@@ -13,6 +13,7 @@ import { getFirstDigitOfNumber } from "./getFirstDigitOfNumber/getFirstDigitOfNu
 import { checkIfShipIsNotSurroundedByAnotherShip } from "./checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip";
 import { calculateShipCoords } from "./calculateShipCoords/calculateShipCoords";
 import { getArrayWithArrayOfIndexValuesReplacedByNewValue } from './getArrayWithArrayOfIndexValuesReplacedByNewValue/getArrayWithArrayOfIndexValuesReplacedByNewValue';
+import { getToggleValue } from "./getToggleValue/getToggleValue";
 
 export const GameboardPlayerGridShipPlacement = ({ 
   amountOfColumns, 
@@ -42,11 +43,8 @@ export const GameboardPlayerGridShipPlacement = ({
   }, [currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder]);
 
   const toggleShipPlacementDirection = () => {
-    if (shipPlacementDirection === horizontalDirectionValue) {
-      setShipPlacementdirection(verticalDirectionValue);
-    } else if (shipPlacementDirection === verticalDirectionValue) {
-      setShipPlacementdirection(horizontalDirectionValue);
-    }
+    const toggledShipPlacementDirectionValue = getToggleValue(shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
+    setShipPlacementdirection(toggledShipPlacementDirectionValue);
   }
 
   const resetGameboardPlayerShipPlacement = () => {
