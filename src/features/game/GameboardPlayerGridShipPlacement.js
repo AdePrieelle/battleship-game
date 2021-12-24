@@ -14,6 +14,10 @@ import { checkIfShipIsNotSurroundedByAnotherShip } from "./checkIfShipIsNotSurro
 import { calculateShipCoords } from "./calculateShipCoords/calculateShipCoords";
 import { getArrayWithArrayOfIndexValuesReplacedByNewValue } from './getArrayWithArrayOfIndexValuesReplacedByNewValue/getArrayWithArrayOfIndexValuesReplacedByNewValue';
 import { getToggleValue } from "./getToggleValue/getToggleValue";
+import { getValidStartIdShipNotOutOfBounds } from "./getValidStartIdShipNotOutOfBounds/getValidStartIdShipNotOutOfBounds";
+import { getRowNumberOfIndexTwoDimensionalArray } from "./getRowNumberOfIndexTwoDimensionalArray/getRowNumberOfIndexTwoDimensionalArray";
+import { getLastIdInRowTwoDimensionalArray } from "./getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
+import { getLastDigitOfNumber } from "./getLastDigitOfNumber/getLastDigitOfNumber";
 
 export const GameboardPlayerGridShipPlacement = ({ 
   amountOfColumns, 
@@ -39,6 +43,8 @@ export const GameboardPlayerGridShipPlacement = ({
   useEffect(() => {
     if (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length)) {
       setIsAllShipsPlaced(true);
+    } else {
+      setIsAllShipsPlaced(false);
     }
   }, [currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder]);
 
@@ -51,7 +57,6 @@ export const GameboardPlayerGridShipPlacement = ({
     setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementInitialState);
     setShipPlacementdirection(horizontalDirectionValue);
     setCurrentIndexShipToBePlaced(0);
-    setIsAllShipsPlaced(false);
   }
 
   const removeLastShipPlacementFromGameboard = () => {
@@ -67,39 +72,24 @@ export const GameboardPlayerGridShipPlacement = ({
     if (currentIndexShipToBePlaced > 0) {
       removeLastShipPlacementFromGameboard();
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced - 1);
-      setIsAllShipsPlaced(false);
     }
   }
 
-  const getValidStartIdShipNotOutOfBounds = (id) => {
-    let validStartIdShipNotOutOfBounds;
-    let firstDigitOfStartIndex;
-    if (id < 10) {
-      firstDigitOfStartIndex = 0;
-    } else {
-      firstDigitOfStartIndex = getFirstDigitOfNumber(id)
-    };
-
-    if (shipPlacementDirection === horizontalDirectionValue) {
-      const lastIdOfRow = firstDigitOfStartIndex.toString() + 9;
-      if ((+id + (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)) > lastIdOfRow) {
-        validStartIdShipNotOutOfBounds = (lastIdOfRow - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1));
-      } else {
-        validStartIdShipNotOutOfBounds = id
-      }
-    }
-
-    if (shipPlacementDirection === verticalDirectionValue) {
-      const lastDigitOfstartIndex = id % 10;
-      if ((firstDigitOfStartIndex + (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)) > 9) {
-        validStartIdShipNotOutOfBounds = +((9 - (sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength - 1)).toString() + lastDigitOfstartIndex);
-      } else {
-        validStartIdShipNotOutOfBounds = id
-      }
-    }
-
-    return validStartIdShipNotOutOfBounds;
-  }
+  const getAValidStartIdShipNotOutOfBounds = (id) => getValidStartIdShipNotOutOfBounds(
+    id,
+    getRowNumberOfIndexTwoDimensionalArray,
+    getFirstDigitOfNumber,
+    checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
+    shipPlacementDirection,
+    horizontalDirectionValue,
+    getLastIdInRowTwoDimensionalArray,
+    amountOfRows,
+    amountOfColumns,
+    sortedShipsLengthDescendingOrder,
+    currentIndexShipToBePlaced,
+    verticalDirectionValue,
+    getLastDigitOfNumber
+  );
   
   const isAValidShipPlacement = (id) => {
     return (isValidShipPosition(
@@ -110,25 +100,19 @@ export const GameboardPlayerGridShipPlacement = ({
   }
 
   const handleShipPlacementOnGameboard = (id) => {
-    const validStartIdShipNotOutOfBounds = getValidStartIdShipNotOutOfBounds(id);
+    const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
     let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
-
     // if succesful placement
     if (isAValidShipPlacement(validStartIdShipNotOutOfBounds)) {
       const gameboardPlayerShipPlacementWithPlacedShip = getArrayWithArrayOfIndexValuesReplacedByNewValue(gameboardPlayerShipPlacement, shipCoordsShipPlacement, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name);
       setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementWithPlacedShip);
       setHoveredIds([]);
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced + 1);
-
-    } else if (currentIndexShipToBePlaced === sortedShipsLengthDescendingOrder.length) {
-      setIsAllShipsPlaced(true);
     }
   }
 
-
-
   const handleOnMouseEnter = (id) => {
-    const validStartIdShipNotOutOfBounds = getValidStartIdShipNotOutOfBounds(id);
+    const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
     const shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
     setHoveredIds(shipCoordsShipPlacement);
   };
@@ -138,9 +122,8 @@ export const GameboardPlayerGridShipPlacement = ({
   }
 
   const randomizeGameboardPlayerShipPlacement = () => {
-    setCurrentIndexShipToBePlaced(0);
+    setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
     setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))
-    setIsAllShipsPlaced(true);
   }
 
   const handleModalGameboardPlayerGridShipPlacement = () => {
@@ -154,11 +137,15 @@ export const GameboardPlayerGridShipPlacement = ({
     }
   }
 
+  const isShipPlacementFinished = () => {
+    return (!((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced));
+  }
+
   return (
     <>
       <div>
         {
-            ((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced)
+            !isShipPlacementFinished()
           ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength}`
           : "All ships have been placed"
         }
@@ -215,12 +202,12 @@ export const GameboardPlayerGridShipPlacement = ({
                   }`
                 } 
                 onClick={
-                    ((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced)
+                    !isShipPlacementFinished()
                   ? (() => handleShipPlacementOnGameboard(+id))
                   : null
                 }
                 onMouseEnter={
-                  ((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced)
+                    !isShipPlacementFinished()
                   ? () => handleOnMouseEnter(+id)
                   : null
                 }
