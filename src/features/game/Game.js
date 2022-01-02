@@ -201,16 +201,9 @@ export const Game = () => {
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
       setGameboard(newGameboardStateAfterMissLogicWithMissCell);
-      // setIsPlayerOneTurn(!isPlayerOneTurn);
       if (isComputer) {
         setComputerHitTurnAgainCount(0);
       }
-      // if (isPlayerOne && !isComputer && !isPlayerTwoComputer) {
-      //   setShowModalGameSwitchTurnToPlayerTwo(true);
-      // }
-      // if (!isPlayerOne && !isComputer && !isPlayerTwoComputer) {
-      //   setShowModalGameSwitchTurnToPlayerOne(true);
-      // }
       if (isPlayerTwoComputer) {
         setIsPlayerOneTurn(!isPlayerOneTurn);
       }
@@ -299,7 +292,6 @@ export const Game = () => {
     setIsGameOver(false);
     setIsPlayerOneTurn(true);
     setComputerHitTurnAgainCount(0);
-    setGameboardPreGameActive(false);
     setDisablePlayerMove(false);
     setIsGameStarted(true);
   }
@@ -313,12 +305,8 @@ export const Game = () => {
     setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
     setPreviousHitDirectionNotSunkenShip(null);
     resetRandomGameboards();
-    setGameboardPreGameActive(true);
   }
   
-  // prevent faded low opacity gameboard-inactive in pre game
-  const [gameboardPreGameActive, setGameboardPreGameActive] = useState(false);
-
   // names for players and computer
   const [playerOneName, setPlayerOneName] = useState("Player 1");
   const [playerTwoName, setPlayerTwoName] = useState("Player 2");
@@ -466,7 +454,6 @@ export const Game = () => {
                       isPlayerTwoComputer={isPlayerTwoComputer}
                       isGameStarted={isGameStarted}
                       isGameOver={isGameOver}
-                      gameboardPreGameActive={gameboardPreGameActive}
                       disablePlayerMove={disablePlayerMove}
                     />
                     <GameboardPlayerGrid 
@@ -483,7 +470,6 @@ export const Game = () => {
                       isPlayerTwoComputer={isPlayerTwoComputer}
                       isGameStarted={isGameStarted}
                       isGameOver={isGameOver}
-                      gameboardPreGameActive={gameboardPreGameActive}
                       disablePlayerMove={disablePlayerMove}
                     />
                   </>
@@ -503,7 +489,6 @@ export const Game = () => {
                     isPlayerTwoComputer={isPlayerTwoComputer}
                     isGameStarted={isGameStarted}
                     isGameOver={isGameOver}
-                    gameboardPreGameActive={gameboardPreGameActive}
                     disablePlayerMove={disablePlayerMove}
                   />
                   <GameboardPlayerGrid 
@@ -520,7 +505,6 @@ export const Game = () => {
                     isPlayerTwoComputer={isPlayerTwoComputer}
                     isGameStarted={isGameStarted}
                     isGameOver={isGameOver}
-                    gameboardPreGameActive={gameboardPreGameActive}
                     disablePlayerMove={disablePlayerMove}
                   />
                 </>

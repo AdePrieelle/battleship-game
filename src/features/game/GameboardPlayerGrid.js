@@ -12,12 +12,11 @@ export const GameboardPlayerGrid = ({
   isPlayerTwoComputer,
   isGameStarted,
   isGameOver,
-  gameboardPreGameActive,
   disablePlayerMove
 }) => {
   return (
     <div 
-      className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "" : isGameStarted ? "gameboard-inactive" : isGameOver ? "gameboard-inactive" : gameboardPreGameActive ? "" : "gameboard-inactive"} gameboard-player`}
+      className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "" : "gameboard-inactive"} gameboard-player`}
       style={{
         gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
         gridTemplateRows: `repeat(${amountOfRows}, auto)`,
