@@ -29,7 +29,8 @@ export const GameboardPlayerGridShipPlacement = ({
   setShowModalPreGameGameboardPlayerGridShipPlacement,
   handleStartGame,
   isPlayerTwoComputer,
-  setNextModal = false
+  setNextModal = false,
+  setShowGameboards = false
 }) => {
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, emptyGameboardValue);
   const [gameboardPlayerShipPlacement, setGameboardPlayerShipPlacement] = useState(gameboardPlayerShipPlacementInitialState);
@@ -133,6 +134,7 @@ export const GameboardPlayerGridShipPlacement = ({
       setNextModal(true);
     }
     if (isPlayerTwoComputer) {
+      setShowGameboards(true);
       handleStartGame();
     }
   }
