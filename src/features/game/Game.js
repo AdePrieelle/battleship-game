@@ -137,7 +137,7 @@ export const Game = () => {
   }, [previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip]);
 
   // update the gameboard with a hit or miss or freemiss value
-  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer, isPlayerOne) => {
+  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
         gameboard, 
@@ -187,7 +187,7 @@ export const Game = () => {
     }
   }
 
-  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState, isPlayerOne) => {
+  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState, isComputer) => {
     if (isValidPlayerTurn(
       gameboardPlayer, 
       +event.target.id,
@@ -198,7 +198,7 @@ export const Game = () => {
       isGameStarted,
       isGameOver
     )) {
-      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false, isPlayerOne);
+      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, isComputer);
     }
   }
   
@@ -216,7 +216,7 @@ export const Game = () => {
         );
       if (gameboardComputerCellsAvailable.length > 0) {
         // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-        updateGameboardCellHitOrMiss(gameboardPlayerOne, randomGameboardComputerCellNumber, setGameboardPlayerOne, gameboardPlayerOneInitialState, true, false);
+        updateGameboardCellHitOrMiss(gameboardPlayerOne, randomGameboardComputerCellNumber, setGameboardPlayerOne, gameboardPlayerOneInitialState, true);
       }
     } else if (previousHitComputerCellsNotSunkenShip.length > 0) {
       // array of indexes for next possible smart computer move if a ship has been hit but isn't sunken yet
@@ -233,7 +233,7 @@ export const Game = () => {
       );
       const availableNextSmartComputerMovesAfterHitRandomIndex = getRandomIndexFromArray(availableNextSmartComputerMovesAfterHit);
       const smartComputerMoveIndex = availableNextSmartComputerMovesAfterHit[availableNextSmartComputerMovesAfterHitRandomIndex];
-      updateGameboardCellHitOrMiss(gameboardPlayerOne, smartComputerMoveIndex, setGameboardPlayerOne, gameboardPlayerOneInitialState, true, false);
+      updateGameboardCellHitOrMiss(gameboardPlayerOne, smartComputerMoveIndex, setGameboardPlayerOne, gameboardPlayerOneInitialState, true);
     }
   }
 
@@ -358,7 +358,7 @@ export const Game = () => {
                       missGameboardValue={missGameboardValue}
                       freemissGameboardValue={freemissGameboardValue}
                       emptyGameboardValue={emptyGameboardValue}
-                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
                       isPlayerTurn={isPlayerOneTurn}
                       isPlayerOne={true}
                       isPlayerTwoComputer={isPlayerTwoComputer}
@@ -377,7 +377,7 @@ export const Game = () => {
                     missGameboardValue={missGameboardValue}
                     freemissGameboardValue={freemissGameboardValue}
                     emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, true)}
+                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
                     isPlayerTurn={isPlayerOneTurn}
                     isPlayerOne={true}
                     isPlayerTwoComputer={isPlayerTwoComputer}
@@ -393,7 +393,7 @@ export const Game = () => {
                     missGameboardValue={missGameboardValue}
                     freemissGameboardValue={freemissGameboardValue}
                     emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, true)}
                     isPlayerTurn={!isPlayerOneTurn}
                     isPlayerOne={false}
                     isPlayerTwoComputer={isPlayerTwoComputer}

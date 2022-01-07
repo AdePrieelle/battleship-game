@@ -49,7 +49,7 @@ export const GameboardPlayerGrid = ({
               : ""
             }`
           } 
-          onClick={disablePlayerMove ? null : handlePlayerMove}
+          onClick={(disablePlayerMove || (!isPlayerOne && isPlayerTwoComputer)) ? null : handlePlayerMove}
         >
         </div>
       ))}
