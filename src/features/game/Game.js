@@ -187,7 +187,7 @@ export const Game = () => {
     }
   }
 
-  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState, isComputer) => {
+  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState) => {
     if (isValidPlayerTurn(
       gameboardPlayer, 
       +event.target.id,
@@ -198,7 +198,7 @@ export const Game = () => {
       isGameStarted,
       isGameOver
     )) {
-      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, isComputer);
+      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
     }
   }
   
@@ -334,6 +334,7 @@ export const Game = () => {
                   (!isPlayerOneTurn && !isPlayerTwoComputer)
                 ? 
                   <>
+                    {/* Player two plays on gameboardPlayerOne */}
                     <GameboardPlayerGrid 
                       gameboardPlayer={gameboardPlayerOne}
                       amountOfColumns={amountOfColumns}
@@ -342,7 +343,7 @@ export const Game = () => {
                       missGameboardValue={missGameboardValue}
                       freemissGameboardValue={freemissGameboardValue}
                       emptyGameboardValue={emptyGameboardValue}
-                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, false)}
+                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
                       isPlayerTurn={!isPlayerOneTurn}
                       isPlayerOne={false}
                       isPlayerTwoComputer={isPlayerTwoComputer}
@@ -350,6 +351,7 @@ export const Game = () => {
                       isGameOver={isGameOver}
                       disablePlayerMove={disablePlayerMove}
                     />
+                    {/* Player two sees current state of gameboardPlayerTwo where player one plays on */}
                     <GameboardPlayerGrid 
                       gameboardPlayer={gameboardPlayerTwo}
                       amountOfColumns={amountOfColumns}
@@ -358,7 +360,6 @@ export const Game = () => {
                       missGameboardValue={missGameboardValue}
                       freemissGameboardValue={freemissGameboardValue}
                       emptyGameboardValue={emptyGameboardValue}
-                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
                       isPlayerTurn={isPlayerOneTurn}
                       isPlayerOne={true}
                       isPlayerTwoComputer={isPlayerTwoComputer}
@@ -369,6 +370,7 @@ export const Game = () => {
                   </>
               :
                 <>
+                  {/* Player one plays on gameboardPlayerTwo */}
                   <GameboardPlayerGrid 
                     gameboardPlayer={gameboardPlayerTwo}
                     amountOfColumns={amountOfColumns}
@@ -377,7 +379,7 @@ export const Game = () => {
                     missGameboardValue={missGameboardValue}
                     freemissGameboardValue={freemissGameboardValue}
                     emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState, false)}
+                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
                     isPlayerTurn={isPlayerOneTurn}
                     isPlayerOne={true}
                     isPlayerTwoComputer={isPlayerTwoComputer}
@@ -385,6 +387,7 @@ export const Game = () => {
                     isGameOver={isGameOver}
                     disablePlayerMove={disablePlayerMove}
                   />
+                  {/* Player one sees current state of gameboardPlayerTwo where player one or the computer plays on */}
                   <GameboardPlayerGrid 
                     gameboardPlayer={gameboardPlayerOne}
                     amountOfColumns={amountOfColumns}
@@ -393,7 +396,6 @@ export const Game = () => {
                     missGameboardValue={missGameboardValue}
                     freemissGameboardValue={freemissGameboardValue}
                     emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState, true)}
                     isPlayerTurn={!isPlayerOneTurn}
                     isPlayerOne={false}
                     isPlayerTwoComputer={isPlayerTwoComputer}

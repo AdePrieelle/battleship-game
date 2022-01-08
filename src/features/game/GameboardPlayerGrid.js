@@ -6,7 +6,7 @@ export const GameboardPlayerGrid = ({
   missGameboardValue,
   freemissGameboardValue,
   emptyGameboardValue,
-  handlePlayerMove,
+  handlePlayerMove = null,
   isPlayerTurn,
   isPlayerOne,
   isPlayerTwoComputer,
