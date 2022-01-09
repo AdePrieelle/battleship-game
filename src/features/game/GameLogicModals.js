@@ -4,6 +4,7 @@ import { ModalMessage } from "./ModalMessage/ModalMessage";
 import { ModalButtonsWrapper } from "./ModalButtonsWrapper/ModalButtonsWrapper";
 import { Button } from "./Button/Button";
 import { GameboardPlayerGridShipPlacement } from "./GameboardPlayerGridShipPlacement";
+import './GameLogicModals.scss';
 
 export const GameLogicModals = ({
   setShowModalPickOpponent,
@@ -35,7 +36,6 @@ export const GameLogicModals = ({
   setGameboardPlayerOneInitialState,
   setGameboardPlayerTwoInitialState,
   setShowGameboards
-
 }) => {
   // pre game logic for opponent is computer
   const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);

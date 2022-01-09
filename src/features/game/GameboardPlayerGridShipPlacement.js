@@ -18,6 +18,7 @@ import { getValidStartIdShipNotOutOfBounds } from "./getValidStartIdShipNotOutOf
 import { getRowNumberOfIndexTwoDimensionalArray } from "./getRowNumberOfIndexTwoDimensionalArray/getRowNumberOfIndexTwoDimensionalArray";
 import { getLastIdInRowTwoDimensionalArray } from "./getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
 import { getLastDigitOfNumber } from "./getLastDigitOfNumber/getLastDigitOfNumber";
+import './GameboardPlayerGridShipPlacement.scss';
 
 export const GameboardPlayerGridShipPlacement = ({ 
   amountOfColumns, 
@@ -178,7 +179,7 @@ export const GameboardPlayerGridShipPlacement = ({
         </div>
       </Button>
       <div className="game">
-        <div className="gameboard-wrapper">
+        <div className="gameboards-wrapper">
           <div 
             className={`gameboard gameboard-player`}
             style={{

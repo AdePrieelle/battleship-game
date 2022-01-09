@@ -1,0 +1,12 @@
+@import "../../styles/partials/variables";
+
+.input-name {
+  border: 1px solid #dfe1e5;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 20px;
+  width: 100%;
+  // &:focus {
+  //   outline: none;
+  // }
+}

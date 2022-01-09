@@ -34,6 +34,7 @@ import { ModalMessage } from './ModalMessage/ModalMessage';
 import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 import { GameLogicModals } from './GameLogicModals';
 // import { NextButton } from './NextButton/NextButton';
+import { GameboardsWrapper } from './GameboardsWrapper';
 import './Game.scss';
 // import { createGameboard } from './createGameboard/createGameboard';
 // import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
@@ -329,83 +330,27 @@ export const Game = () => {
           showGameboards
         ? 
           <>
-            <div className="gameboard-wrapper">
-              {
-                  (!isPlayerOneTurn && !isPlayerTwoComputer)
-                ? 
-                  <>
-                    {/* Player two plays on gameboardPlayerOne */}
-                    <GameboardPlayerGrid 
-                      gameboardPlayer={gameboardPlayerOne}
-                      amountOfColumns={amountOfColumns}
-                      amountOfRows={amountOfRows}
-                      hitGameboardValue={hitGameboardValue}
-                      missGameboardValue={missGameboardValue}
-                      freemissGameboardValue={freemissGameboardValue}
-                      emptyGameboardValue={emptyGameboardValue}
-                      handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, setGameboardPlayerOne, gameboardPlayerOneInitialState)}
-                      isPlayerTurn={!isPlayerOneTurn}
-                      isPlayerOne={false}
-                      isPlayerTwoComputer={isPlayerTwoComputer}
-                      isGameStarted={isGameStarted}
-                      isGameOver={isGameOver}
-                      disablePlayerMove={disablePlayerMove}
-                    />
-                    {/* Player two sees current state of gameboardPlayerTwo where player one plays on */}
-                    <GameboardPlayerGrid 
-                      gameboardPlayer={gameboardPlayerTwo}
-                      amountOfColumns={amountOfColumns}
-                      amountOfRows={amountOfRows}
-                      hitGameboardValue={hitGameboardValue}
-                      missGameboardValue={missGameboardValue}
-                      freemissGameboardValue={freemissGameboardValue}
-                      emptyGameboardValue={emptyGameboardValue}
-                      isPlayerTurn={isPlayerOneTurn}
-                      isPlayerOne={true}
-                      isPlayerTwoComputer={isPlayerTwoComputer}
-                      isGameStarted={isGameStarted}
-                      isGameOver={isGameOver}
-                      disablePlayerMove={disablePlayerMove}
-                    />
-                  </>
-              :
-                <>
-                  {/* Player one plays on gameboardPlayerTwo */}
-                  <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerTwo}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, setGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
-                    isPlayerTurn={isPlayerOneTurn}
-                    isPlayerOne={true}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                    disablePlayerMove={disablePlayerMove}
-                  />
-                  {/* Player one sees current state of gameboardPlayerTwo where player one or the computer plays on */}
-                  <GameboardPlayerGrid 
-                    gameboardPlayer={gameboardPlayerOne}
-                    amountOfColumns={amountOfColumns}
-                    amountOfRows={amountOfRows}
-                    hitGameboardValue={hitGameboardValue}
-                    missGameboardValue={missGameboardValue}
-                    freemissGameboardValue={freemissGameboardValue}
-                    emptyGameboardValue={emptyGameboardValue}
-                    isPlayerTurn={!isPlayerOneTurn}
-                    isPlayerOne={false}
-                    isPlayerTwoComputer={isPlayerTwoComputer}
-                    isGameStarted={isGameStarted}
-                    isGameOver={isGameOver}
-                    disablePlayerMove={disablePlayerMove}
-                  />
-                </>
-              }
-            </div>
+            <GameboardsWrapper 
+              isPlayerOneTurn={isPlayerOneTurn}
+              isPlayerTwoComputer={isPlayerTwoComputer}
+              gameboardPlayerOne={gameboardPlayerOne}
+              amountOfColumns={amountOfColumns}
+              amountOfRows={amountOfRows}
+              hitGameboardValue={hitGameboardValue}
+              missGameboardValue={missGameboardValue}
+              freemissGameboardValue={freemissGameboardValue}
+              emptyGameboardValue={emptyGameboardValue}
+              handlePlayerMove={handlePlayerMove}
+              setGameboardPlayerOne={setGameboardPlayerOne}
+              gameboardPlayerOneInitialState={gameboardPlayerOneInitialState}
+              isGameStarted={isGameStarted}
+              isGameOver={isGameOver}
+              disablePlayerMove={disablePlayerMove}
+              gameboardPlayerTwo={gameboardPlayerTwo}
+              setGameboardPlayerTwo={setGameboardPlayerTwo}
+              gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
+            />
+
             <Button buttonOnClick={handleButtonNewGame}>New game</Button>
             {
                 isPlayerTwoComputer
@@ -418,6 +363,7 @@ export const Game = () => {
                   Hand over
                 </Button>
             }
+
             <GameboardShipStats 
               gameboard={gameboardPlayerTwo}
               ships={ships}
