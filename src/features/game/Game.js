@@ -35,6 +35,7 @@ import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlace
 import { GameLogicModals } from './GameLogicModals';
 // import { NextButton } from './NextButton/NextButton';
 import { GameboardsWrapper } from './GameboardsWrapper';
+import { GameButtons } from './GameButtons';
 import './Game.scss';
 // import { createGameboard } from './createGameboard/createGameboard';
 // import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
@@ -329,7 +330,7 @@ export const Game = () => {
       {
           showGameboards
         ? 
-          <>
+          <div className="gameboardswrapper-gamebuttons-wrapper">
             <GameboardsWrapper 
               isPlayerOneTurn={isPlayerOneTurn}
               isPlayerTwoComputer={isPlayerTwoComputer}
@@ -350,29 +351,21 @@ export const Game = () => {
               setGameboardPlayerTwo={setGameboardPlayerTwo}
               gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
             />
-
-            <Button buttonOnClick={handleButtonNewGame}>New game</Button>
-            {
-                isPlayerTwoComputer
-              ? null
-              : 
-                <Button 
-                  buttonOnClick={handleButtonGameSwitchPlayerTurn} 
-                  disableButton={disableButtonGameSwitchPlayerTurn}
-                >
-                  Hand over
-                </Button>
-            }
-
-            <GameboardShipStats 
+            <GameButtons 
+              handleButtonNewGame={handleButtonNewGame}
+              isPlayerTwoComputer={isPlayerTwoComputer}
+              handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
+              disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+            />
+            {/* <GameboardShipStats 
               gameboard={gameboardPlayerTwo}
               ships={ships}
             />
             <GameboardShipStats 
               gameboard={gameboardPlayerOne}
               ships={ships}
-            />
-          </>
+            /> */}
+          </div>
         : null 
       }
       <GameLogicModals 

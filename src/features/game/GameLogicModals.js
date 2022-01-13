@@ -174,7 +174,6 @@ export const GameLogicModals = ({
           showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer
         ?
           <>
-            <h1>{`${playerOneName}'s ship placements`}</h1>
             <GameboardPlayerGridShipPlacement
               amountOfColumns={amountOfColumns}
               amountOfRows={amountOfRows}
@@ -186,6 +185,7 @@ export const GameLogicModals = ({
               handleStartGame={handleStartGame}
               isPlayerTwoComputer={isPlayerTwoComputer}
               setShowGameboards={setShowGameboards}
+              playerName={playerOneName}
             />
           </>
         : null
@@ -266,7 +266,6 @@ export const GameLogicModals = ({
           showModalPreGameGameboardPlayerOneGridShipPlacement
         ?
           <>
-            <h1>{`${playerOneName}'s ship placements`}</h1>
             <GameboardPlayerGridShipPlacement
               amountOfColumns={amountOfColumns}
               amountOfRows={amountOfRows}
@@ -278,6 +277,7 @@ export const GameLogicModals = ({
               handleStartGame={handleStartGame}
               isPlayerTwoComputer={isPlayerTwoComputer}
               setNextModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
+              playerName={playerOneName}
             />
           </>
         : null
@@ -303,7 +303,6 @@ export const GameLogicModals = ({
           showModalPreGameGameboardPlayerTwoGridShipPlacement
         ?
           <>
-            <h1>{`${playerTwoName}'s ship placements`}</h1>
             <GameboardPlayerGridShipPlacement
               amountOfColumns={amountOfColumns}
               amountOfRows={amountOfRows}
@@ -315,6 +314,7 @@ export const GameLogicModals = ({
               handleStartGame={handleStartGame}
               isPlayerTwoComputer={isPlayerTwoComputer}
               setNextModal={setShowModalPreGameSwitchTurnToPlayerOne}
+              playerName={playerTwoName}
             />
           </>
         : null

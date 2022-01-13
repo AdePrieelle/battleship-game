@@ -30,6 +30,7 @@ export const GameboardPlayerGridShipPlacement = ({
   setShowModalPreGameGameboardPlayerGridShipPlacement,
   handleStartGame,
   isPlayerTwoComputer,
+  playerName,
   setNextModal = false,
   setShowGameboards = false
 }) => {
@@ -93,11 +94,11 @@ export const GameboardPlayerGridShipPlacement = ({
     getLastDigitOfNumber
   );
   
-  const isAValidShipPlacement = (id) => {
+  const isAValidShipPlacement = (id, shipCoordsArray) => {
     return (isValidShipPosition(
       isEmptyGameboardCell(gameboardPlayerShipPlacement, id, emptyGameboardValue),
       checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(id, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
-      checkIfShipIsNotSurroundedByAnotherShip(gameboardPlayerShipPlacement, hoveredIds, emptyGameboardValue) 
+      checkIfShipIsNotSurroundedByAnotherShip(gameboardPlayerShipPlacement, shipCoordsArray, emptyGameboardValue) 
     ));
   }
 
@@ -105,7 +106,7 @@ export const GameboardPlayerGridShipPlacement = ({
     const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
     let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
     // if succesful placement
-    if (isAValidShipPlacement(validStartIdShipNotOutOfBounds)) {
+    if (isAValidShipPlacement(validStartIdShipNotOutOfBounds, shipCoordsShipPlacement)) {
       const gameboardPlayerShipPlacementWithPlacedShip = getArrayWithArrayOfIndexValuesReplacedByNewValue(gameboardPlayerShipPlacement, shipCoordsShipPlacement, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name);
       setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementWithPlacedShip);
       setHoveredIds([]);
@@ -145,7 +146,8 @@ export const GameboardPlayerGridShipPlacement = ({
   }
 
   return (
-    <>
+    <div className="gameboard-player-grid-ship-placement">
+      <h1>{`${playerName}'s ship placements`}</h1>
       <div>
         {
             !isShipPlacementFinished()
@@ -153,7 +155,13 @@ export const GameboardPlayerGridShipPlacement = ({
           : "All ships have been placed"
         }
       </div>
-      <Button buttonOnClick={toggleShipPlacementDirection}>{shipPlacementDirection}</Button>
+      <Button buttonOnClick={toggleShipPlacementDirection}><div className="ship-placement-direction-value">{shipPlacementDirection}</div></Button>
+      <Button 
+        buttonOnClick={undoLastShipPlacement}
+        disableButton={currentIndexShipToBePlaced === 0 ? true : false}
+      >
+        Undo
+      </Button>
       <Button 
         buttonOnClick={resetGameboardPlayerShipPlacement}
         disableButton={
@@ -166,20 +174,15 @@ export const GameboardPlayerGridShipPlacement = ({
       >
         Reset
       </Button>
-      <Button 
-        buttonOnClick={undoLastShipPlacement}
-        disableButton={currentIndexShipToBePlaced === 0 ? true : false}
-      >
-        Undo
-      </Button>
       <Button buttonOnClick={randomizeGameboardPlayerShipPlacement}>
         <div className="button-text-wrapper">
           <div>Randomize</div>
           <i className="fas fa-sync-alt randomise-icon"></i>
         </div>
       </Button>
-      <div className="game">
-        <div className="gameboards-wrapper">
+      {/* <div className="game"> */}
+        {/* <div className="gameboards-wrapper"> */}
+        <div className="gameboard-placement-wrapper">
           <div 
             className={`gameboard gameboard-player`}
             style={{
@@ -198,7 +201,7 @@ export const GameboardPlayerGridShipPlacement = ({
                     : "ship"
                   } ${
                       (hoveredIds.indexOf(+id) > -1)
-                    ? isAValidShipPlacement(hoveredIds[0])
+                    ? isAValidShipPlacement(hoveredIds[0], hoveredIds)
                     ? "hovered-valid-ship-position"
                     : "hovered-invalid-ship-position"
                     : ""
@@ -220,7 +223,8 @@ export const GameboardPlayerGridShipPlacement = ({
             ))}
           </div>
         </div>
-      </div>
+        {/* </div> */}
+      {/* </div> */}
 
       <Button 
         buttonOnClick={handleModalGameboardPlayerGridShipPlacement}
@@ -232,6 +236,6 @@ export const GameboardPlayerGridShipPlacement = ({
           : "Next"
         }
       </Button>
-    </>
+    </div>
   );
 };

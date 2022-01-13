@@ -2,44 +2,32 @@
 
 .gameboards-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 600px;
+  // @media screen and (min-width: $media-query-medium-screen) {
+  //   grid-template-columns: repeat(2, minmax(0, 1fr));
+  // }
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-gap: 40px;
+  width: 100%;
+  // max-width: 600px;
+
+  // max-width: 600px;
   // margin: 0 auto;
-  .gameboard {
-    display: grid;
-    grid-gap: $gameboard-grid-gap;
-    margin: 20px;
-    max-width: 300px;
-    background-color: $gameboard-bg-color;
-    border: $gameboard-grid-gap solid $gameboard-bg-color;
-    .gameboard-cell {
-      padding-top: 100%;
-      background-color: $gameboard-cell-bg-color;
-      pointer-events: all;
+  // margin: 20px;
+  // background-color: red;
+  .gameboard-player-grid-gameboard-ship-stats-wrapper {
+    // grid-template-columns: minmax(200px, 1fr) auto;
+    // grid-template-columns: minmax(100px, 300px) minmax(min-content, auto);
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // width: 100%;
+    .gameboard-player-grid-gameboard-ship-stats-wrapper-inner-wrapper {
+      // display: flex;
+      // flex-direction: column;
+      // align-items: center;
+      max-width: 300px;
+      min-width: 100%;
+      // grid-template-columns: 1fr;
     }
-    .hit {
-      background-color: $gameboard-hit-bg-color;
-    }
-    .miss {
-      background-color: $gameboard-miss-bg-color;
-    }
-    .freemiss {
-      background-color: $gameboard-freemiss-bg-color;
-    }
-    .ship {
-      background-color: $gameboard-ship-bg-color;
-    }
-    .hovered-valid-ship-position {
-      // background-color: $gameboard-ship-bg-color;
-      background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
-    }
-    .hovered-invalid-ship-position {
-      // background-color: red;
-      background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
-      // cursor: not-allowed;
-    }
-  }
-  .gameboard-inactive {
-    opacity: 0.6;
   }
 }

@@ -1,3 +1,5 @@
+import './GameboardPlayerGrid.scss';
+
 export const GameboardPlayerGrid = ({ 
   gameboardPlayer, 
   amountOfColumns, 

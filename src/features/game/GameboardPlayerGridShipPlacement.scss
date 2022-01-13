@@ -1,5 +1,19 @@
 @import "../../styles/partials/variables";
 
+.gameboard-player-grid-ship-placement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  .ship-placement-direction-value {
+    text-transform: capitalize;
+  }
+  .gameboard-placement-wrapper {
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
 .button-text-wrapper {
   display: flex;
   justify-content: center;
