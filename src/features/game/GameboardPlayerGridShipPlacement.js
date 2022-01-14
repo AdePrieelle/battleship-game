@@ -18,6 +18,7 @@ import { getValidStartIdShipNotOutOfBounds } from "./getValidStartIdShipNotOutOf
 import { getRowNumberOfIndexTwoDimensionalArray } from "./getRowNumberOfIndexTwoDimensionalArray/getRowNumberOfIndexTwoDimensionalArray";
 import { getLastIdInRowTwoDimensionalArray } from "./getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
 import { getLastDigitOfNumber } from "./getLastDigitOfNumber/getLastDigitOfNumber";
+import { GameButtonsShipPlacement } from "./GameButtonsShipPlacement";
 import './GameboardPlayerGridShipPlacement.scss';
 
 export const GameboardPlayerGridShipPlacement = ({ 
@@ -155,77 +156,56 @@ export const GameboardPlayerGridShipPlacement = ({
           : "All ships have been placed"
         }
       </div>
-      <Button buttonOnClick={toggleShipPlacementDirection}><div className="ship-placement-direction-value">{shipPlacementDirection}</div></Button>
-      <Button 
-        buttonOnClick={undoLastShipPlacement}
-        disableButton={currentIndexShipToBePlaced === 0 ? true : false}
-      >
-        Undo
-      </Button>
-      <Button 
-        buttonOnClick={resetGameboardPlayerShipPlacement}
-        disableButton={
-            isAllShipsPlaced 
-          ? false
-          : currentIndexShipToBePlaced === 0 
-          ? true 
-          : false
-        }
-      >
-        Reset
-      </Button>
-      <Button buttonOnClick={randomizeGameboardPlayerShipPlacement}>
-        <div className="button-text-wrapper">
-          <div>Randomize</div>
-          <i className="fas fa-sync-alt randomise-icon"></i>
+      <GameButtonsShipPlacement
+        resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
+        isAllShipsPlaced={isAllShipsPlaced}
+        currentIndexShipToBePlaced={currentIndexShipToBePlaced}
+        randomizeGameboardPlayerShipPlacement={randomizeGameboardPlayerShipPlacement}
+        undoLastShipPlacement={undoLastShipPlacement}
+        toggleShipPlacementDirection={toggleShipPlacementDirection}
+        shipPlacementDirection={shipPlacementDirection}
+      />
+      <div className="gameboard-placement-wrapper">
+        <div 
+          className={`gameboard gameboard-player`}
+          style={{
+            gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
+            gridTemplateRows: `repeat(${amountOfRows}, auto)`,
+          }}
+          onMouseLeave={() => handleOnMouseLeave()}
+        >
+          {gameboardPlayerShipPlacement.map((cell, id) => (
+            <div 
+              key={id} 
+              id={id} 
+              className={`gameboard-cell ${
+                    gameboardPlayerShipPlacement[id] === emptyGameboardValue
+                  ? "empty"
+                  : "ship"
+                } ${
+                    (hoveredIds.indexOf(+id) > -1)
+                  ? isAValidShipPlacement(hoveredIds[0], hoveredIds)
+                  ? "hovered-valid-ship-position"
+                  : "hovered-invalid-ship-position"
+                  : ""
+                }`
+              } 
+              onClick={
+                  !isShipPlacementFinished()
+                ? (() => handleShipPlacementOnGameboard(+id))
+                : null
+              }
+              onMouseEnter={
+                  !isShipPlacementFinished()
+                ? () => handleOnMouseEnter(+id)
+                : null
+              }
+              onMouseLeave={() => handleOnMouseLeave}
+            >
+            </div>
+          ))}
         </div>
-      </Button>
-      {/* <div className="game"> */}
-        {/* <div className="gameboards-wrapper"> */}
-        <div className="gameboard-placement-wrapper">
-          <div 
-            className={`gameboard gameboard-player`}
-            style={{
-              gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
-              gridTemplateRows: `repeat(${amountOfRows}, auto)`,
-            }}
-            onMouseLeave={() => handleOnMouseLeave()}
-          >
-            {gameboardPlayerShipPlacement.map((cell, id) => (
-              <div 
-                key={id} 
-                id={id} 
-                className={`gameboard-cell ${
-                      gameboardPlayerShipPlacement[id] === emptyGameboardValue
-                    ? "empty"
-                    : "ship"
-                  } ${
-                      (hoveredIds.indexOf(+id) > -1)
-                    ? isAValidShipPlacement(hoveredIds[0], hoveredIds)
-                    ? "hovered-valid-ship-position"
-                    : "hovered-invalid-ship-position"
-                    : ""
-                  }`
-                } 
-                onClick={
-                    !isShipPlacementFinished()
-                  ? (() => handleShipPlacementOnGameboard(+id))
-                  : null
-                }
-                onMouseEnter={
-                    !isShipPlacementFinished()
-                  ? () => handleOnMouseEnter(+id)
-                  : null
-                }
-                onMouseLeave={() => handleOnMouseLeave}
-              >
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* </div> */}
-      {/* </div> */}
-
+      </div>
       <Button 
         buttonOnClick={handleModalGameboardPlayerGridShipPlacement}
         disableButton={isAllShipsPlaced ? false : true}
