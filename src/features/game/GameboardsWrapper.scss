@@ -2,32 +2,13 @@
 
 .gameboards-wrapper {
   display: grid;
-  // @media screen and (min-width: $media-query-medium-screen) {
-  //   grid-template-columns: repeat(2, minmax(0, 1fr));
-  // }
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+  @media screen and (min-width: $media-query-medium-screen) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   grid-gap: 40px;
   width: 100%;
-  // max-width: 600px;
-
-  // max-width: 600px;
-  // margin: 0 auto;
-  // margin: 20px;
-  // background-color: red;
   .gameboard-player-grid-gameboard-ship-stats-wrapper {
-    // grid-template-columns: minmax(200px, 1fr) auto;
-    // grid-template-columns: minmax(100px, 300px) minmax(min-content, auto);
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
-    // width: 100%;
-    .gameboard-player-grid-gameboard-ship-stats-wrapper-inner-wrapper {
-      // display: flex;
-      // flex-direction: column;
-      // align-items: center;
-      max-width: 300px;
-      min-width: 100%;
-      // grid-template-columns: 1fr;
-    }
+    width: 100%;
   }
 }

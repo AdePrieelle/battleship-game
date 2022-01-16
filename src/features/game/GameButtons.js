@@ -8,7 +8,7 @@ export const GameButtons = ({
   disableButtonGameSwitchPlayerTurn
 }) => {
   return (
-    <div className="game-buttons">
+    <>
       <Button buttonOnClick={handleButtonNewGame}>New game</Button>
       {
           isPlayerTwoComputer
@@ -21,6 +21,6 @@ export const GameButtons = ({
             Hand over
           </Button>
       }
-    </div>
+    </>
   );
 };

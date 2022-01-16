@@ -11,32 +11,32 @@ export const GameButtonsShipPlacement = ({
   shipPlacementDirection
 }) => {
   return (
-    <div className="game-buttons-ship-placement">
-        <Button 
-          buttonOnClick={resetGameboardPlayerShipPlacement}
-          disableButton={
-            isAllShipsPlaced 
-            ? false
-            : currentIndexShipToBePlaced === 0 
-            ? true 
-            : false
-          }
-        >
-          Reset
-        </Button>
-        <Button buttonOnClick={randomizeGameboardPlayerShipPlacement}>
-          <div className="button-text-wrapper">
-            <div>Randomize</div>
-            <i className="fas fa-sync-alt randomise-icon"></i>
-          </div>
-        </Button>
-        <Button 
-          buttonOnClick={undoLastShipPlacement}
-          disableButton={currentIndexShipToBePlaced === 0 ? true : false}
-        >
-          Undo
-        </Button>
-        <Button buttonOnClick={toggleShipPlacementDirection}><div className="ship-placement-direction-value">{shipPlacementDirection}</div></Button>
-      </div>
+    <>
+      <Button 
+        buttonOnClick={resetGameboardPlayerShipPlacement}
+        disableButton={
+          isAllShipsPlaced 
+          ? false
+          : currentIndexShipToBePlaced === 0 
+          ? true 
+          : false
+        }
+      >
+        Reset
+      </Button>
+      <Button buttonOnClick={randomizeGameboardPlayerShipPlacement}>
+        <div className="button-text-wrapper">
+          <div>Randomize</div>
+          <i className="fas fa-sync-alt randomise-icon"></i>
+        </div>
+      </Button>
+      <Button 
+        buttonOnClick={undoLastShipPlacement}
+        disableButton={currentIndexShipToBePlaced === 0 ? true : false}
+      >
+        Undo
+      </Button>
+      <Button buttonOnClick={toggleShipPlacementDirection}><div className="ship-placement-direction-value">{shipPlacementDirection}</div></Button>
+    </>
   );
 };

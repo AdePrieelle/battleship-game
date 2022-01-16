@@ -29,7 +29,7 @@ import { getAvailableNextSmartComputerMovesAfterHit } from './getAvailableNextSm
 import { isShipOrEmptyGameboardValue } from './isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
 import { Modal } from './Modal/Modal';
 import { Button } from './Button/Button';
-import { ModalButtonsWrapper } from './ModalButtonsWrapper/ModalButtonsWrapper';
+import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
 import { ModalMessage } from './ModalMessage/ModalMessage';
 import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 import { GameLogicModals } from './GameLogicModals';
@@ -351,20 +351,14 @@ export const Game = () => {
               setGameboardPlayerTwo={setGameboardPlayerTwo}
               gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
             />
-            <GameButtons 
-              handleButtonNewGame={handleButtonNewGame}
-              isPlayerTwoComputer={isPlayerTwoComputer}
-              handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
-              disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
-            />
-            {/* <GameboardShipStats 
-              gameboard={gameboardPlayerTwo}
-              ships={ships}
-            />
-            <GameboardShipStats 
-              gameboard={gameboardPlayerOne}
-              ships={ships}
-            /> */}
+            <ButtonsWrapper>
+              <GameButtons 
+                handleButtonNewGame={handleButtonNewGame}
+                isPlayerTwoComputer={isPlayerTwoComputer}
+                handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
+                disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+              />
+            </ButtonsWrapper>
           </div>
         : null 
       }

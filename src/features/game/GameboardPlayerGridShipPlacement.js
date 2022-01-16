@@ -19,6 +19,7 @@ import { getRowNumberOfIndexTwoDimensionalArray } from "./getRowNumberOfIndexTwo
 import { getLastIdInRowTwoDimensionalArray } from "./getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
 import { getLastDigitOfNumber } from "./getLastDigitOfNumber/getLastDigitOfNumber";
 import { GameButtonsShipPlacement } from "./GameButtonsShipPlacement";
+import { ButtonsWrapper } from "./ButtonsWrapper/ButtonsWrapper";
 import './GameboardPlayerGridShipPlacement.scss';
 
 export const GameboardPlayerGridShipPlacement = ({ 
@@ -156,15 +157,17 @@ export const GameboardPlayerGridShipPlacement = ({
           : "All ships have been placed"
         }
       </div>
-      <GameButtonsShipPlacement
-        resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
-        isAllShipsPlaced={isAllShipsPlaced}
-        currentIndexShipToBePlaced={currentIndexShipToBePlaced}
-        randomizeGameboardPlayerShipPlacement={randomizeGameboardPlayerShipPlacement}
-        undoLastShipPlacement={undoLastShipPlacement}
-        toggleShipPlacementDirection={toggleShipPlacementDirection}
-        shipPlacementDirection={shipPlacementDirection}
-      />
+      <ButtonsWrapper>
+        <GameButtonsShipPlacement
+          resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
+          isAllShipsPlaced={isAllShipsPlaced}
+          currentIndexShipToBePlaced={currentIndexShipToBePlaced}
+          randomizeGameboardPlayerShipPlacement={randomizeGameboardPlayerShipPlacement}
+          undoLastShipPlacement={undoLastShipPlacement}
+          toggleShipPlacementDirection={toggleShipPlacementDirection}
+          shipPlacementDirection={shipPlacementDirection}
+        />
+      </ButtonsWrapper>
       <div className="gameboard-placement-wrapper">
         <div 
           className={`gameboard gameboard-player`}

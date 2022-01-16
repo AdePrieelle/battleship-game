@@ -11,5 +11,9 @@
   margin: 20px;
   .gameboardswrapper-gamebuttons-wrapper {
     width: 100%;
+    max-width: 330px;
+    @media screen and (min-width: $media-query-medium-screen) {
+      max-width: 700px;
+    }
   }
 }
