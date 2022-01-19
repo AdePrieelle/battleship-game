@@ -1,6 +1,8 @@
 import { GameboardPlayerGrid } from './GameboardPlayerGrid';
 import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { ships } from './ships';
+import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
+import { GameButtons } from './GameButtons';
 import './GameboardsWrapper.scss';
 
 export const GameboardsWrapper = ({
@@ -21,7 +23,10 @@ export const GameboardsWrapper = ({
   disablePlayerMove,
   gameboardPlayerTwo,
   setGameboardPlayerTwo,
-  gameboardPlayerTwoInitialState
+  gameboardPlayerTwoInitialState,
+  handleButtonNewGame,
+  handleButtonGameSwitchPlayerTurn,
+  disableButtonGameSwitchPlayerTurn
 }) => {
   return (
     <div className="gameboards-wrapper">
@@ -30,7 +35,7 @@ export const GameboardsWrapper = ({
         ? 
           <>
             {/* Player two plays on gameboardPlayerOne */}
-            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper">
+            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
               <GameboardPlayerGrid 
                 gameboardPlayer={gameboardPlayerOne}
                 amountOfColumns={amountOfColumns}
@@ -52,8 +57,16 @@ export const GameboardsWrapper = ({
                 ships={ships}
               />
             </div>
+            <div className="gameboards-wrapper-button-wrapper">
+              <GameButtons 
+                handleButtonNewGame={handleButtonNewGame}
+                isPlayerTwoComputer={isPlayerTwoComputer}
+                handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
+                disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+              />
+            </div>
             {/* Player two sees current state of gameboardPlayerTwo where player one plays on */}
-            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper">
+            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
               <GameboardPlayerGrid 
                 gameboardPlayer={gameboardPlayerTwo}
                 amountOfColumns={amountOfColumns}
@@ -78,7 +91,7 @@ export const GameboardsWrapper = ({
       :
         <>
           {/* Player one plays on gameboardPlayerTwo */}
-          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper">
+          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
             <GameboardPlayerGrid 
               gameboardPlayer={gameboardPlayerTwo}
               amountOfColumns={amountOfColumns}
@@ -100,8 +113,16 @@ export const GameboardsWrapper = ({
               ships={ships}
             />
           </div>
+          <div className="gameboards-wrapper-button-wrapper">
+            <GameButtons 
+              handleButtonNewGame={handleButtonNewGame}
+              isPlayerTwoComputer={isPlayerTwoComputer}
+              handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
+              disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+            />
+          </div>
           {/* Player one sees current state of gameboardPlayerTwo where player one or the computer plays on */}
-          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper">
+          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
             <GameboardPlayerGrid 
               gameboardPlayer={gameboardPlayerOne}
               amountOfColumns={amountOfColumns}

@@ -7,8 +7,26 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   grid-gap: 40px;
-  width: 100%;
+  // width: 100%;
   .gameboard-player-grid-gameboard-ship-stats-wrapper {
     width: 100%;
+  }
+  .gameboard-player-grid-gameboard-ship-stats-wrapper-1 {
+    order: 1;
+  }
+  .gameboards-wrapper-button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $buttons-wrapper-grid-gap;
+    order: 2;
+    @media screen and (min-width: $media-query-medium-screen) {
+      order: 3;
+    }
+  }
+  .gameboard-player-grid-gameboard-ship-stats-wrapper-2 {
+    order: 3;
+    @media screen and (min-width: $media-query-medium-screen) {
+      order: 2;
+    }
   }
 }

@@ -15,23 +15,23 @@ import { getGameboardAfterMissLogic } from './getGameboardAfterMissLogic/getGame
 // import { generateRandomValidShipPosition } from './generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { ships } from './ships';
 import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
-import { GameboardPlayerGrid } from './GameboardPlayerGrid';
+// import { GameboardPlayerGrid } from './GameboardPlayerGrid';
 // import { GameboardComputerGrid } from './GameboardComputerGrid';
 import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
 // import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
 // import { StartGameButton } from './StartGameButton/StartGameButton';
 // import { NewGameButton } from './NewGameButton/NewGameButton';
 import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
-import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
+// import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { getPreviousHitDirectionNotSunkenShip } from './getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
 import { isSunkenShipAfterHit } from './isSunkenShipAfterHit/isSunkenShipAfterHit';
 import { getAvailableNextSmartComputerMovesAfterHit } from './getAvailableNextSmartComputerMovesAfterHit/getAvailableNextSmartComputerMovesAfterHit';
 import { isShipOrEmptyGameboardValue } from './isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
-import { Modal } from './Modal/Modal';
-import { Button } from './Button/Button';
+// import { Modal } from './Modal/Modal';
+// import { Button } from './Button/Button';
 import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
-import { ModalMessage } from './ModalMessage/ModalMessage';
-import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
+// import { ModalMessage } from './ModalMessage/ModalMessage';
+// import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 import { GameLogicModals } from './GameLogicModals';
 // import { NextButton } from './NextButton/NextButton';
 import { GameboardsWrapper } from './GameboardsWrapper';
@@ -350,15 +350,18 @@ export const Game = () => {
               gameboardPlayerTwo={gameboardPlayerTwo}
               setGameboardPlayerTwo={setGameboardPlayerTwo}
               gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
+              handleButtonNewGame={handleButtonNewGame}
+              handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
+              disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
             />
-            <ButtonsWrapper>
+            {/* <ButtonsWrapper>
               <GameButtons 
                 handleButtonNewGame={handleButtonNewGame}
                 isPlayerTwoComputer={isPlayerTwoComputer}
                 handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
                 disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
               />
-            </ButtonsWrapper>
+            </ButtonsWrapper> */}
           </div>
         : null 
       }
