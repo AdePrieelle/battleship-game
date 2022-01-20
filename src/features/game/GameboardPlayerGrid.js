@@ -37,7 +37,6 @@ export const GameboardPlayerGrid = ({
               ? "freemiss" 
               : gameboardPlayer[id] === emptyGameboardValue
               ? "empty"
-              // : "ship"
               : isGameOver
               ? "ship"
               : isPlayerOne && isPlayerTwoComputer 

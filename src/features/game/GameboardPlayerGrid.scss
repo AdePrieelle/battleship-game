@@ -3,15 +3,12 @@
 .gameboard {
   display: grid;
   grid-gap: $gameboard-grid-gap;
-  // margin: 20px;
   min-width: 100%;
-  // max-width: 300px;
   background-color: $gameboard-bg-color;
   border: $gameboard-grid-gap solid $gameboard-bg-color;
   aspect-ratio: 1;
   .gameboard-cell {
     padding-top: 100%;
-    // aspect-ratio: 1;
     background-color: $gameboard-cell-bg-color;
     pointer-events: all;
   }
@@ -28,16 +25,13 @@
     background-color: $gameboard-ship-bg-color;
   }
   .hovered-valid-ship-position {
-    // background-color: $gameboard-ship-bg-color;
     background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
   }
   .hovered-invalid-ship-position {
-    // background-color: red;
     background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
-    // cursor: not-allowed;
   }
 }
 
 .gameboard-inactive {
-  opacity: 0.6;
+  opacity: $gameboard-inactive-opacity;
 }

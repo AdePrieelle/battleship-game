@@ -6,8 +6,13 @@
   @media screen and (min-width: $media-query-medium-screen) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  grid-gap: 40px;
-  // width: 100%;
+  grid-column-gap: $gameboards-wrapper-grid-column-gap;
+  grid-row-gap: $gameboards-wrapper-grid-row-gap;
+  width: 100%;
+  max-width: $gameboard-max-width;
+  @media screen and (min-width: $media-query-medium-screen) {
+    max-width: 100%;
+  }
   .gameboard-player-grid-gameboard-ship-stats-wrapper {
     width: 100%;
   }

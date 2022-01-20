@@ -1,10 +1,8 @@
 @import "../../../styles/partials/variables";
 
 .gameboard-ship-stats {
-  // background-color: blue;
   display: flex;
   flex-wrap: wrap;
-  min-width: 80px;
   max-width: $gameboard-ship-stats-max-width;
   margin-top: 10px;
   .gameboard-ship-stats-ship {
@@ -12,8 +10,6 @@
     margin: $gameboard-ship-stats-ship-margin-top-bottom
       $gameboard-ship-stats-ship-margin-right-left;
     margin-left: 0;
-    // border: 1px solid rgb(127, 84, 226);
-    // background-color: rgb(127, 84, 226);
     .gameboard-ship-stats-ship-cell {
       width: $gameboard-ship-stats-ship-cell-width;
       height: $gameboard-ship-stats-ship-cell-height;

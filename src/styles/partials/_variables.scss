@@ -9,6 +9,12 @@ $media-query-xlarge-screen: 1200px;
 // General
 $primary-text-color: white;
 
+// Game
+
+// GameboardsWrapper
+$gameboards-wrapper-grid-column-gap: 40px;
+$gameboards-wrapper-grid-row-gap: 30px;
+
 // Gameboard
 $gameboard-max-width: 400px;
 $gameboard-grid-gap: 2px;
@@ -20,6 +26,7 @@ $gameboard-freemiss-bg-color: rgb(248, 236, 168);
 $gameboard-ship-bg-color: rgb(58, 163, 223);
 $gameboard-ship-hovered-valid-ship-position-bg-color: rgb(58, 163, 223);
 $gameboard-ship-hovered-invalid-ship-position-bg-color: rgb(192, 37, 37);
+$gameboard-inactive-opacity: 0.6;
 
 // ui button
 $primary-text-color-ui-button: white;
@@ -44,9 +51,6 @@ $modal-message-margin: 20px 0;
 $buttons-wrapper-grid-gap: 10px;
 
 // Button
-// $button-margin: 10px 10px 0 10px;
-// $button-margin: 5px;
-// $button-margin: 5px 10px 5px 0;
 $button-margin: 0;
 $button-width: 130px;
 $button-height: 38px;
@@ -57,7 +61,7 @@ $button-bg-color: rgb(233, 73, 33);
 $button-border-radius: 4px;
 
 // gameboardShipStats
-$gameboard-ship-stats-max-width: 200px;
+$gameboard-ship-stats-max-width: 150px;
 $gameboard-ship-stats-ship-margin-top-bottom: 8px;
 $gameboard-ship-stats-ship-margin-right-left: 10px;
 $gameboard-ship-stats-ship-cell-width: 18px;

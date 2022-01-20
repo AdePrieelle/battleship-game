@@ -1,7 +1,6 @@
 import { GameboardPlayerGrid } from './GameboardPlayerGrid';
 import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { ships } from './ships';
-import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
 import { GameButtons } from './GameButtons';
 import './GameboardsWrapper.scss';
 

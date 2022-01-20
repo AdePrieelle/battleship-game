@@ -29,13 +29,13 @@ import { getAvailableNextSmartComputerMovesAfterHit } from './getAvailableNextSm
 import { isShipOrEmptyGameboardValue } from './isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
 // import { Modal } from './Modal/Modal';
 // import { Button } from './Button/Button';
-import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
+// import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
 // import { ModalMessage } from './ModalMessage/ModalMessage';
 // import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 import { GameLogicModals } from './GameLogicModals';
 // import { NextButton } from './NextButton/NextButton';
 import { GameboardsWrapper } from './GameboardsWrapper';
-import { GameButtons } from './GameButtons';
+// import { GameButtons } from './GameButtons';
 import './Game.scss';
 // import { createGameboard } from './createGameboard/createGameboard';
 // import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
@@ -330,39 +330,29 @@ export const Game = () => {
       {
           showGameboards
         ? 
-          <div className="gameboardswrapper-gamebuttons-wrapper">
-            <GameboardsWrapper 
-              isPlayerOneTurn={isPlayerOneTurn}
-              isPlayerTwoComputer={isPlayerTwoComputer}
-              gameboardPlayerOne={gameboardPlayerOne}
-              amountOfColumns={amountOfColumns}
-              amountOfRows={amountOfRows}
-              hitGameboardValue={hitGameboardValue}
-              missGameboardValue={missGameboardValue}
-              freemissGameboardValue={freemissGameboardValue}
-              emptyGameboardValue={emptyGameboardValue}
-              handlePlayerMove={handlePlayerMove}
-              setGameboardPlayerOne={setGameboardPlayerOne}
-              gameboardPlayerOneInitialState={gameboardPlayerOneInitialState}
-              isGameStarted={isGameStarted}
-              isGameOver={isGameOver}
-              disablePlayerMove={disablePlayerMove}
-              gameboardPlayerTwo={gameboardPlayerTwo}
-              setGameboardPlayerTwo={setGameboardPlayerTwo}
-              gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
-              handleButtonNewGame={handleButtonNewGame}
-              handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
-              disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
-            />
-            {/* <ButtonsWrapper>
-              <GameButtons 
-                handleButtonNewGame={handleButtonNewGame}
-                isPlayerTwoComputer={isPlayerTwoComputer}
-                handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
-                disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
-              />
-            </ButtonsWrapper> */}
-          </div>
+          <GameboardsWrapper 
+            isPlayerOneTurn={isPlayerOneTurn}
+            isPlayerTwoComputer={isPlayerTwoComputer}
+            gameboardPlayerOne={gameboardPlayerOne}
+            amountOfColumns={amountOfColumns}
+            amountOfRows={amountOfRows}
+            hitGameboardValue={hitGameboardValue}
+            missGameboardValue={missGameboardValue}
+            freemissGameboardValue={freemissGameboardValue}
+            emptyGameboardValue={emptyGameboardValue}
+            handlePlayerMove={handlePlayerMove}
+            setGameboardPlayerOne={setGameboardPlayerOne}
+            gameboardPlayerOneInitialState={gameboardPlayerOneInitialState}
+            isGameStarted={isGameStarted}
+            isGameOver={isGameOver}
+            disablePlayerMove={disablePlayerMove}
+            gameboardPlayerTwo={gameboardPlayerTwo}
+            setGameboardPlayerTwo={setGameboardPlayerTwo}
+            gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
+            handleButtonNewGame={handleButtonNewGame}
+            handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
+            disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+          />
         : null 
       }
       <GameLogicModals 
