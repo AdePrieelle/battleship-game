@@ -149,25 +149,27 @@ export const GameboardPlayerGridShipPlacement = ({
 
   return (
     <div className="gameboard-player-grid-ship-placement">
-      <h1>{`${playerName}'s ship placements`}</h1>
-      <div>
+      <h1 className="player-name-title">{`${playerName}'s ship placements`}</h1>
+      <div className="ship-placement-message">
         {
             !isShipPlacementFinished()
           ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength}`
           : "All ships have been placed"
         }
       </div>
-      <ButtonsWrapper>
-        <GameButtonsShipPlacement
-          resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
-          isAllShipsPlaced={isAllShipsPlaced}
-          currentIndexShipToBePlaced={currentIndexShipToBePlaced}
-          randomizeGameboardPlayerShipPlacement={randomizeGameboardPlayerShipPlacement}
-          undoLastShipPlacement={undoLastShipPlacement}
-          toggleShipPlacementDirection={toggleShipPlacementDirection}
-          shipPlacementDirection={shipPlacementDirection}
-        />
-      </ButtonsWrapper>
+      <div className="game-buttons-ship-placement-wrapper">
+        <ButtonsWrapper>
+          <GameButtonsShipPlacement
+            resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
+            isAllShipsPlaced={isAllShipsPlaced}
+            currentIndexShipToBePlaced={currentIndexShipToBePlaced}
+            randomizeGameboardPlayerShipPlacement={randomizeGameboardPlayerShipPlacement}
+            undoLastShipPlacement={undoLastShipPlacement}
+            toggleShipPlacementDirection={toggleShipPlacementDirection}
+            shipPlacementDirection={shipPlacementDirection}
+          />
+        </ButtonsWrapper>
+      </div>
       <div className="gameboard-placement-wrapper">
         <div 
           className={`gameboard gameboard-player`}

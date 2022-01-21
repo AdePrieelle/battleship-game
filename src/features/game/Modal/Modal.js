@@ -1,6 +1,6 @@
 import './Modal.scss';
 
-export const Modal = ({ children, setShowModal, HideCloseButton = false }) => {
+export const Modal = ({ children, setShowModal = false }) => {
   return (
   <>
     <div className="modal-overlay"></div>
@@ -9,7 +9,7 @@ export const Modal = ({ children, setShowModal, HideCloseButton = false }) => {
         {children}
       </div>
       {
-          !HideCloseButton
+          setShowModal
         ? <button 
             className="modal-close-button" 
             onClick={() => setShowModal(false)}

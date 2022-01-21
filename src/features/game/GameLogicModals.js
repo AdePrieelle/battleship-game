@@ -146,10 +146,7 @@ export const GameLogicModals = ({
       {
           showModalPreGamePlayerOneNameAgainstComputer
         ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerOneNameAgainstComputer}
-            HideCloseButton={true}
-          >
+          <Modal>
             <ModalMessage 
               modalMessage={
                 <>
@@ -194,10 +191,7 @@ export const GameLogicModals = ({
       {
           showModalPreGamePlayerOneName
         ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerOneName}
-            HideCloseButton={true}
-          >
+          <Modal>
             <ModalMessage 
               modalMessage={
                 <>
@@ -221,10 +215,7 @@ export const GameLogicModals = ({
       {
           showModalPreGamePlayerTwoName
         ? 
-          <Modal 
-            setShowModal={setShowModalPreGamePlayerTwoName}
-            HideCloseButton={true}
-          >
+          <Modal>
             <ModalMessage 
               modalMessage={
                 <>
@@ -248,10 +239,7 @@ export const GameLogicModals = ({
       {
           showModalPreGameSwitchTurnToPlayerOneGameboard
         ? 
-          <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerOneGameboard}
-            HideCloseButton={true}
-          >
+          <Modal>
             <ModalMessage 
               modalMessage={`Hand over to ${playerOneName}`}
             />
@@ -285,10 +273,7 @@ export const GameLogicModals = ({
 
       {
           showModalPreGameSwitchTurnToPlayerTwoGameboard
-        ? <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
-            HideCloseButton={true}
-          >
+        ? <Modal>
             <ModalMessage 
               modalMessage={`Hand over to ${playerTwoName}`}
             />
@@ -322,10 +307,7 @@ export const GameLogicModals = ({
 
       {
           showModalPreGameSwitchTurnToPlayerOne
-        ? <Modal 
-            setShowModal={setShowModalPreGameSwitchTurnToPlayerOne}
-            HideCloseButton={true}
-          >
+        ? <Modal>
             <ModalMessage 
               modalMessage={`Hand over to ${playerOneName}`}
             />
@@ -338,10 +320,7 @@ export const GameLogicModals = ({
 
       {
           showModalGameSwitchTurnToPlayerTwo
-        ? <Modal 
-            setShowModal={setShowModalGameSwitchTurnToPlayerTwo}
-            HideCloseButton={true}
-          >
+        ? <Modal>
             <ModalMessage 
               modalMessage={`Hand over to ${playerTwoName}`}
             />
@@ -354,10 +333,7 @@ export const GameLogicModals = ({
 
       {
           showModalGameSwitchTurnToPlayerOne
-        ? <Modal 
-            setShowModal={setShowModalGameSwitchTurnToPlayerOne}
-            HideCloseButton={true}
-          >
+        ? <Modal>
             <ModalMessage 
               modalMessage={`Hand over to ${playerOneName}`}
             />

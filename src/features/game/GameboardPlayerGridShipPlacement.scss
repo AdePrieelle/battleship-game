@@ -5,12 +5,23 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  .ship-placement-direction-value {
-    text-transform: capitalize;
+  margin-top: $gameboard-player-grid-ship-placement-margin-top;
+  text-align: center;
+  .player-name-title {
+    font-size: $player-name-title-font-size;
+    margin-bottom: $player-name-title-margin-bottom;
+  }
+  .ship-placement-message {
+    font-size: $ship-placement-message-font-size;
+    margin-bottom: $ship-placement-message-margin-bottom;
+  }
+  .game-buttons-ship-placement-wrapper {
+    margin-bottom: $game-buttons-ship-placement-wrapper-margin-bottom;
   }
   .gameboard-placement-wrapper {
-    max-width: 400px;
     width: 100%;
+    max-width: $gameboard-max-width;
+    margin-bottom: $gameboard-placement-wrapper-margin-bottom;
   }
 }
 
@@ -21,5 +32,5 @@
 }
 
 .randomise-icon {
-  margin-left: 4px;
+  margin-left: $randomise-icon-margin-left;
 }

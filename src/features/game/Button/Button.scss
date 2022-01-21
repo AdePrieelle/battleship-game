@@ -13,17 +13,17 @@
   font-size: $button-font-size;
   font-weight: $button-font-weight;
   text-align: center;
+  text-transform: capitalize;
   background-color: $button-bg-color;
   border: 0;
   border-radius: $button-border-radius;
-  // cursor: pointer;
   &:active {
     scale: 0.96;
   }
 }
 
 .button-disabled {
-  opacity: 0.6;
+  opacity: $button-disabled-opacity;
   &:active {
     scale: 1;
   }

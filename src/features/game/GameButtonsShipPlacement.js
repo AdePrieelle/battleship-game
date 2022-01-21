@@ -36,7 +36,9 @@ export const GameButtonsShipPlacement = ({
       >
         Undo
       </Button>
-      <Button buttonOnClick={toggleShipPlacementDirection}><div className="ship-placement-direction-value">{shipPlacementDirection}</div></Button>
+      <Button buttonOnClick={toggleShipPlacementDirection}>
+        {shipPlacementDirection}
+      </Button>
     </>
   );
 };

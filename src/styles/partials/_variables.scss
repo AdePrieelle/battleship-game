@@ -6,6 +6,9 @@ $media-query-medium-screen: 600px;
 $media-query-large-screen: 900px;
 $media-query-xlarge-screen: 1200px;
 
+// App
+$app-margin: 20px;
+
 // General
 $primary-text-color: white;
 
@@ -13,7 +16,7 @@ $primary-text-color: white;
 
 // GameboardsWrapper
 $gameboards-wrapper-grid-column-gap: 40px;
-$gameboards-wrapper-grid-row-gap: 30px;
+$gameboards-wrapper-grid-row-gap: 1.2rem;
 
 // Gameboard
 $gameboard-max-width: 400px;
@@ -28,15 +31,23 @@ $gameboard-ship-hovered-valid-ship-position-bg-color: rgb(58, 163, 223);
 $gameboard-ship-hovered-invalid-ship-position-bg-color: rgb(192, 37, 37);
 $gameboard-inactive-opacity: 0.6;
 
-// ui button
-$primary-text-color-ui-button: white;
-$primary-background-color-ui-button: rgb(221, 101, 107);
+// GameboardPlayerGridShipPlacement
+$gameboard-player-grid-ship-placement-margin-top: 1.5rem;
+$player-name-title-font-size: 1.5rem;
+$player-name-title-margin-bottom: 1.8rem;
+$ship-placement-message-font-size: 1.2rem;
+$ship-placement-message-margin-bottom: 1rem;
+$game-buttons-ship-placement-wrapper-margin-bottom: 1.2rem;
+$gameboard-placement-wrapper-margin-bottom: 1.2rem;
+$randomise-icon-margin-left: 4px;
 
 // Modal
 $modal-bg-overlay-color: rgba(0, 0, 0, 0.6);
 $modal-bg-color: white;
 $modal-box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 $modal-border-radius: 0px;
+$modal-width: 500px;
+$modal-content-padding: 20px;
 $modal-content-color: black;
 $modal-content-font-size: 36px;
 $modal-content-font-weight: 700;
@@ -59,6 +70,7 @@ $button-font-size: 16px;
 $button-font-weight: 700;
 $button-bg-color: rgb(233, 73, 33);
 $button-border-radius: 4px;
+$button-disabled-opacity: 0.6;
 
 // gameboardShipStats
 $gameboard-ship-stats-max-width: 150px;
