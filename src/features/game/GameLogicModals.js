@@ -117,9 +117,9 @@ export const GameLogicModals = ({
         ? <Modal 
             setShowModal={setShowModalGameOver}
           >
-            <ModalMessage 
-              modalMessage={`${playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!`}
-            />
+            <ModalMessage>
+              {playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleButtonNewGame}>Play again</Button>
             </ButtonsWrapper>
@@ -132,9 +132,9 @@ export const GameLogicModals = ({
         ? <Modal 
             setShowModal={setShowModalPickOpponent}
           >
-            <ModalMessage 
-              modalMessage={"Pick your opponent"}
-            />
+            <ModalMessage>
+              Pick your opponent
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPickOpponentComputer}>Computer</Button>
               <Button buttonOnClick={handleModalPickOpponentPlayer}>Player</Button>
@@ -147,19 +147,15 @@ export const GameLogicModals = ({
           showModalPreGamePlayerOneNameAgainstComputer
         ? 
           <Modal>
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 1's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerOneName}
-                    onChange={(e) => setPlayerOneName(e.target.value)}
-                  />
-                </>
-              }
-            />
+            <ModalMessage>
+              <h1>Enter Player 1's name</h1>
+              <input 
+                type="text" 
+                className="input-name"
+                value={playerOneName}
+                onChange={(e) => setPlayerOneName(e.target.value)}
+              />
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
             </ButtonsWrapper>
@@ -192,19 +188,15 @@ export const GameLogicModals = ({
           showModalPreGamePlayerOneName
         ? 
           <Modal>
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 1's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerOneName}
-                    onChange={(e) => setPlayerOneName(e.target.value)}
-                  />
-                </>
-              }
-            />
+            <ModalMessage>
+              <h1>Enter Player 1's name</h1>
+              <input 
+                type="text" 
+                className="input-name"
+                value={playerOneName}
+                onChange={(e) => setPlayerOneName(e.target.value)}
+              />
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPreGamePlayerOneName}>Next</Button>
             </ButtonsWrapper>
@@ -216,19 +208,15 @@ export const GameLogicModals = ({
           showModalPreGamePlayerTwoName
         ? 
           <Modal>
-            <ModalMessage 
-              modalMessage={
-                <>
-                  <h1>{`Enter Player 2's name`}</h1>
-                  <input 
-                    type="text" 
-                    className="input-name"
-                    value={playerTwoName}
-                    onChange={(e) => setPlayerTwoName(e.target.value)}
-                  />
-                </>
-              }
-            />
+            <ModalMessage>
+              <h1>Enter Player 2's name</h1>
+              <input 
+                type="text" 
+                className="input-name"
+                value={playerTwoName}
+                onChange={(e) => setPlayerTwoName(e.target.value)}
+              />
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPreGamePlayerTwoName}>Next</Button>
             </ButtonsWrapper>
@@ -240,9 +228,9 @@ export const GameLogicModals = ({
           showModalPreGameSwitchTurnToPlayerOneGameboard
         ? 
           <Modal>
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerOneName}`}
-            />
+            <ModalMessage>
+              Hand over to {playerOneName}
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>Next</Button>
             </ButtonsWrapper>
@@ -274,9 +262,9 @@ export const GameLogicModals = ({
       {
           showModalPreGameSwitchTurnToPlayerTwoGameboard
         ? <Modal>
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerTwoName}`}
-            />
+            <ModalMessage>
+              Hand over to {playerTwoName}
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>Next</Button>
             </ButtonsWrapper>
@@ -308,9 +296,9 @@ export const GameLogicModals = ({
       {
           showModalPreGameSwitchTurnToPlayerOne
         ? <Modal>
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerOneName}`}
-            />
+            <ModalMessage>
+              Hand over to {playerOneName}
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerOne}>Start game</Button>
             </ButtonsWrapper>
@@ -321,9 +309,9 @@ export const GameLogicModals = ({
       {
           showModalGameSwitchTurnToPlayerTwo
         ? <Modal>
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerTwoName}`}
-            />
+            <ModalMessage>
+              Hand over to {playerTwoName}
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalGameSwitchTurnToPlayerTwo}>Go</Button>
             </ButtonsWrapper>
@@ -334,9 +322,9 @@ export const GameLogicModals = ({
       {
           showModalGameSwitchTurnToPlayerOne
         ? <Modal>
-            <ModalMessage 
-              modalMessage={`Hand over to ${playerOneName}`}
-            />
+            <ModalMessage>
+              Hand over to {playerOneName}
+            </ModalMessage>
             <ButtonsWrapper>
               <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Go</Button>
             </ButtonsWrapper>

@@ -1,9 +1,9 @@
 import './ModalMessage.scss';
 
-export const ModalMessage = ({ modalMessage }) => {
+export const ModalMessage = ({ children }) => {
   return (
     <div className="modal-message">
-      {modalMessage}
+      {children}
     </div>
   );
 };

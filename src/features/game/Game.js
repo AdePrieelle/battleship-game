@@ -54,6 +54,9 @@ export const Game = () => {
   const freemissGameboardValue = "freemiss";
   const horizontalDirectionValue = "horizontal";
   const verticalDirectionValue = "vertical";
+  const computerName = "Computer";
+  const [playerOneName, setPlayerOneName] = useState("Player 1");
+  const [playerTwoName, setPlayerTwoName] = useState("Player 2");
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
   const [computerHitTurnAgainCount, setComputerHitTurnAgainCount] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
@@ -239,7 +242,6 @@ export const Game = () => {
     }
   }
 
-
   const resetRandomGameboards = () => {
     setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
     setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
@@ -282,27 +284,17 @@ export const Game = () => {
     resetRandomGameboards();
   }
   
-  // names for players and computer
-  const [playerOneName, setPlayerOneName] = useState("Player 1");
-  const [playerTwoName, setPlayerTwoName] = useState("Player 2");
-  const computerName = "Computer";
-
-  // show game logic modals
+  // show gameboards logic
   const [showGameboards, setShowGameboards] = useState(true);
-
   // game over modal logic
   const [showModalGameOver, setShowModalGameOver] = useState(false);
-
   // new game modal logic
   const [showModalPickOpponent, setShowModalPickOpponent] = useState(false);
-
   // game logic for opponent is a player
   const [showModalGameSwitchTurnToPlayerTwo, setShowModalGameSwitchTurnToPlayerTwo] = useState(false);
   const [showModalGameSwitchTurnToPlayerOne, setShowModalGameSwitchTurnToPlayerOne] = useState(false);
-
   // disable player moves once missed before handing over to other player
   const [disablePlayerMove, setDisablePlayerMove] = useState(false);
-
   // show button for players to hand over
   const [disableButtonGameSwitchPlayerTurn, setDisableButtonGameSwitchPlayerTurn] = useState(true);
 
