@@ -4,6 +4,7 @@ import { ModalMessage } from "./ModalMessage/ModalMessage";
 import { ButtonsWrapper } from "./ButtonsWrapper/ButtonsWrapper";
 import { Button } from "./Button/Button";
 import { GameboardPlayerGridShipPlacement } from "./GameboardPlayerGridShipPlacement";
+import { capitalizeString } from "./capitalizeString/capitalizeString";
 import './GameLogicModals.scss';
 
 export const GameLogicModals = ({
@@ -153,7 +154,7 @@ export const GameLogicModals = ({
                 type="text" 
                 className="input-name"
                 value={playerOneName}
-                onChange={(e) => setPlayerOneName(e.target.value)}
+                onChange={(e) => setPlayerOneName(capitalizeString(e.target.value))}
               />
             </ModalMessage>
             <ButtonsWrapper>
@@ -194,7 +195,7 @@ export const GameLogicModals = ({
                 type="text" 
                 className="input-name"
                 value={playerOneName}
-                onChange={(e) => setPlayerOneName(e.target.value)}
+                onChange={(e) => setPlayerOneName(capitalizeString(e.target.value))}
               />
             </ModalMessage>
             <ButtonsWrapper>
@@ -214,7 +215,7 @@ export const GameLogicModals = ({
                 type="text" 
                 className="input-name"
                 value={playerTwoName}
-                onChange={(e) => setPlayerTwoName(e.target.value)}
+                onChange={(e) => setPlayerTwoName(capitalizeString(e.target.value))}
               />
             </ModalMessage>
             <ButtonsWrapper>
