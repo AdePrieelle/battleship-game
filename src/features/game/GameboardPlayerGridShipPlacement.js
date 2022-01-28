@@ -34,7 +34,10 @@ export const GameboardPlayerGridShipPlacement = ({
   isPlayerTwoComputer,
   playerName,
   setNextModal = false,
-  setShowGameboards = false
+  setShowGameboards = false,
+  buttonNextStepText,
+  shipNamePropertyText,
+  shipLengthPropertyText
 }) => {
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, emptyGameboardValue);
   const [gameboardPlayerShipPlacement, setGameboardPlayerShipPlacement] = useState(gameboardPlayerShipPlacementInitialState);
@@ -43,7 +46,7 @@ export const GameboardPlayerGridShipPlacement = ({
   const [isAllShipsPlaced, setIsAllShipsPlaced] = useState(false);
   const [hoveredIds, setHoveredIds] = useState([]);
   
-  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
+  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, shipLengthPropertyText);
 
   useEffect(() => {
     if (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length)) {
@@ -67,7 +70,7 @@ export const GameboardPlayerGridShipPlacement = ({
   const removeLastShipPlacementFromGameboard = () => {
     const removedLastShipPlacementFromGameboard = replaceAllSpecificArrayValuesWithNewValue(
       gameboardPlayerShipPlacement, 
-      sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced - 1].name,
+      sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced - 1][shipNamePropertyText],
       emptyGameboardValue
     );
     setGameboardPlayerShipPlacement(removedLastShipPlacementFromGameboard);
@@ -106,10 +109,10 @@ export const GameboardPlayerGridShipPlacement = ({
 
   const handleShipPlacementOnGameboard = (id) => {
     const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
-    let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
+    let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipLengthPropertyText], validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
     // if succesful placement
     if (isAValidShipPlacement(validStartIdShipNotOutOfBounds, shipCoordsShipPlacement)) {
-      const gameboardPlayerShipPlacementWithPlacedShip = getArrayWithArrayOfIndexValuesReplacedByNewValue(gameboardPlayerShipPlacement, shipCoordsShipPlacement, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name);
+      const gameboardPlayerShipPlacementWithPlacedShip = getArrayWithArrayOfIndexValuesReplacedByNewValue(gameboardPlayerShipPlacement, shipCoordsShipPlacement, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipNamePropertyText]);
       setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementWithPlacedShip);
       setHoveredIds([]);
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced + 1);
@@ -118,7 +121,7 @@ export const GameboardPlayerGridShipPlacement = ({
 
   const handleOnMouseEnter = (id) => {
     const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
-    const shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength, validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
+    const shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipLengthPropertyText], validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
     setHoveredIds(shipCoordsShipPlacement);
   };
 
@@ -153,7 +156,7 @@ export const GameboardPlayerGridShipPlacement = ({
       <div className="ship-placement-message">
         {
             !isShipPlacementFinished()
-          ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].name} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced].shipLength}`
+          ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipNamePropertyText]} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipLengthPropertyText]}`
           : "All ships have been placed"
         }
       </div>
@@ -218,7 +221,7 @@ export const GameboardPlayerGridShipPlacement = ({
         {
           isPlayerTwoComputer
           ? "Start game"
-          : "Next"
+          : buttonNextStepText
         }
       </Button>
     </div>

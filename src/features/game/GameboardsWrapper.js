@@ -25,7 +25,10 @@ export const GameboardsWrapper = ({
   gameboardPlayerTwoInitialState,
   handleButtonNewGame,
   handleButtonGameSwitchPlayerTurn,
-  disableButtonGameSwitchPlayerTurn
+  disableButtonGameSwitchPlayerTurn,
+  shipLengthPropertyText,
+  shipNamePropertyText,
+  shipIsSunkenPropertyText
 }) => {
   return (
     <div className="gameboards-wrapper">
@@ -54,6 +57,9 @@ export const GameboardsWrapper = ({
               <GameboardShipStats 
                 gameboard={gameboardPlayerOne}
                 ships={ships}
+                shipNamePropertyText={shipNamePropertyText}
+                shipLengthPropertyText={shipLengthPropertyText}
+                shipIsSunkenPropertyText={shipIsSunkenPropertyText}
               />
             </div>
             <div className="gameboards-wrapper-button-wrapper">
@@ -84,6 +90,9 @@ export const GameboardsWrapper = ({
               <GameboardShipStats 
                 gameboard={gameboardPlayerTwo}
                 ships={ships}
+                shipNamePropertyText={shipNamePropertyText}
+                shipLengthPropertyText={shipLengthPropertyText}
+                shipIsSunkenPropertyText={shipIsSunkenPropertyText}
               />
             </div>
           </>
@@ -110,6 +119,9 @@ export const GameboardsWrapper = ({
             <GameboardShipStats 
               gameboard={gameboardPlayerTwo}
               ships={ships}
+              shipNamePropertyText={shipNamePropertyText}
+              shipLengthPropertyText={shipLengthPropertyText}
+              shipIsSunkenPropertyText={shipIsSunkenPropertyText}
             />
           </div>
           <div className="gameboards-wrapper-button-wrapper">
@@ -140,6 +152,9 @@ export const GameboardsWrapper = ({
             <GameboardShipStats 
               gameboard={gameboardPlayerOne}
               ships={ships}
+              shipNamePropertyText={shipNamePropertyText}
+              shipLengthPropertyText={shipLengthPropertyText}
+              shipIsSunkenPropertyText={shipIsSunkenPropertyText}
             />
           </div>
         </>

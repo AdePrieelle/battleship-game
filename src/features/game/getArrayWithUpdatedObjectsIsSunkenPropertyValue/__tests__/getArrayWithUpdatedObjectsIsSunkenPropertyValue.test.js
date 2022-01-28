@@ -1,4 +1,4 @@
-import { getArrayWithUpdatedObjectsIsSunkenPropertyValue } from "./getArrayWithUpdatedObjectsIsSunkenPropertyValue";
+import { getArrayWithUpdatedObjectsIsSunkenPropertyValue } from "../getArrayWithUpdatedObjectsIsSunkenPropertyValue";
 
 test("correctly returns an array with correct updated objects isSunken property values for each ship", () => {
   const mockArray = jest.fn(() => ([

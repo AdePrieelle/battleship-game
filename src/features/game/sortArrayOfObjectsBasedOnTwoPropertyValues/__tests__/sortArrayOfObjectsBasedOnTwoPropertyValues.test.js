@@ -1,4 +1,4 @@
-import { sortArrayOfObjectsBasedOnTwoPropertyValues } from "./sortArrayOfObjectsBasedOnTwoPropertyValues";
+import { sortArrayOfObjectsBasedOnTwoPropertyValues } from "../sortArrayOfObjectsBasedOnTwoPropertyValues";
 
 test("correctly sorts an array of objects based on two property values", () => {
   const mockArray = jest.fn(() => ([

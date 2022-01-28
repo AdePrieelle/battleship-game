@@ -1,4 +1,4 @@
-import { capitalizeString } from "./capitalizeString";
+import { capitalizeString } from "../capitalizeString";
 
 test("Capitalize string works correctly when it's a single word and the word starts with a letter", () => {
   const mockString = jest.fn(() => "hello");

@@ -36,7 +36,10 @@ export const GameLogicModals = ({
   isPlayerTwoComputer,
   setGameboardPlayerOneInitialState,
   setGameboardPlayerTwoInitialState,
-  setShowGameboards
+  setShowGameboards,
+  buttonNextStepText,
+  shipNamePropertyText,
+  shipLengthPropertyText
 }) => {
   // pre game logic for opponent is computer
   const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);
@@ -158,7 +161,7 @@ export const GameLogicModals = ({
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>Next</Button>
+              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -180,6 +183,9 @@ export const GameLogicModals = ({
               isPlayerTwoComputer={isPlayerTwoComputer}
               setShowGameboards={setShowGameboards}
               playerName={playerOneName}
+              buttonNextStepText={buttonNextStepText}
+              shipNamePropertyText={shipNamePropertyText}
+              shipLengthPropertyText={shipLengthPropertyText}
             />
           </>
         : null
@@ -199,7 +205,7 @@ export const GameLogicModals = ({
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneName}>Next</Button>
+              <Button buttonOnClick={handleModalPreGamePlayerOneName}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -219,7 +225,7 @@ export const GameLogicModals = ({
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerTwoName}>Next</Button>
+              <Button buttonOnClick={handleModalPreGamePlayerTwoName}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -233,7 +239,7 @@ export const GameLogicModals = ({
               Hand over to {playerOneName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>Next</Button>
+              <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null 
@@ -255,6 +261,9 @@ export const GameLogicModals = ({
               isPlayerTwoComputer={isPlayerTwoComputer}
               setNextModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
               playerName={playerOneName}
+              buttonNextStepText={buttonNextStepText}
+              shipNamePropertyText={shipNamePropertyText}
+              shipLengthPropertyText={shipLengthPropertyText}
             />
           </>
         : null
@@ -267,7 +276,7 @@ export const GameLogicModals = ({
               Hand over to {playerTwoName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>Next</Button>
+              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -289,6 +298,9 @@ export const GameLogicModals = ({
               isPlayerTwoComputer={isPlayerTwoComputer}
               setNextModal={setShowModalPreGameSwitchTurnToPlayerOne}
               playerName={playerTwoName}
+              buttonNextStepText={buttonNextStepText}
+              shipNamePropertyText={shipNamePropertyText}
+              shipLengthPropertyText={shipLengthPropertyText}
             />
           </>
         : null

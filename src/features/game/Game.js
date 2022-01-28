@@ -54,11 +54,16 @@ export const Game = () => {
   const freemissGameboardValue = "freemiss";
   const horizontalDirectionValue = "horizontal";
   const verticalDirectionValue = "vertical";
+  const buttonNextStepText = "Next";
+  const shipNamePropertyText = "name";
+  const shipLengthPropertyText = "shipLength";
+  const shipIsSunkenPropertyText = "isSunken";
   const computerName = "Computer";
   const [playerOneName, setPlayerOneName] = useState("Player 1");
   const [playerTwoName, setPlayerTwoName] = useState("Player 2");
   const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
-  const [computerHitTurnAgainCount, setComputerHitTurnAgainCount] = useState(0);
+  const computerHitTurnAgainCountDefaultValue = 0;
+  const [computerHitTurnAgainCount, setComputerHitTurnAgainCount] = useState(computerHitTurnAgainCountDefaultValue);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [playerOneWonGame, setPlayerOneWonGame] = useState(false);
@@ -127,8 +132,9 @@ export const Game = () => {
   const previousHitComputerCellsNotSunkenShipDefaultValue = [];
   const previousHitDirectionNotSunkenShipHorizontalValue = "horizontal";
   const previousHitDirectionNotSunkenShipVerticalValue = "vertical";
+  const previousHitDirectionNotSunkenShipDefaultValue = null;
   const [previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip] = useState(previousHitComputerCellsNotSunkenShipDefaultValue);
-  const [previousHitDirectionNotSunkenShip, setPreviousHitDirectionNotSunkenShip] = useState(null);
+  const [previousHitDirectionNotSunkenShip, setPreviousHitDirectionNotSunkenShip] = useState(previousHitDirectionNotSunkenShipDefaultValue);
 
   useEffect(() => {
     if (previousHitComputerCellsNotSunkenShip.length === 2 && !previousHitDirectionNotSunkenShip) {
@@ -160,7 +166,7 @@ export const Game = () => {
         if (isSunkenShipAfterHit(gameboard, index, hitGameboardValue, isSunkenShip)) {
           // currently "hit" ship is sunken
           setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
-          setPreviousHitDirectionNotSunkenShip(null);
+          setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
         } else {
           // currently "hit" ship isn't sunken
           let copyPreviousHitComputerCellNumbersInfo = [...previousHitComputerCellsNotSunkenShip];
@@ -180,7 +186,7 @@ export const Game = () => {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
       setGameboard(newGameboardStateAfterMissLogicWithMissCell);
       if (isComputer) {
-        setComputerHitTurnAgainCount(0);
+        setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
       }
       if (isPlayerTwoComputer) {
         setIsPlayerOneTurn(!isPlayerOneTurn);
@@ -253,7 +259,7 @@ export const Game = () => {
     setIsGameStarted(false);
     setIsGameOver(true);
     if (isComputer) {
-      setComputerHitTurnAgainCount(0);
+      setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
       setComputerWonGame(true);
     } else if (!isComputer) {
       if (isPlayerOneTurn) {
@@ -268,7 +274,7 @@ export const Game = () => {
   const handleStartGame = () => {
     setIsGameOver(false);
     setIsPlayerOneTurn(true);
-    setComputerHitTurnAgainCount(0);
+    setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
     setDisablePlayerMove(false);
     setIsGameStarted(true);
   }
@@ -280,7 +286,7 @@ export const Game = () => {
     setPlayerOneWonGame(false);
     setPlayerTwoWonGame(false);
     setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
-    setPreviousHitDirectionNotSunkenShip(null);
+    setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
     resetRandomGameboards();
   }
   
@@ -344,6 +350,9 @@ export const Game = () => {
             handleButtonNewGame={handleButtonNewGame}
             handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
             disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
+            shipLengthPropertyText={shipLengthPropertyText}
+            shipNamePropertyText={shipNamePropertyText}
+            shipIsSunkenPropertyText={shipIsSunkenPropertyText}
           />
         : null 
       }
@@ -377,6 +386,9 @@ export const Game = () => {
         verticalDirectionValue={verticalDirectionValue}
         isPlayerTwoComputer={isPlayerTwoComputer}
         setShowGameboards={setShowGameboards}
+        buttonNextStepText={buttonNextStepText}
+        shipLengthPropertyText={shipLengthPropertyText}
+        shipNamePropertyText={shipNamePropertyText}
       />
     </div>
   )

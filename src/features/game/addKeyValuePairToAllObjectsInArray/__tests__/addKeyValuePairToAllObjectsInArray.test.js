@@ -1,4 +1,4 @@
-import { addKeyValuePairToAllObjectsInArray } from "./addKeyValuePairToAllObjectsInArray";
+import { addKeyValuePairToAllObjectsInArray } from "../addKeyValuePairToAllObjectsInArray";
 
 test("adds a key value pair to all objects in an array correctly", () => {
   const mockArray = jest.fn(() => ([
