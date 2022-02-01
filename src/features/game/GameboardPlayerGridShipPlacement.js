@@ -96,13 +96,14 @@ export const GameboardPlayerGridShipPlacement = ({
     sortedShipsLengthDescendingOrder,
     currentIndexShipToBePlaced,
     verticalDirectionValue,
+    shipLengthPropertyText,
     getLastDigitOfNumber
   );
   
   const isAValidShipPlacement = (id, shipCoordsArray) => {
     return (isValidShipPosition(
       isEmptyGameboardCell(gameboardPlayerShipPlacement, id, emptyGameboardValue),
-      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(id, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber),
+      checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(id, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, shipLengthPropertyText, getFirstDigitOfNumber),
       checkIfShipIsNotSurroundedByAnotherShip(gameboardPlayerShipPlacement, shipCoordsArray, emptyGameboardValue) 
     ));
   }
@@ -131,7 +132,7 @@ export const GameboardPlayerGridShipPlacement = ({
 
   const randomizeGameboardPlayerShipPlacement = () => {
     setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
-    setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, createRandomGameboard))
+    setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard))
   }
 
   const handleModalGameboardPlayerGridShipPlacement = () => {

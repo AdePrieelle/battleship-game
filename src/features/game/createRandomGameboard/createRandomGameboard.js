@@ -10,10 +10,10 @@ import { generateRandomShipPosition } from '../generateRandomShipPosition/genera
 import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
 import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
 
-export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, callback) => {
+export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, callback) => {
   const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);
   const maxAmountTimesTriedToPlaceShip = 25;
-  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, "shipLength");
+  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, shipLengthPropertyText);
 
   for (const ship of sortedShipsLengthDescendingOrder) {
     const randomValidShipPosition = generateRandomValidShipPosition(
@@ -31,16 +31,17 @@ export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardV
       checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
       getFirstDigitOfNumber,
       checkIfShipIsNotSurroundedByAnotherShip,
+      shipLengthPropertyText,
       maxAmountTimesTriedToPlaceShip
     );
 
     // if it took too long to find a randomValidShipPosition for a specific ship restart ship placements again to prevent an infinite loop
     if (!randomValidShipPosition) {
-      return callback(amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships);
+      return callback(amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, callback);
     }
     
     for (const coord of randomValidShipPosition.shipCoords) {
-      randomGameboard[coord] = ship.name;
+      randomGameboard[coord] = ship[shipNamePropertyText];
     }
   }
   return randomGameboard;

@@ -1,7 +1,7 @@
-export const checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds = (startIndex, ship, direction, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber) => {
+export const checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds = (startIndex, ship, direction, horizontalDirectionValue, verticalDirectionValue, shipLengthPropertyText, getFirstDigitOfNumber) => {
   if (direction === horizontalDirectionValue) {
     const lastDigitOfstartIndex = startIndex % 10;
-    if (lastDigitOfstartIndex + (ship.shipLength - 1) <= 9) {
+    if (lastDigitOfstartIndex + (ship[shipLengthPropertyText] - 1) <= 9) {
       return true;
     }
     return false;
@@ -14,7 +14,7 @@ export const checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds = (startIndex,
     } else {
       firstDigitOfStartIndex = getFirstDigitOfNumber(startIndex)
     }
-    if (firstDigitOfStartIndex + (ship.shipLength - 1) <= 9) {
+    if (firstDigitOfStartIndex + (ship[shipLengthPropertyText] - 1) <= 9) {
       return true;
     }
     return false;

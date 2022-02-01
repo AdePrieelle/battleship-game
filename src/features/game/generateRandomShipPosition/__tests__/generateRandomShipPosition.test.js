@@ -16,6 +16,7 @@ test("generate a random ship position object with properties startIndex, directi
   const mockShip = jest.fn(() => ({ name: "c1", shipLength: 4}));
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockGetRandomIndexFromArray = jest.fn(() => 14);
   const mockGetRandomArrayValue = jest.fn(() => "horizontal");
   const mockCalculateShipCoords = jest.fn(() => [14, 15, 16, 17]);
@@ -24,6 +25,7 @@ test("generate a random ship position object with properties startIndex, directi
     mockShip, 
     mockHorizontalDirectionValue, 
     mockVerticalDirectionValue, 
+    mockShipLengthPropertyText,
     mockGetRandomIndexFromArray, 
     mockGetRandomArrayValue, 
     mockCalculateShipCoords

@@ -35,6 +35,7 @@ test("generate a random valid ship position object correctly", () => {
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => true);
   const mockGetFirstDigitOfNumber = jest.fn(() => 1);
   const mockCheckIfShipIsNotSurroundedByAnotherShip = jest.fn(() => true);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockMaxAmountTimesTriedToPlaceShip = jest.fn(() => 25);
   expect(generateRandomValidShipPosition(
     mockGenerateRandomShipPosition,
@@ -51,6 +52,7 @@ test("generate a random valid ship position object correctly", () => {
     mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
     mockGetFirstDigitOfNumber,
     mockCheckIfShipIsNotSurroundedByAnotherShip,
+    mockShipLengthPropertyText,
     mockMaxAmountTimesTriedToPlaceShip()
   )).toStrictEqual({
     startIndex: 14,
@@ -94,6 +96,7 @@ test("return false if randomShipPosition is not a valid ship position after exce
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => false);
   const mockGetFirstDigitOfNumber = jest.fn(() => 1);
   const mockCheckIfShipIsNotSurroundedByAnotherShip = jest.fn(() => true);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockMaxAmountTimesTriedToPlaceShip = jest.fn(() => 25);
   expect(generateRandomValidShipPosition(
     mockGenerateRandomShipPosition,
@@ -110,6 +113,7 @@ test("return false if randomShipPosition is not a valid ship position after exce
     mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
     mockGetFirstDigitOfNumber,
     mockCheckIfShipIsNotSurroundedByAnotherShip,
+    mockShipLengthPropertyText,
     mockMaxAmountTimesTriedToPlaceShip()
   )).toBe(false);
 });
@@ -185,6 +189,7 @@ test("return the 3rd generated randomShipPosition after previous generated rando
     .mockReturnValueOnce(7)
     .mockReturnValueOnce(8);
   const mockCheckIfShipIsNotSurroundedByAnotherShip = jest.fn(() => true);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockMaxAmountTimesTriedToPlaceShip = jest.fn(() => 25);
   expect(generateRandomValidShipPosition(
     mockGenerateRandomShipPosition,
@@ -201,6 +206,7 @@ test("return the 3rd generated randomShipPosition after previous generated rando
     mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds,
     mockGetFirstDigitOfNumber,
     mockCheckIfShipIsNotSurroundedByAnotherShip,
+    mockShipLengthPropertyText,
     mockMaxAmountTimesTriedToPlaceShip()
   )).toStrictEqual({
     startIndex: 5,

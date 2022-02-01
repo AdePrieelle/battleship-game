@@ -8,6 +8,7 @@ test("returns the original id as validStartIdShipNotOutOfBounds for a ship if th
   const mockGetLastIdInRowTwoDimensionalArray = jest.fn(() => 19);
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => true);
   const mockCurrentIndexShipToBePlaced = jest.fn(() => 1);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockShipPlacementDirection = jest.fn(() => "horizontal");
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
@@ -69,6 +70,7 @@ test("returns the original id as validStartIdShipNotOutOfBounds for a ship if th
     mockSortedShipsLengthDescendingOrder(),
     mockCurrentIndexShipToBePlaced(),
     mockVerticalDirectionValue(),
+    mockShipLengthPropertyText(),
     mockGetLastDigitOfNumber()
   )).toBe(16);
 });
@@ -81,6 +83,7 @@ test("returns the original id as validStartIdShipNotOutOfBounds for a ship if th
   const mockGetLastIdInRowTwoDimensionalArray = jest.fn(() => 19);
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => true);
   const mockCurrentIndexShipToBePlaced = jest.fn(() => 1);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockShipPlacementDirection = jest.fn(() => "vertical");
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
@@ -142,6 +145,7 @@ test("returns the original id as validStartIdShipNotOutOfBounds for a ship if th
     mockSortedShipsLengthDescendingOrder(),
     mockCurrentIndexShipToBePlaced(),
     mockVerticalDirectionValue(),
+    mockShipLengthPropertyText(),
     mockGetLastDigitOfNumber()
   )).toBe(16);
 });
@@ -154,6 +158,7 @@ test("returns the original id as validStartIdShipNotOutOfBounds for a ship if th
   const mockGetLastIdInRowTwoDimensionalArray = jest.fn(() => 9);
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => true);
   const mockCurrentIndexShipToBePlaced = jest.fn(() => 1);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockShipPlacementDirection = jest.fn(() => "horizontal");
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
@@ -215,6 +220,7 @@ test("returns the original id as validStartIdShipNotOutOfBounds for a ship if th
     mockSortedShipsLengthDescendingOrder(),
     mockCurrentIndexShipToBePlaced(),
     mockVerticalDirectionValue(),
+    mockShipLengthPropertyText,
     mockGetLastDigitOfNumber()
   )).toBe(6);
 });
@@ -227,6 +233,7 @@ test("returns the a validStartIdShipNotOutOfBounds for a ship if the current id 
   const mockGetLastIdInRowTwoDimensionalArray = jest.fn(() => 39);
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => false);
   const mockCurrentIndexShipToBePlaced = jest.fn(() => 0);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockShipPlacementDirection = jest.fn(() => "horizontal");
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
@@ -288,6 +295,7 @@ test("returns the a validStartIdShipNotOutOfBounds for a ship if the current id 
     mockSortedShipsLengthDescendingOrder(),
     mockCurrentIndexShipToBePlaced(),
     mockVerticalDirectionValue(),
+    mockShipLengthPropertyText(),
     mockGetLastDigitOfNumber()
   )).toBe(36);
 });
@@ -300,6 +308,7 @@ test("returns the a validStartIdShipNotOutOfBounds for a ship if the current id 
   const mockGetLastIdInRowTwoDimensionalArray = jest.fn(() => 9);
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => false);
   const mockCurrentIndexShipToBePlaced = jest.fn(() => 0);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockShipPlacementDirection = jest.fn(() => "horizontal");
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
@@ -361,6 +370,7 @@ test("returns the a validStartIdShipNotOutOfBounds for a ship if the current id 
     mockSortedShipsLengthDescendingOrder(),
     mockCurrentIndexShipToBePlaced(),
     mockVerticalDirectionValue(),
+    mockShipLengthPropertyText(),
     mockGetLastDigitOfNumber()
   )).toBe(6);
 });
@@ -373,6 +383,7 @@ test("returns the a validStartIdShipNotOutOfBounds for a ship if the current id 
   const mockGetLastIdInRowTwoDimensionalArray = jest.fn(() => 89);
   const mockCheckIfStartIndexShipCoordsDirectionIsNotOutOfBounds = jest.fn(() => false);
   const mockCurrentIndexShipToBePlaced = jest.fn(() => 0);
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockShipPlacementDirection = jest.fn(() => "vertical");
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
@@ -434,6 +445,7 @@ test("returns the a validStartIdShipNotOutOfBounds for a ship if the current id 
     mockSortedShipsLengthDescendingOrder(),
     mockCurrentIndexShipToBePlaced(),
     mockVerticalDirectionValue(),
+    mockShipLengthPropertyText(),
     mockGetLastDigitOfNumber
   )).toBe(66);
 });

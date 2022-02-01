@@ -11,12 +11,13 @@ export const getValidStartIdShipNotOutOfBounds = (
   sortedShipsLengthDescendingOrder,
   currentIndexShipToBePlaced,
   verticalDirectionValue,
+  shipLengthPropertyText,
   getLastDigitOfNumber
 ) => {
   const rowNumber = getRowNumberOfIndexTwoDimensionalArray(id, getFirstDigitOfNumber);
   const currentShip = sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced];
-  const lengthOfShip = currentShip.shipLength;
-  const isIdShipPlacementNotOutOfBounds = checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(id, currentShip, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, getFirstDigitOfNumber);
+  const lengthOfShip = currentShip[shipLengthPropertyText];
+  const isIdShipPlacementNotOutOfBounds = checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(id, currentShip, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, shipLengthPropertyText, getFirstDigitOfNumber);
 
   if (isIdShipPlacementNotOutOfBounds) {
     return id;

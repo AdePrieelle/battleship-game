@@ -55,7 +55,13 @@ test("isAllShipsSunken returns false if some ships cells aren't hit", () => {
       shipLength: 4,
     },
   ]));
-  expect(isAllShipsSunken(mockGameboard(), mockShips())).toBe(false);
+  const mockShipNamePropertyText = jest.fn(() => "name");
+
+  expect(isAllShipsSunken(
+    mockGameboard(), 
+    mockShips(),
+    mockShipNamePropertyText()
+  )).toBe(false);
 });
 
 test("isAllShipsSunken returns true if all ships cells are hit", () => {
@@ -113,5 +119,11 @@ test("isAllShipsSunken returns true if all ships cells are hit", () => {
       shipLength: 4,
     },
   ]));
-  expect(isAllShipsSunken(mockGameboard(), mockShips())).toBe(true);
+  const mockShipNamePropertyText = jest.fn(() => "name");
+
+  expect(isAllShipsSunken(
+    mockGameboard(), 
+    mockShips(),
+    mockShipNamePropertyText()
+  )).toBe(true);
 });

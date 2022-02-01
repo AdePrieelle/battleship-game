@@ -120,6 +120,8 @@ test("create a random gameboard with randomly generated ships coords placed corr
   ]));
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
+  const mockShipNamePropertyText = jest.fn(() => "name");
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockCallback = jest.fn(() => "callback called correctly");
   expect(
     createRandomGameboard(
@@ -130,6 +132,8 @@ test("create a random gameboard with randomly generated ships coords placed corr
       mockShips(),
       mockHorizontalDirectionValue,
       mockVerticalDirectionValue, 
+      mockShipNamePropertyText(),
+      mockShipLengthPropertyText(),
       mockCallback
     )
   ).toStrictEqual([
@@ -195,6 +199,8 @@ test("create a random gameboard returns callback createRandomGameboard when rand
   ]));
   const mockHorizontalDirectionValue = jest.fn(() => "horizontal");
   const mockVerticalDirectionValue = jest.fn(() => "vertical");
+  const mockShipNamePropertyText = jest.fn(() => "name");
+  const mockShipLengthPropertyText = jest.fn(() => "shipLength");
   const mockCallback = jest.fn(() => "callback called correctly");
   expect(
     createRandomGameboard(
@@ -205,6 +211,8 @@ test("create a random gameboard returns callback createRandomGameboard when rand
       mockShips(),
       mockHorizontalDirectionValue,
       mockVerticalDirectionValue,
+      mockShipNamePropertyText(),
+      mockShipLengthPropertyText(),
       mockCallback
     )
   ).toBe("callback called correctly");
