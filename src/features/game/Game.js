@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import { createGameboard } from './createGameboard/createGameboard';
 import { getRandomIndexFromArray } from './getRandomIndexFromArray/getRandomIndexFromArray';
 import { isHiddenShipGameboardCell } from './isHiddenShipGameboardCell/isHiddenShipGameboardCell';
 import { isEmptyGameboardCell } from './isEmptyGameboardCell/isEmptyGameboardCell';
@@ -15,35 +14,15 @@ import { getGameboardAfterMissLogic } from './getGameboardAfterMissLogic/getGame
 // import { generateRandomValidShipPosition } from './generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { ships } from './ships';
 import { isAllShipsSunken } from './isAllShipsSunken/isAllShipsSunken';
-// import { GameboardPlayerGrid } from './GameboardPlayerGrid';
-// import { GameboardComputerGrid } from './GameboardComputerGrid';
 import { isValidPlayerTurn } from './isValidPlayerTurn/isValidPlayerTurn';
-// import { CreateNewRandomGameboardButton } from './CreateNewRandomGameboardButton/CreateNewRandomGameboardButton';
-// import { StartGameButton } from './StartGameButton/StartGameButton';
-// import { NewGameButton } from './NewGameButton/NewGameButton';
 import { isValidComputerTurn } from './isValidComputerTurn/isValidComputerTurn';
-// import { GameboardShipStats } from './GameboardShipStats/GameboardShipStats';
 import { getPreviousHitDirectionNotSunkenShip } from './getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
 import { isSunkenShipAfterHit } from './isSunkenShipAfterHit/isSunkenShipAfterHit';
 import { getAvailableNextSmartComputerMovesAfterHit } from './getAvailableNextSmartComputerMovesAfterHit/getAvailableNextSmartComputerMovesAfterHit';
 import { isShipOrEmptyGameboardValue } from './isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
-// import { Modal } from './Modal/Modal';
-// import { Button } from './Button/Button';
-// import { ButtonsWrapper } from './ButtonsWrapper/ButtonsWrapper';
-// import { ModalMessage } from './ModalMessage/ModalMessage';
-// import { GameboardPlayerGridShipPlacement } from './GameboardPlayerGridShipPlacement';
 import { GameLogicModals } from './GameLogicModals';
-// import { NextButton } from './NextButton/NextButton';
 import { GameboardsWrapper } from './GameboardsWrapper';
-// import { GameButtons } from './GameButtons';
 import './Game.scss';
-// import { createGameboard } from './createGameboard/createGameboard';
-// import { sortArrayOfObjectsBasedOnAPropertyValue } from './sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
-// import { isValidShipPosition } from './isValidShipPosition/isValidShipPosition';
-// import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from './checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
-// import { getFirstDigitOfNumber } from './getFirstDigitOfNumber/getFirstDigitOfNumber';
-// import { checkIfShipIsNotSurroundedByAnotherShip } from './checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip';
-// import { calculateShipCoords } from './calculateShipCoords/calculateShipCoords';
 
 export const Game = () => {
   const amountOfRows = 10;
