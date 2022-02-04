@@ -1,7 +1,7 @@
-import { isSunkenShip } from '../isSunkenShip/isSunkenShip';
-import { addKeyValuePairToAllObjectsInArray } from '../addKeyValuePairToAllObjectsInArray/addKeyValuePairToAllObjectsInArray';
-import { getArrayWithUpdatedObjectsIsSunkenPropertyValue } from '../getArrayWithUpdatedObjectsIsSunkenPropertyValue/getArrayWithUpdatedObjectsIsSunkenPropertyValue';
-import { sortArrayOfObjectsBasedOnTwoPropertyValues } from '../sortArrayOfObjectsBasedOnTwoPropertyValues/sortArrayOfObjectsBasedOnTwoPropertyValues';
+import { isSunkenShip } from '../../../../common/utils/isSunkenShip/isSunkenShip';
+import { addKeyValuePairToAllObjectsInArray } from '../../../../common/utils/addKeyValuePairToAllObjectsInArray/addKeyValuePairToAllObjectsInArray';
+import { getArrayWithUpdatedObjectsIsSunkenPropertyValue } from '../../../../common/utils/getArrayWithUpdatedObjectsIsSunkenPropertyValue/getArrayWithUpdatedObjectsIsSunkenPropertyValue';
+import { sortArrayOfObjectsBasedOnTwoPropertyValues } from '../../../../common/utils/sortArrayOfObjectsBasedOnTwoPropertyValues/sortArrayOfObjectsBasedOnTwoPropertyValues';
 import './GameboardShipStats.scss';
 
 export const GameboardShipStats = ({

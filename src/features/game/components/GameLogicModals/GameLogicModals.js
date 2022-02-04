@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Modal } from "./Modal/Modal";
-import { ModalMessage } from "./ModalMessage/ModalMessage";
-import { ButtonsWrapper } from "./ButtonsWrapper/ButtonsWrapper";
-import { Button } from "./Button/Button";
-import { GameboardPlayerGridShipPlacement } from "./GameboardPlayerGridShipPlacement";
-import { capitalizeString } from "./capitalizeString/capitalizeString";
+import { Modal } from "../../../../common/components/Modal/Modal";
+import { ModalMessage } from "../../../../common/components/ModalMessage/ModalMessage";
+import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
+import { Button } from "../../../../common/components/Button/Button";
+import { GameboardPlayerGridShipPlacement } from "../GameboardPlayerGridShipPlacement/GameboardPlayerGridShipPlacement";
+import { capitalizeString } from "../../../../common/utils/capitalizeString/capitalizeString";
 import './GameLogicModals.scss';
 
 export const GameLogicModals = ({

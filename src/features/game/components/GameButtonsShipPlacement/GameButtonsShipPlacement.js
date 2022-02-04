@@ -1,4 +1,4 @@
-import { Button } from './Button/Button';
+import { Button } from "../../../../common/components/Button/Button";
 import './GameButtonsShipPlacement.scss';
 
 export const GameButtonsShipPlacement = ({
