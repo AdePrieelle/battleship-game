@@ -8,6 +8,5 @@ export const isSunkenShipAfterHit = (
   const shipName = copyGameboard[index];
   copyGameboard[index] = hitGameboardValue;
   const isShipNameSunken = isSunkenShip(copyGameboard, shipName);
-
   return isShipNameSunken;
 };

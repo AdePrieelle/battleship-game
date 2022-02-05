@@ -19,5 +19,7 @@ export const checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds = (startIndex,
     }
     return false;
   }
+
   return false;
-}
+
+};

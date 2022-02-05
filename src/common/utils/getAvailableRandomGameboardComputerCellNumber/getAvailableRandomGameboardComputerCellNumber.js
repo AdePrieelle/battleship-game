@@ -6,7 +6,6 @@ export const getAvailableRandomGameboardComputerCellNumber = (
   freemissGameboardValue,
   getRandomIndexFromArray,
 ) => {
-
   // array of indexes of computercells that are either "empty" or a hidden ship
   const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardComputer, hitGameboardValue, missGameboardValue, freemissGameboardValue);
   // pick a random index from the gameboardComputerCellsAvailable

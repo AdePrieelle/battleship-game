@@ -1,5 +1,4 @@
 export const checkIfShipIsNotSurroundedByAnotherShip = (gameboard, shipCoordsArray, emptyGameboardValue) => {
-  
   for (const shipCoord of shipCoordsArray) {
     if ((shipCoord >= 0 && shipCoord <= 9)) {
       if (gameboard[shipCoord + 10] !== emptyGameboardValue) {
@@ -115,4 +114,4 @@ export const checkIfShipIsNotSurroundedByAnotherShip = (gameboard, shipCoordsArr
 
   return true;
   
-}
+};

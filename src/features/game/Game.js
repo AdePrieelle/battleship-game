@@ -106,7 +106,7 @@ export const Game = () => {
         return () => clearTimeout(computerTurnTimeout);
       }
     }
-  }, [isPlayerTwoComputer, isPlayerOneTurn, isGameStarted, isGameOver, gameboardPlayerOne, computerHitTurnAgainCount]);
+  });
 
   const previousHitComputerCellsNotSunkenShipDefaultValue = [];
   const previousHitDirectionNotSunkenShipHorizontalValue = "horizontal";

@@ -1,5 +1,4 @@
 export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoordsArray, freemissGameboardValue, emptyGameboardValue) => {
-
   let copyArray = [...array];
 
   for (const shipCoord of shipCoordsArray) {
@@ -117,5 +116,5 @@ export const addFreeMissGameboardValueCellsAroundSunkenShip = (array, shipCoords
 
   return (
     copyArray
-  )
-}
+  );
+};
