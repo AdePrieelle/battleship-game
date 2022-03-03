@@ -22,10 +22,13 @@ import { isShipOrEmptyGameboardValue } from '../../common/utils/isShipOrEmptyGam
 import { GameLogicModals } from './components/GameLogicModals/GameLogicModals';
 import { GameboardsWrapper } from './components/GameboardsWrapper/GameboardsWrapper';
 import { ships } from './ships';
+import { useSelector } from 'react-redux';
+import { selectAmountOfRows } from './gameSlice';
 import './Game.scss';
 
 export const Game = () => {
   const amountOfRows = 10;
+  // const amountOfRows = useSelector(selectAmountOfRows);
   const amountOfColumns = 10;
   const emptyGameboardValue = "empty";
   const hitGameboardValue = "hit";
