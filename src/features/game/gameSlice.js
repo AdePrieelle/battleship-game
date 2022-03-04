@@ -26,7 +26,45 @@ const initialState = {
   computerWonGame: false,
   isPlayerTwoComputer: true,
 
-}
+  gameboardPlayerOneInitialState: [
+    "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "c1", "c1", "c1", "c1", "miss", "miss", "hit", "hit", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  ],
+  gameboardPlayerTwoInitialState: [
+    "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "c1", "c1", "c1", "c1", "miss", "miss", "hit", "hit", "miss", "empty",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
+    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+    "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
+    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
+  ],
+  gameboardPlayerOne: [],
+  gameboardPlayerTwo: [],
+
+  previousHitComputerCellsNotSunkenShipDefaultValue: [],
+  previousHitDirectionNotSunkenShipHorizontalValue: "horizontal",
+  previousHitDirectionNotSunkenShipVerticalValue: "vertical",
+  previousHitDirectionNotSunkenShipDefaultValue: null,
+
+  previousHitComputerCellsNotSunkenShip: [],
+  previousHitDirectionNotSunkenShip: null,
+
+
+
+
+};
 
 export const gameSlice = createSlice({
   name: 'game',
@@ -65,6 +103,27 @@ export const gameSlice = createSlice({
     updateIsPlayerTwoComputer: (state, action) => {
       state.isPlayerTwoComputer = action.payload;
     },
+
+    updateGameboardPlayerOneInitialState: (state, action) => {
+      state.gameboardPlayerOneInitialState = action.payload;
+    },
+    updateGameboardPlayerTwoInitialState: (state, action) => {
+      state.gameboardPlayerTwoInitialState = action.payload;
+    },
+    updateGameboardPlayerOne: (state, action) => {
+      state.gameboardPlayerOne = action.payload;
+    },
+    updateGameboardPlayerTwo: (state, action) => {
+      state.gameboardPlayerTwo = action.payload;
+    },
+
+    updatePreviousHitComputerCellsNotSunkenShip: (state, action) => {
+      state.previousHitComputerCellsNotSunkenShip = action.payload;
+    },
+    updatePreviousHitDirectionNotSunkenShip: (state, action) => {
+      state.previousHitDirectionNotSunkenShip = action.payload;
+    },
+
     
   },
 });
@@ -81,6 +140,15 @@ export const {
   updatePlayerTwoWonGame,
   updateComputerWonGame,
   updateIsPlayerTwoComputer,
+
+  updateGameboardPlayerOneInitialState,
+  updateGameboardPlayerTwoInitialState,
+  updateGameboardPlayerOne,
+  updateGameboardPlayerTwo,
+
+  updatePreviousHitComputerCellsNotSunkenShip,
+  updatePreviousHitDirectionNotSunkenShip,
+
 } = gameSlice.actions;
 
 // Selector functions
@@ -108,5 +176,18 @@ export const selectPlayerOneWonGame = (state) => state.game.playerOneWonGame;
 export const selectPlayerTwoWonGame = (state) => state.game.playerTwoWonGame;
 export const selectComputerWonGame = (state) => state.game.computerWonGame;
 export const selectIsPlayerTwoComputer = (state) => state.game.isPlayerTwoComputer;
+
+export const selectGameboardPlayerOneInitialState = (state) => state.game.gameboardPlayerOneInitialState;
+export const selectGameboardPlayerTwoInitialState = (state) => state.game.gameboardPlayerTwoInitialState;
+export const selectGameboardPlayerOne = (state) => state.game.gameboardPlayerOne;
+export const selectGameboardPlayerTwo = (state) => state.game.gameboardPlayerTwo;
+
+export const selectPreviousHitComputerCellsNotSunkenShipDefaultValue = (state) => state.game.previousHitComputerCellsNotSunkenShipDefaultValue;
+export const selectPreviousHitDirectionNotSunkenShipHorizontalValue = (state) => state.game.previousHitDirectionNotSunkenShipHorizontalValue;
+export const selectPreviousHitDirectionNotSunkenShipVerticalValue = (state) => state.game.previousHitDirectionNotSunkenShipVerticalValue;
+export const selectPreviousHitDirectionNotSunkenShipDefaultValue = (state) => state.game.previousHitDirectionNotSunkenShipDefaultValue;
+
+export const selectPreviousHitComputerCellsNotSunkenShip = (state) => state.game.previousHitComputerCellsNotSunkenShip;
+export const selectPreviousHitDirectionNotSunkenShip = (state) => state.game.previousHitDirectionNotSunkenShip;
 
 export default gameSlice.reducer;
