@@ -162,7 +162,7 @@ export const Game = () => {
       // logic for isGameOver
       const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, shipNamePropertyText);
       if (allShipsSunken) {
-        handleIsGameOver(isComputer);
+        handleIsGameOver({ computerWon: isComputer });
       }
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
@@ -237,13 +237,13 @@ export const Game = () => {
     // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
   }
   
-  const handleIsGameOver = (isComputer) => {
+  const handleIsGameOver = (winner) => {
     setIsGameStarted(false);
     setIsGameOver(true);
-    if (isComputer) {
+    if (winner.computerWon) {
       setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
       setComputerWonGame(true);
-    } else if (!isComputer) {
+    } else if (!winner.computerWon) {
       if (isPlayerOneTurn) {
         setPlayerOneWonGame(true);
       } else if (!isPlayerOneTurn) {

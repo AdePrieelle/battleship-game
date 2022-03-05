@@ -153,6 +153,69 @@ export const gameSlice = createSlice({
       state.disableButtonGameSwitchPlayerTurn = action.payload;
     },
 
+
+    handleIsGameOver: (state, action) => {
+      state.isGameStarted = false;
+      state.isGameOver = true;
+      if (action.payload.computerWon) {
+        state.computerHitTurnAgainCount = state.computerHitTurnAgainCountDefaultValue;
+        state.computerWonGame = true;
+      } else if (!action.payload.computerWon) {
+        if (state.isPlayerOneTurn) {
+          state.playerOneWonGame = true;
+        } else if (!state.isPlayerOneTurn) {
+          state.playerTwoWonGame = true;
+        }
+      }
+      state.showModalGameOver = true;
+    },
+
+    handleStartGame: (state) => {
+      state.isGameOver = false;
+      state.isPlayerOneTurn = true;
+      state.computerHitTurnAgainCount = state.computerHitTurnAgainCountDefaultValue;
+      state.disablePlayerMove = false;
+      state.isGameStarted = true;
+    },
+
+    handleButtonNewGame: (state) => {
+      state.showModalGameOver = false;
+      state.showModalPickOpponent = true;
+    },
+
+    handleButtonGameSwitchPlayerTurn: (state) => {
+      state.showGameboards = false;
+      state.disablePlayerMove = false;
+      state.disableButtonGameSwitchPlayerTurn = true;
+      if (state.isPlayerOneTurn) {
+        state.showModalGameSwitchTurnToPlayerTwo = true;
+      } else if (!state.isPlayerOneTurn) {
+        state.showModalGameSwitchTurnToPlayerOne = true;
+      }
+      state.isPlayerOneTurn = !state.isPlayerOneTurn;
+    }
+
+
+
+    // const resetRandomGameboards = () => {
+    //   setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
+    //   setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
+    //   // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
+    //   // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
+    // } 
+    
+    
+    // const handleNewGame = () => {
+    //   setIsGameOver(false);
+    //   setIsGameStarted(false);
+    //   setComputerWonGame(false);
+    //   setPlayerOneWonGame(false);
+    //   setPlayerTwoWonGame(false);
+    //   setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
+    //   setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
+    //   resetRandomGameboards();
+    // }
+
   },
 });
 
@@ -184,6 +247,14 @@ export const {
   updateShowModalGameSwitchTurnToPlayerOne,
   updateDisablePlayerMove,
   updateDisableButtonGameSwitchPlayerTurn,
+
+  handleIsGameOver,
+  handleStartGame,
+  handleButtonNewGame,
+  handleButtonGameSwitchPlayerTurn,
+
+
+
 
 } = gameSlice.actions;
 
