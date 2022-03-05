@@ -62,6 +62,13 @@ const initialState = {
   previousHitDirectionNotSunkenShip: null,
 
 
+  showGameboards: true,
+  showModalGameOver: false,
+  showModalPickOpponent: false,
+  showModalGameSwitchTurnToPlayerTwo: false,
+  showModalGameSwitchTurnToPlayerOne: false,
+  disablePlayerMove: false,
+  disableButtonGameSwitchPlayerTurn: false,
 
 
 };
@@ -124,7 +131,28 @@ export const gameSlice = createSlice({
       state.previousHitDirectionNotSunkenShip = action.payload;
     },
 
-    
+    updateShowGameboards: (state, action) => {
+      state.showGameboards = action.payload;
+    },
+    updateShowModalGameOver: (state, action) => {
+      state.showModalGameOver = action.payload;
+    },
+    updateShowModalPickOpponent: (state, action) => {
+      state.showModalPickOpponent = action.payload;
+    },
+    updateShowModalGameSwitchTurnToPlayerTwo: (state, action) => {
+      state.showModalGameSwitchTurnToPlayerTwo = action.payload;
+    },
+    updateShowModalGameSwitchTurnToPlayerOne: (state, action) => {
+      state.showModalGameSwitchTurnToPlayerOne = action.payload;
+    },
+    updateDisablePlayerMove: (state, action) => {
+      state.disablePlayerMove = action.payload;
+    },
+    updateDisableButtonGameSwitchPlayerTurn: (state, action) => {
+      state.disableButtonGameSwitchPlayerTurn = action.payload;
+    },
+
   },
 });
 
@@ -148,6 +176,14 @@ export const {
 
   updatePreviousHitComputerCellsNotSunkenShip,
   updatePreviousHitDirectionNotSunkenShip,
+
+  updateShowGameboards,
+  updateShowModalGameOver,
+  updateShowModalPickOpponent,
+  updateShowModalGameSwitchTurnToPlayerTwo,
+  updateShowModalGameSwitchTurnToPlayerOne,
+  updateDisablePlayerMove,
+  updateDisableButtonGameSwitchPlayerTurn,
 
 } = gameSlice.actions;
 
@@ -189,5 +225,15 @@ export const selectPreviousHitDirectionNotSunkenShipDefaultValue = (state) => st
 
 export const selectPreviousHitComputerCellsNotSunkenShip = (state) => state.game.previousHitComputerCellsNotSunkenShip;
 export const selectPreviousHitDirectionNotSunkenShip = (state) => state.game.previousHitDirectionNotSunkenShip;
+
+export const selectShowGameboards = (state) => state.game.showGameboards;
+export const selectShowModalGameOver = (state) => state.game.showModalGameOver;
+export const selectShowModalPickOpponent = (state) => state.game.showModalPickOpponent;
+export const selectShowModalGameSwitchTurnToPlayerTwo = (state) => state.game.showModalGameSwitchTurnToPlayerTwo;
+export const selectShowModalGameSwitchTurnToPlayerOne = (state) => state.game.showModalGameSwitchTurnToPlayerOne;
+export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
+export const selectDisableButtonGameSwitchPlayerTurn = (state) => state.game.disableButtonGameSwitchPlayerTurn;
+
+
 
 export default gameSlice.reducer;
