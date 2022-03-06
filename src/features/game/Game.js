@@ -10,8 +10,6 @@ import { getAllIndexesOfAnArrayValue } from '../../common/utils/getAllIndexesOfA
 import { getAvailableRandomGameboardComputerCellNumber } from '../../common/utils/getAvailableRandomGameboardComputerCellNumber/getAvailableRandomGameboardComputerCellNumber';
 import { getGameboardAfterHitLogic } from '../../common/utils/getGameboardAfterHitLogic/getGameboardAfterHitLogic';
 import { getGameboardAfterMissLogic } from '../../common/utils/getGameboardAfterMissLogic/getGameboardAfterMissLogic';
-// import { createRandomGameboard } from '../../common/utils/createRandomGameboard/createRandomGameboard';
-// import { generateRandomValidShipPosition } from '../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { isAllShipsSunken } from '../../common/utils/isAllShipsSunken/isAllShipsSunken';
 import { isValidPlayerTurn } from '../../common/utils/isValidPlayerTurn/isValidPlayerTurn';
 import { isValidComputerTurn } from '../../common/utils/isValidComputerTurn/isValidComputerTurn';
@@ -22,6 +20,8 @@ import { isShipOrEmptyGameboardValue } from '../../common/utils/isShipOrEmptyGam
 import { GameLogicModals } from './components/GameLogicModals/GameLogicModals';
 import { GameboardsWrapper } from './components/GameboardsWrapper/GameboardsWrapper';
 import { ships } from './ships';
+import { createRandomGameboard } from '../../common/utils/createRandomGameboard/createRandomGameboard';
+import { generateRandomValidShipPosition } from '../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition';
 // import { useSelector } from 'react-redux';
 // import { selectAmountOfRows } from './gameSlice';
 import './Game.scss';
@@ -236,6 +236,17 @@ export const Game = () => {
     // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
     // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
   }
+
+  const getGeneratedRandomGameboardPlayerInitialStates = () => {
+    const generatedRandomGameboardPlayerOneInitialState = createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard);
+    // const generatedRandomGameboardPlayerOneInitialState = [...gameboardPlayerOneInitialState];
+    const generatedRandomGameboardPlayerTwoInitialState = createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard);
+    // const generatedRandomGameboardPlayerTwoInitialState = [...gameboardPlayerTwoInitialState];
+    return ({
+      generatedRandomGameboardPlayerOneInitialState,
+      generatedRandomGameboardPlayerTwoInitialState
+    });
+  };
   
   const handleIsGameOver = (winner) => {
     setIsGameStarted(false);

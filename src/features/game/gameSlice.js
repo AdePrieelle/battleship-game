@@ -193,28 +193,21 @@ export const gameSlice = createSlice({
         state.showModalGameSwitchTurnToPlayerOne = true;
       }
       state.isPlayerOneTurn = !state.isPlayerOneTurn;
-    }
+    },
 
+    handleNewGame: (state, action) => {
+      state.isGameOver = false;
+      state.isGameStarted = false;
+      state.computerWonGame = false;
+      state.playerOneWonGame = false;
+      state.playerTwoWonGame = false;
+      state.previousHitComputerCellsNotSunkenShip = state.previousHitComputerCellsNotSunkenShipDefaultValue;
+      state.previousHitDirectionNotSunkenShip = state.previousHitDirectionNotSunkenShipDefaultValue;
+      state.gameboardPlayerOneInitialState = action.payload.generatedRandomGameboardPlayerOneInitialState;
+      state.gameboardPlayerTwoInitialState = action.payload.generatedRandomGameboardPlayerTwoInitialState;
+    },
 
-
-    // const resetRandomGameboards = () => {
-    //   setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
-    //   setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
-    //   // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
-    //   // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
-    // } 
     
-    
-    // const handleNewGame = () => {
-    //   setIsGameOver(false);
-    //   setIsGameStarted(false);
-    //   setComputerWonGame(false);
-    //   setPlayerOneWonGame(false);
-    //   setPlayerTwoWonGame(false);
-    //   setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
-    //   setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
-    //   resetRandomGameboards();
-    // }
 
   },
 });
@@ -252,6 +245,7 @@ export const {
   handleStartGame,
   handleButtonNewGame,
   handleButtonGameSwitchPlayerTurn,
+  handleNewGame,
 
 
 
