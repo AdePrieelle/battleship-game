@@ -71,6 +71,92 @@ const initialState = {
   disableButtonGameSwitchPlayerTurn: false,
 
 
+  // GameLogicModals
+
+  showModalPreGamePlayerOneNameAgainstComputer: false,
+  showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer: false,
+  showModalPreGamePlayerOneName: false,
+  showModalPreGamePlayerTwoName: false,
+  showModalPreGameSwitchTurnToPlayerOneGameboard: false,
+  showModalPreGameGameboardPlayerOneGridShipPlacement: false,
+  showModalPreGameSwitchTurnToPlayerTwoGameboard: false,
+  showModalPreGameGameboardPlayerTwoGridShipPlacement: false,
+  showModalPreGameSwitchTurnToPlayerOne: false,
+
+  // pre game logic for opponent is computer
+  // const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);
+  // const [showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer, setShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer] = useState(false);
+  
+  // pre game logic for opponent is a player
+  // const [showModalPreGamePlayerOneName, setShowModalPreGamePlayerOneName] = useState(false);
+  // const [showModalPreGamePlayerTwoName, setShowModalPreGamePlayerTwoName] = useState(false);
+  // const [showModalPreGameSwitchTurnToPlayerOneGameboard, setShowModalPreGameSwitchTurnToPlayerOneGameboard] = useState(false);
+  // const [showModalPreGameGameboardPlayerOneGridShipPlacement, setShowModalPreGameGameboardPlayerOneGridShipPlacement] = useState(false);
+  // const [showModalPreGameSwitchTurnToPlayerTwoGameboard, setShowModalPreGameSwitchTurnToPlayerTwoGameboard] = useState(false);
+  // const [showModalPreGameGameboardPlayerTwoGridShipPlacement, setShowModalPreGameGameboardPlayerTwoGridShipPlacement] = useState(false);
+  // const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
+
+  // Pre game opponent is a computer logic
+  const handleModalPickOpponentComputer = () => {
+    setShowModalPickOpponent(false);
+    handleNewGame();
+    setIsPlayerTwoComputer(true);
+    setShowGameboards(false);
+    setShowModalPreGamePlayerOneNameAgainstComputer(true);
+  }
+
+  const handleModalPreGamePlayerOneNameAgainstComputer = () => {
+    setShowModalPreGamePlayerOneNameAgainstComputer(false);
+    setShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer(true);
+  }
+
+  // Pre game opponent is a player logic
+  const handleModalPickOpponentPlayer = () => {
+    setShowModalPickOpponent(false);
+    handleNewGame();
+    setIsPlayerTwoComputer(false);
+    setShowGameboards(false);
+    setShowModalPreGamePlayerOneName(true);
+  }
+
+  const handleModalPreGamePlayerOneName = () => {
+    setShowModalPreGamePlayerOneName(false);
+    setShowModalPreGamePlayerTwoName(true);
+  }
+
+  const handleModalPreGamePlayerTwoName = () => {
+    setShowModalPreGamePlayerTwoName(false);
+    setShowModalPreGameSwitchTurnToPlayerOneGameboard(true);
+  }
+
+  const handleModalPreGameSwitchToPlayerOneGameboard = () => {
+    setShowModalPreGameSwitchTurnToPlayerOneGameboard(false);
+    setShowModalPreGameGameboardPlayerOneGridShipPlacement(true);
+  }
+
+  const handleModalPreGameSwitchTurnToPlayerTwo = () => {
+    setShowModalPreGameSwitchTurnToPlayerTwoGameboard(false);
+    setShowModalPreGameGameboardPlayerTwoGridShipPlacement(true);
+  }
+
+  const handleModalPreGameSwitchTurnToPlayerOne = () => {
+    setShowModalPreGameSwitchTurnToPlayerOne(false);
+    setShowGameboards(true);
+    handleStartGame();
+  }
+
+  // modal game switch turns for opponent is a player
+  const handleModalGameSwitchTurnToPlayerTwo = () => {
+    setShowModalGameSwitchTurnToPlayerTwo(false);
+    setShowGameboards(true);
+  }
+
+  const handleModalGameSwitchTurnToPlayerOne = () => {
+    setShowModalGameSwitchTurnToPlayerOne(false);
+    setShowGameboards(true);
+  }
+
+
 };
 
 export const gameSlice = createSlice({
@@ -207,7 +293,97 @@ export const gameSlice = createSlice({
       state.gameboardPlayerTwoInitialState = action.payload.generatedRandomGameboardPlayerTwoInitialState;
     },
 
+
+    // GameLogicModals
+
+    updateShowModalPreGamePlayerOneNameAgainstComputer: (state, action) => {
+      state.showModalPreGamePlayerOneNameAgainstComputer = action.payload;
+    },
+    updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer: (state, action) => {
+      state.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = action.payload;
+    },
+    updateShowModalPreGamePlayerOneName: (state, action) => {
+      state.showModalPreGamePlayerOneName = action.payload;
+    },
+    updateShowModalPreGamePlayerTwoName: (state, action) => {
+      state.showModalPreGamePlayerTwoName = action.payload;
+    },
+    updateShowModalPreGameSwitchTurnToPlayerOneGameboard: (state, action) => {
+      state.showModalPreGameSwitchTurnToPlayerOneGameboard = action.payload;
+    },
+    updateShowModalPreGameGameboardPlayerOneGridShipPlacement: (state, action) => {
+      state.showModalPreGameGameboardPlayerOneGridShipPlacement = action.payload;
+    },
+    updateShowModalPreGameSwitchTurnToPlayerTwoGameboard: (state, action) => {
+      state.showModalPreGameSwitchTurnToPlayerTwoGameboard = action.payload;
+    },
+    updateShowModalPreGameGameboardPlayerTwoGridShipPlacement: (state, action) => {
+      state.showModalPreGameGameboardPlayerTwoGridShipPlacement = action.payload;
+    },
+    updateShowModalPreGameSwitchTurnToPlayerOne: (state, action) => {
+      state.showModalPreGameSwitchTurnToPlayerOne = action.payload;
+    },
+
     
+    
+    
+    // const handleModalPickOpponentComputer = () => {
+      //   setShowModalPickOpponent(false);
+      //   handleNewGame();
+      //   setIsPlayerTwoComputer(true);
+      //   setShowGameboards(false);
+      //   setShowModalPreGamePlayerOneNameAgainstComputer(true);
+      // }
+      
+    handleModalPreGamePlayerOneNameAgainstComputer: (state) => {
+      state.showModalPreGamePlayerOneNameAgainstComputer = false;
+      state.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = true;
+    },
+  
+    // Pre game opponent is a player logic
+    // const handleModalPickOpponentPlayer = () => {
+    //   setShowModalPickOpponent(false);
+    //   handleNewGame();
+    //   setIsPlayerTwoComputer(false);
+    //   setShowGameboards(false);
+    //   setShowModalPreGamePlayerOneName(true);
+    // }
+  
+    handleModalPreGamePlayerOneName: (state) => {
+      state.showModalPreGamePlayerOneName = false;
+      state.showModalPreGamePlayerTwoName = true;
+    },
+  
+    handleModalPreGamePlayerTwoName: (state) => {
+      state.showModalPreGamePlayerTwoName = false;
+      state.showModalPreGameSwitchTurnToPlayerOneGameboard = true;
+    },
+  
+    handleModalPreGameSwitchToPlayerOneGameboard: (state) => {
+      state.showModalPreGameSwitchTurnToPlayerOneGameboard = false;
+      state.showModalPreGameGameboardPlayerOneGridShipPlacement = true;
+    },
+  
+    handleModalPreGameSwitchTurnToPlayerTwo: (state) => {
+      state.showModalPreGameSwitchTurnToPlayerTwoGameboard= false;
+      state.showModalPreGameGameboardPlayerTwoGridShipPlacement = true;
+    },
+  
+    // const handleModalPreGameSwitchTurnToPlayerOne = () => {
+    //   setShowModalPreGameSwitchTurnToPlayerOne(false);
+    //   setShowGameboards(true);
+    //   handleStartGame();
+    // }
+  
+    handleModalGameSwitchTurnToPlayerTwo: (state) => {
+      state.showModalGameSwitchTurnToPlayerTwo = false;
+      state.showGameboards = true;
+    },
+  
+    handleModalGameSwitchTurnToPlayerOne: (state) => {
+      state.showModalGameSwitchTurnToPlayerOne = false;
+      state.showGameboards = true;
+    },
 
   },
 });
@@ -247,6 +423,29 @@ export const {
   handleButtonGameSwitchPlayerTurn,
   handleNewGame,
 
+
+  // GameLogicModals
+
+  updateShowModalPreGamePlayerOneNameAgainstComputer,
+  updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer,
+  updateShowModalPreGamePlayerOneName,
+  updateShowModalPreGamePlayerTwoName,
+  updateShowModalPreGameSwitchTurnToPlayerOneGameboard,
+  updateShowModalPreGameGameboardPlayerOneGridShipPlacement,
+  updateShowModalPreGameSwitchTurnToPlayerTwoGameboard,
+  updateShowModalPreGameGameboardPlayerTwoGridShipPlacement,
+  updateShowModalPreGameSwitchTurnToPlayerOne,
+
+  // handleModalPickOpponentComputer,
+  handleModalPreGamePlayerOneNameAgainstComputer,
+  // handleModalPickOpponentPlayer,
+  handleModalPreGamePlayerOneName,
+  handleModalPreGamePlayerTwoName,
+  handleModalPreGameSwitchToPlayerOneGameboard,
+  handleModalPreGameSwitchTurnToPlayerTwo,
+  // handleModalPreGameSwitchTurnToPlayerOne,
+  handleModalGameSwitchTurnToPlayerTwo,
+  handleModalGameSwitchTurnToPlayerOne,
 
 
 
@@ -299,6 +498,17 @@ export const selectShowModalGameSwitchTurnToPlayerOne = (state) => state.game.sh
 export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
 export const selectDisableButtonGameSwitchPlayerTurn = (state) => state.game.disableButtonGameSwitchPlayerTurn;
 
+// GameLogicModals
+
+export const selectShowModalPreGamePlayerOneNameAgainstComputer = (state) => state.game.showModalPreGamePlayerOneNameAgainstComputer;
+export const selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = (state) => state.game.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer;
+export const selectShowModalPreGamePlayerOneName = (state) => state.game.showModalPreGamePlayerOneName;
+export const selectShowModalPreGamePlayerTwoName = (state) => state.game.showModalPreGamePlayerTwoName;
+export const selectShowModalPreGameSwitchTurnToPlayerOneGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerOneGameboard;
+export const selectShowModalPreGameGameboardPlayerOneGridShipPlacement = (state) => state.game.showModalPreGameGameboardPlayerOneGridShipPlacement;
+export const selectShowModalPreGameSwitchTurnToPlayerTwoGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerTwoGameboard;
+export const selectShowModalPreGameGameboardPlayerTwoGridShipPlacement = (state) => state.game.showModalPreGameGameboardPlayerTwoGridShipPlacement;
+export const selectShowModalPreGameSwitchTurnToPlayerOne = (state) => state.game.showModalPreGameSwitchTurnToPlayerOne;
 
 
 export default gameSlice.reducer;
