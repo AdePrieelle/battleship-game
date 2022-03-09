@@ -22,76 +22,131 @@ import { GameboardsWrapper } from './components/GameboardsWrapper/GameboardsWrap
 import { ships } from './ships';
 import { createRandomGameboard } from '../../common/utils/createRandomGameboard/createRandomGameboard';
 import { generateRandomValidShipPosition } from '../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition';
-// import { useSelector } from 'react-redux';
-// import { selectAmountOfRows } from './gameSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { 
+  selectAmountOfRows,
+  selectAmountOfColumns,
+  selectEmptyGameboardValue,
+  selectHitGameboardValue,
+  selectMissGameboardValue,
+  selectFreemissGameboardValue,
+  selectHorizontalDirectionValue,
+  selectVerticalDirectionValue,
+  selectButtonNextStepText,
+  selectShipNamePropertyText,
+  selectShipLengthPropertyText,
+  selectShipIsSunkenPropertyText,
+  selectComputerName,
+  selectPlayerOneName,
+  selectPlayerTwoName,
+  selectIsPlayerOneTurn,
+  selectComputerHitTurnAgainCountDefaultValue,
+  selectComputerHitTurnAgainCount,
+  selectIsGameStarted,
+  selectIsGameOver,
+  selectPlayerOneWonGame,
+  selectPlayerTwoWonGame,
+  selectComputerWonGame,
+  selectIsPlayerTwoComputer,
+  selectGameboardPlayerOneInitialState,
+  selectGameboardPlayerTwoInitialState,
+  selectGameboardPlayerOne,
+  selectGameboardPlayerTwo,
+  selectPreviousHitComputerCellsNotSunkenShipDefaultValue,
+  selectPreviousHitDirectionNotSunkenShipHorizontalValue,
+  selectPreviousHitDirectionNotSunkenShipVerticalValue,
+  selectPreviousHitDirectionNotSunkenShipDefaultValue,
+  selectPreviousHitComputerCellsNotSunkenShip,
+  selectPreviousHitDirectionNotSunkenShip,
+  selectShowGameboards,
+  selectShowModalGameOver,
+  selectShowModalPickOpponent,
+  selectShowModalGameSwitchTurnToPlayerTwo,
+  selectShowModalGameSwitchTurnToPlayerOne,
+  selectDisablePlayerMove,
+  selectDisableButtonGameSwitchPlayerTurn,
+  
+  updatePlayerOneName, 
+  updatePlayerTwoName,
+  updateIsPlayerOneTurn,
+  resetComputerHitTurnAgainCount,
+  incrementComputerHitTurnAgainCount,
+  updateIsGameStarted,
+  updateIsGameOver,
+  updatePlayerOneWonGame,
+  updatePlayerTwoWonGame,
+  updateComputerWonGame,
+  updateIsPlayerTwoComputer,
+
+  updateGameboardPlayerOneInitialState,
+  updateGameboardPlayerTwoInitialState,
+  updateGameboardPlayerOne,
+  updateGameboardPlayerTwo,
+
+  updatePreviousHitComputerCellsNotSunkenShip,
+  updatePreviousHitDirectionNotSunkenShip,
+
+  updateShowGameboards,
+  updateShowModalGameOver,
+  updateShowModalPickOpponent,
+  updateShowModalGameSwitchTurnToPlayerTwo,
+  updateShowModalGameSwitchTurnToPlayerOne,
+  updateDisablePlayerMove,
+  updateDisableButtonGameSwitchPlayerTurn,
+
+  handleIsGameOver,
+  handleStartGame,
+  handleButtonNewGame,
+  handleButtonGameSwitchPlayerTurn,
+  handleNewGame,
+} from './gameSlice';
 import './Game.scss';
 
 export const Game = () => {
-  const amountOfRows = 10;
-  // const amountOfRows = useSelector(selectAmountOfRows);
-  const amountOfColumns = 10;
-  const emptyGameboardValue = "empty";
-  const hitGameboardValue = "hit";
-  const missGameboardValue = "miss";
-  const freemissGameboardValue = "freemiss";
-  const horizontalDirectionValue = "horizontal";
-  const verticalDirectionValue = "vertical";
-  const buttonNextStepText = "Next";
-  const shipNamePropertyText = "name";
-  const shipLengthPropertyText = "shipLength";
-  const shipIsSunkenPropertyText = "isSunken";
-  const computerName = "Computer";
-  const [playerOneName, setPlayerOneName] = useState("Player 1");
-  const [playerTwoName, setPlayerTwoName] = useState("Player 2");
-  const [isPlayerOneTurn, setIsPlayerOneTurn] = useState(true);
-  const computerHitTurnAgainCountDefaultValue = 0;
-  const [computerHitTurnAgainCount, setComputerHitTurnAgainCount] = useState(computerHitTurnAgainCountDefaultValue);
-  const [isGameStarted, setIsGameStarted] = useState(false);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [playerOneWonGame, setPlayerOneWonGame] = useState(false);
-  const [playerTwoWonGame, setPlayerTwoWonGame] = useState(false);
-  const [computerWonGame, setComputerWonGame] = useState(false);
-  const [isPlayerTwoComputer, setIsPlayerTwoComputer] = useState(true);
+  const dispatch = useDispatch();
 
-  const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState([
-    "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "c1", "c1", "c1", "c1", "miss", "miss", "hit", "hit", "miss", "empty",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-  ]);
+  const amountOfRows = useSelector(selectAmountOfRows);
+  const amountOfColumns = useSelector(selectAmountOfColumns);
+  const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
+  const hitGameboardValue = useSelector(selectHitGameboardValue);
+  const missGameboardValue = useSelector(selectMissGameboardValue);
+  const freemissGameboardValue = useSelector(selectFreemissGameboardValue);;
+  const horizontalDirectionValue = useSelector(selectHorizontalDirectionValue);;
+  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);;
+  const buttonNextStepText = useSelector(selectButtonNextStepText);
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
+  const shipIsSunkenPropertyText = useSelector(selectShipIsSunkenPropertyText);
+  const computerName = useSelector(selectComputerName);
+  const playerOneName = useSelector(selectPlayerOneName);
+  const playerTwoName = useSelector(selectPlayerTwoName);
+  const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
+  // const computerHitTurnAgainCountDefaultValue = useSelector(selectComputerHitTurnAgainCountDefaultValue);
+  const computerHitTurnAgainCount = useSelector(selectComputerHitTurnAgainCount);
+  const isGameStarted = useSelector(selectIsGameStarted);
+  const isGameOver = useSelector(selectIsGameOver);
+  const playerOneWonGame = useSelector(selectPlayerOneWonGame);
+  const playerTwoWonGame = useSelector(selectPlayerTwoWonGame);
+  const computerWonGame = useSelector(selectComputerWonGame);
+  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
 
-  const [gameboardPlayerTwoInitialState, setGameboardPlayerTwoInitialState] = useState([
-    "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "c1", "c1", "c1", "c1", "miss", "miss", "hit", "hit", "miss", "empty",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
-    "hit", "miss", "hit", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-    "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
-    "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
-  ]);
+  const gameboardPlayerOneInitialState = useSelector(selectGameboardPlayerOneInitialState);
+
+  const gameboardPlayerTwoInitialState = useSelector(selectGameboardPlayerTwoInitialState);
   
   // const [gameboardPlayerOneInitialState, setGameboardPlayerOneInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
-  const [gameboardPlayerOne, setGameboardPlayerOne] = useState([]);
+  const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
 
   // const [gameboardPlayerTwoInitialState, setGameboardPlayerTwoInitialState] = useState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
-  const [gameboardPlayerTwo, setGameboardPlayerTwo] = useState([]);
+  const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
 
   useEffect(() => {
-    setGameboardPlayerOne(gameboardPlayerOneInitialState);
-  }, [gameboardPlayerOneInitialState]);
+    dispatch(updateGameboardPlayerOne(gameboardPlayerOneInitialState));
+  }, [dispatch, gameboardPlayerOneInitialState]);
 
   useEffect(() => {
-    setGameboardPlayerTwo(gameboardPlayerTwoInitialState);
-  }, [gameboardPlayerTwoInitialState]);
+    dispatch(updateGameboardPlayerTwo(gameboardPlayerTwoInitialState));
+  }, [dispatch, gameboardPlayerTwoInitialState]);
 
   useEffect(() => {
     if (isValidComputerTurn(isPlayerTwoComputer, isPlayerOneTurn, isGameStarted, isGameOver)) {
@@ -111,12 +166,12 @@ export const Game = () => {
     }
   });
 
-  const previousHitComputerCellsNotSunkenShipDefaultValue = [];
-  const previousHitDirectionNotSunkenShipHorizontalValue = "horizontal";
-  const previousHitDirectionNotSunkenShipVerticalValue = "vertical";
-  const previousHitDirectionNotSunkenShipDefaultValue = null;
-  const [previousHitComputerCellsNotSunkenShip, setPreviousHitComputerCellsNotSunkenShip] = useState(previousHitComputerCellsNotSunkenShipDefaultValue);
-  const [previousHitDirectionNotSunkenShip, setPreviousHitDirectionNotSunkenShip] = useState(previousHitDirectionNotSunkenShipDefaultValue);
+  const previousHitComputerCellsNotSunkenShipDefaultValue = useSelector(selectPreviousHitComputerCellsNotSunkenShipDefaultValue);
+  const previousHitDirectionNotSunkenShipHorizontalValue = useSelector(selectPreviousHitDirectionNotSunkenShipHorizontalValue);
+  const previousHitDirectionNotSunkenShipVerticalValue = useSelector(selectPreviousHitDirectionNotSunkenShipVerticalValue);
+  const previousHitDirectionNotSunkenShipDefaultValue = useSelector(selectPreviousHitDirectionNotSunkenShipDefaultValue);
+  const previousHitComputerCellsNotSunkenShip = useSelector(selectPreviousHitComputerCellsNotSunkenShip)
+  const previousHitDirectionNotSunkenShip = useSelector(selectPreviousHitDirectionNotSunkenShip);
 
   useEffect(() => {
     if (previousHitComputerCellsNotSunkenShip.length === 2 && !previousHitDirectionNotSunkenShip) {
@@ -125,12 +180,12 @@ export const Game = () => {
         previousHitDirectionNotSunkenShipHorizontalValue,
         previousHitComputerCellsNotSunkenShip,
       );
-      setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipValue);
+      dispatch(updatePreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipValue));
     }
-  }, [previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip]);
+  }, [dispatch, previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip, previousHitDirectionNotSunkenShipHorizontalValue, previousHitDirectionNotSunkenShipVerticalValue]);
 
   // update the gameboard with a hit or miss or freemiss value
-  const updateGameboardCellHitOrMiss = (gameboard, index, setGameboard, gameboardInitialState, isComputer) => {
+  const updateGameboardCellHitOrMiss = (gameboard, index, reducerFunction, gameboardInitialState, isComputer) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
         gameboard, 
@@ -147,18 +202,18 @@ export const Game = () => {
       if (isComputer) {
         if (isSunkenShipAfterHit(gameboard, index, hitGameboardValue, isSunkenShip)) {
           // currently "hit" ship is sunken
-          setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
-          setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
+          dispatch(updatePreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue));
+          dispatch(updatePreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue));
         } else {
           // currently "hit" ship isn't sunken
           let copyPreviousHitComputerCellNumbersInfo = [...previousHitComputerCellsNotSunkenShip];
           copyPreviousHitComputerCellNumbersInfo.push(+index);
-          setPreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo);
+          dispatch(updatePreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo));
         }
-        setComputerHitTurnAgainCount(computerHitTurnAgainCount + 1);
+        dispatch(incrementComputerHitTurnAgainCount());
       }
       // updated gameboard
-      setGameboard(newGameboardStateAfterHitLogicWithFreeMissCells);
+      dispatch(reducerFunction(newGameboardStateAfterHitLogicWithFreeMissCells));
       // logic for isGameOver
       const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, shipNamePropertyText);
       if (allShipsSunken) {
@@ -166,21 +221,21 @@ export const Game = () => {
       }
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
-      setGameboard(newGameboardStateAfterMissLogicWithMissCell);
+      dispatch(reducerFunction(newGameboardStateAfterMissLogicWithMissCell));
       if (isComputer) {
-        setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
+        dispatch(resetComputerHitTurnAgainCount());
       }
       if (isPlayerTwoComputer) {
-        setIsPlayerOneTurn(!isPlayerOneTurn);
+        dispatch(updateIsPlayerOneTurn(!isPlayerOneTurn));
       }
       if (!isComputer && !isPlayerTwoComputer) {
-        setDisablePlayerMove(true);
-        setDisableButtonGameSwitchPlayerTurn(false);
+        dispatch(updateDisablePlayerMove(true));
+        dispatch(updateDisableButtonGameSwitchPlayerTurn(false));
       }
     }
   }
 
-  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, setGameboardPlayer, gameboardPlayerInitialState) => {
+  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, reducerFunction, gameboardPlayerInitialState) => {
     if (isValidPlayerTurn(
       gameboardPlayer, 
       +event.target.id,
@@ -191,7 +246,7 @@ export const Game = () => {
       isGameStarted,
       isGameOver
     )) {
-      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, setGameboardPlayer, gameboardPlayerInitialState, false);
+      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, reducerFunction, gameboardPlayerInitialState, false);
     }
   }
   
@@ -209,7 +264,7 @@ export const Game = () => {
         );
       if (gameboardComputerCellsAvailable.length > 0) {
         // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-        updateGameboardCellHitOrMiss(gameboardPlayerOne, randomGameboardComputerCellNumber, setGameboardPlayerOne, gameboardPlayerOneInitialState, true);
+        updateGameboardCellHitOrMiss(gameboardPlayerOne, randomGameboardComputerCellNumber, updateGameboardPlayerOne, gameboardPlayerOneInitialState, true);
       }
     } else if (previousHitComputerCellsNotSunkenShip.length > 0) {
       // array of indexes for next possible smart computer move if a ship has been hit but isn't sunken yet
@@ -226,16 +281,16 @@ export const Game = () => {
       );
       const availableNextSmartComputerMovesAfterHitRandomIndex = getRandomIndexFromArray(availableNextSmartComputerMovesAfterHit);
       const smartComputerMoveIndex = availableNextSmartComputerMovesAfterHit[availableNextSmartComputerMovesAfterHitRandomIndex];
-      updateGameboardCellHitOrMiss(gameboardPlayerOne, smartComputerMoveIndex, setGameboardPlayerOne, gameboardPlayerOneInitialState, true);
+      updateGameboardCellHitOrMiss(gameboardPlayerOne, smartComputerMoveIndex, updateGameboardPlayerOne, gameboardPlayerOneInitialState, true);
     }
   }
 
-  const resetRandomGameboards = () => {
-    setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
-    setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
-    // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
-    // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
-  }
+  // const resetRandomGameboards = () => {
+  //   setGameboardPlayerOneInitialState([...gameboardPlayerOneInitialState]);
+  //   setGameboardPlayerTwoInitialState([...gameboardPlayerTwoInitialState]);
+  //   // setGameboardPlayerOneInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
+  //   // setGameboardPlayerTwoInitialState(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard));
+  // }
 
   const getGeneratedRandomGameboardPlayerInitialStates = () => {
     const generatedRandomGameboardPlayerOneInitialState = createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard);
@@ -248,73 +303,73 @@ export const Game = () => {
     });
   };
   
-  const handleIsGameOver = (winner) => {
-    setIsGameStarted(false);
-    setIsGameOver(true);
-    if (winner.computerWon) {
-      setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
-      setComputerWonGame(true);
-    } else if (!winner.computerWon) {
-      if (isPlayerOneTurn) {
-        setPlayerOneWonGame(true);
-      } else if (!isPlayerOneTurn) {
-        setPlayerTwoWonGame(true);
-      }
-    }
-    setShowModalGameOver(true);
-  };
+  // const handleIsGameOver = (winner) => {
+  //   setIsGameStarted(false);
+  //   setIsGameOver(true);
+  //   if (winner.computerWon) {
+  //     setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
+  //     setComputerWonGame(true);
+  //   } else if (!winner.computerWon) {
+  //     if (isPlayerOneTurn) {
+  //       setPlayerOneWonGame(true);
+  //     } else if (!isPlayerOneTurn) {
+  //       setPlayerTwoWonGame(true);
+  //     }
+  //   }
+  //   setShowModalGameOver(true);
+  // };
   
-  const handleStartGame = () => {
-    setIsGameOver(false);
-    setIsPlayerOneTurn(true);
-    setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
-    setDisablePlayerMove(false);
-    setIsGameStarted(true);
-  }
+  // const handleStartGame = () => {
+  //   setIsGameOver(false);
+  //   setIsPlayerOneTurn(true);
+  //   setComputerHitTurnAgainCount(computerHitTurnAgainCountDefaultValue);
+  //   setDisablePlayerMove(false);
+  //   setIsGameStarted(true);
+  // }
   
-  const handleNewGame = () => {
-    setIsGameOver(false);
-    setIsGameStarted(false);
-    setComputerWonGame(false);
-    setPlayerOneWonGame(false);
-    setPlayerTwoWonGame(false);
-    setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
-    setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
-    resetRandomGameboards();
-  }
+  // const handleNewGame = () => {
+  //   setIsGameOver(false);
+  //   setIsGameStarted(false);
+  //   setComputerWonGame(false);
+  //   setPlayerOneWonGame(false);
+  //   setPlayerTwoWonGame(false);
+  //   setPreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue);
+  //   setPreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue);
+  //   resetRandomGameboards();
+  // }
   
   // show gameboards logic
-  const [showGameboards, setShowGameboards] = useState(true);
+  const showGameboards = useSelector(selectShowGameboards);
   // game over modal logic
-  const [showModalGameOver, setShowModalGameOver] = useState(false);
+  const showModalGameOver = useSelector(selectShowModalGameOver);
   // new game modal logic
-  const [showModalPickOpponent, setShowModalPickOpponent] = useState(false);
+  const showModalPickOpponent = useSelector(selectShowModalPickOpponent);
   // game logic for opponent is a player
-  const [showModalGameSwitchTurnToPlayerTwo, setShowModalGameSwitchTurnToPlayerTwo] = useState(false);
-  const [showModalGameSwitchTurnToPlayerOne, setShowModalGameSwitchTurnToPlayerOne] = useState(false);
+  const showModalGameSwitchTurnToPlayerTwo = useSelector(selectShowModalGameSwitchTurnToPlayerTwo);
+  const showModalGameSwitchTurnToPlayerOne = useSelector(selectShowModalGameSwitchTurnToPlayerOne);
   // disable player moves once missed before handing over to other player
-  const [disablePlayerMove, setDisablePlayerMove] = useState(false);
+  const disablePlayerMove = useSelector(selectDisablePlayerMove);
   // show button for players to hand over
-  const [disableButtonGameSwitchPlayerTurn, setDisableButtonGameSwitchPlayerTurn] = useState(true);
+  const disableButtonGameSwitchPlayerTurn = useSelector(selectDisableButtonGameSwitchPlayerTurn);
 
-  // new game modal logic
-  const handleButtonNewGame = () => {
-    setShowModalGameOver(false);
-    setShowModalPickOpponent(true);
-  }
+  // // new game modal logic
+  // const handleButtonNewGame = () => {
+  //   setShowModalGameOver(false);
+  //   setShowModalPickOpponent(true);
+  // }
 
-  // handle button to hand over turns
-  const handleButtonGameSwitchPlayerTurn = () => {
-    setShowGameboards(false);
-    setDisablePlayerMove(false);
-    setDisableButtonGameSwitchPlayerTurn(true);
-    if (isPlayerOneTurn) {
-      setShowModalGameSwitchTurnToPlayerTwo(true);
-    } else if (!isPlayerOneTurn) {
-      setShowModalGameSwitchTurnToPlayerOne(true);
-    }
-    setIsPlayerOneTurn(!isPlayerOneTurn);
-  }
+  // // handle button to hand over turns
+  // const handleButtonGameSwitchPlayerTurn = () => {
+  //   setShowGameboards(false);
+  //   setDisablePlayerMove(false);
+  //   setDisableButtonGameSwitchPlayerTurn(true);
+  //   if (isPlayerOneTurn) {
+  //     setShowModalGameSwitchTurnToPlayerTwo(true);
+  //   } else if (!isPlayerOneTurn) {
+  //     setShowModalGameSwitchTurnToPlayerOne(true);
+  //   }
+  //   setIsPlayerOneTurn(!isPlayerOneTurn);
+  // }
 
   return (
     <div className="game">

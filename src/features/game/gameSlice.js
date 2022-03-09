@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   amountOfRows: 10,
   amountOfColumns: 10,
+  emptyGameboardValue: "empty",
   hitGameboardValue: "hit",
   missGameboardValue: "miss",
   freemissGameboardValue: "freemiss",
@@ -382,6 +383,7 @@ export const {
 // Selector functions
 export const selectAmountOfRows = (state) => state.game.amountOfRows;
 export const selectAmountOfColumns = (state) => state.game.amountOfColumns;
+export const selectEmptyGameboardValue = (state) => state.game.emptyGameboardValue;
 export const selectHitGameboardValue = (state) => state.game.hitGameboardValue;
 export const selectMissGameboardValue = (state) => state.game.missGameboardValue;
 export const selectFreemissGameboardValue = (state) => state.game.freemissGameboardValue;
