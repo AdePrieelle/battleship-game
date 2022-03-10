@@ -185,7 +185,7 @@ export const Game = () => {
   }, [dispatch, previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip, previousHitDirectionNotSunkenShipHorizontalValue, previousHitDirectionNotSunkenShipVerticalValue]);
 
   // update the gameboard with a hit or miss or freemiss value
-  const updateGameboardCellHitOrMiss = (gameboard, index, reducerFunction, gameboardInitialState, isComputer) => {
+  const updateGameboardCellHitOrMiss = (gameboard, index, updateGameboardPlayer, gameboardInitialState, isComputer) => {
     if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
       const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
         gameboard, 
@@ -213,7 +213,7 @@ export const Game = () => {
         dispatch(incrementComputerHitTurnAgainCount());
       }
       // updated gameboard
-      dispatch(reducerFunction(newGameboardStateAfterHitLogicWithFreeMissCells));
+      dispatch(updateGameboardPlayer(newGameboardStateAfterHitLogicWithFreeMissCells));
       // logic for isGameOver
       const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, shipNamePropertyText);
       if (allShipsSunken) {
@@ -221,7 +221,7 @@ export const Game = () => {
       }
     } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
       const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
-      dispatch(reducerFunction(newGameboardStateAfterMissLogicWithMissCell));
+      dispatch(updateGameboardPlayer(newGameboardStateAfterMissLogicWithMissCell));
       if (isComputer) {
         dispatch(resetComputerHitTurnAgainCount());
       }
@@ -235,7 +235,7 @@ export const Game = () => {
     }
   }
 
-  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, reducerFunction, gameboardPlayerInitialState) => {
+  const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, updateGameboardPlayer, gameboardPlayerInitialState) => {
     if (isValidPlayerTurn(
       gameboardPlayer, 
       +event.target.id,
@@ -246,7 +246,7 @@ export const Game = () => {
       isGameStarted,
       isGameOver
     )) {
-      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, reducerFunction, gameboardPlayerInitialState, false);
+      updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, updateGameboardPlayer, gameboardPlayerInitialState, false);
     }
   }
   
@@ -377,30 +377,7 @@ export const Game = () => {
           showGameboards
         ? 
           <GameboardsWrapper 
-            isPlayerOneTurn={isPlayerOneTurn}
-            isPlayerTwoComputer={isPlayerTwoComputer}
-            gameboardPlayerOne={gameboardPlayerOne}
-            amountOfColumns={amountOfColumns}
-            amountOfRows={amountOfRows}
-            hitGameboardValue={hitGameboardValue}
-            missGameboardValue={missGameboardValue}
-            freemissGameboardValue={freemissGameboardValue}
-            emptyGameboardValue={emptyGameboardValue}
             handlePlayerMove={handlePlayerMove}
-            setGameboardPlayerOne={setGameboardPlayerOne}
-            gameboardPlayerOneInitialState={gameboardPlayerOneInitialState}
-            isGameStarted={isGameStarted}
-            isGameOver={isGameOver}
-            disablePlayerMove={disablePlayerMove}
-            gameboardPlayerTwo={gameboardPlayerTwo}
-            setGameboardPlayerTwo={setGameboardPlayerTwo}
-            gameboardPlayerTwoInitialState={gameboardPlayerTwoInitialState}
-            handleButtonNewGame={handleButtonNewGame}
-            handleButtonGameSwitchPlayerTurn={handleButtonGameSwitchPlayerTurn}
-            disableButtonGameSwitchPlayerTurn={disableButtonGameSwitchPlayerTurn}
-            shipLengthPropertyText={shipLengthPropertyText}
-            shipNamePropertyText={shipNamePropertyText}
-            shipIsSunkenPropertyText={shipIsSunkenPropertyText}
           />
         : null 
       }

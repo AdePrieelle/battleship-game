@@ -2,15 +2,20 @@ import { isSunkenShip } from '../../../../common/utils/isSunkenShip/isSunkenShip
 import { addKeyValuePairToAllObjectsInArray } from '../../../../common/utils/addKeyValuePairToAllObjectsInArray/addKeyValuePairToAllObjectsInArray';
 import { getArrayWithUpdatedObjectsIsSunkenPropertyValue } from '../../../../common/utils/getArrayWithUpdatedObjectsIsSunkenPropertyValue/getArrayWithUpdatedObjectsIsSunkenPropertyValue';
 import { sortArrayOfObjectsBasedOnTwoPropertyValues } from '../../../../common/utils/sortArrayOfObjectsBasedOnTwoPropertyValues/sortArrayOfObjectsBasedOnTwoPropertyValues';
+import { ships } from '../../ships';
 import './GameboardShipStats.scss';
+import { useSelector } from 'react-redux';
+import { 
+  selectShipIsSunkenPropertyText, 
+  selectShipLengthPropertyText, 
+  selectShipNamePropertyText 
+} from '../../gameSlice';
 
-export const GameboardShipStats = ({
-  gameboard,
-  ships,
-  shipNamePropertyText,
-  shipLengthPropertyText,
-  shipIsSunkenPropertyText
-}) => {
+export const GameboardShipStats = ({ gameboard }) => {
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
+  const shipIsSunkenPropertyText = useSelector(selectShipIsSunkenPropertyText);
+
   const arrayOfShipObjectsWithIsSunkenPropertyFalse = addKeyValuePairToAllObjectsInArray(ships, shipIsSunkenPropertyText, false);
   const arrayOfShipObjectsWithUpdatedIsSunkenPropertyValue = getArrayWithUpdatedObjectsIsSunkenPropertyValue(arrayOfShipObjectsWithIsSunkenPropertyFalse, shipIsSunkenPropertyText, shipNamePropertyText, gameboard, isSunkenShip);
   const sortedArrayOfShipObjectsBasedOnPropertiesShipLengthAndIsSunken = sortArrayOfObjectsBasedOnTwoPropertyValues(arrayOfShipObjectsWithUpdatedIsSunkenPropertyValue, shipLengthPropertyText, shipIsSunkenPropertyText);
