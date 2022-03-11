@@ -71,9 +71,7 @@ export const GameboardsWrapper = ({ handlePlayerMove }) => {
             {/* Player two plays on gameboardPlayerOne */}
             <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
               <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerOne}
                 handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, updateGameboardPlayerOne, gameboardPlayerOneInitialState)}
-                isPlayerTurn={!isPlayerOneTurn}
                 isPlayerOne={false}
               />
               <GameboardShipStats 
@@ -86,8 +84,6 @@ export const GameboardsWrapper = ({ handlePlayerMove }) => {
             {/* Player two sees current state of gameboardPlayerTwo where player one plays on */}
             <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
               <GameboardPlayerGrid 
-                gameboardPlayer={gameboardPlayerTwo}
-                isPlayerTurn={isPlayerOneTurn}
                 isPlayerOne={true}
               />
               <GameboardShipStats 
@@ -100,9 +96,7 @@ export const GameboardsWrapper = ({ handlePlayerMove }) => {
           {/* Player one plays on gameboardPlayerTwo */}
           <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
             <GameboardPlayerGrid 
-              gameboardPlayer={gameboardPlayerTwo}
               handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, updateGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
-              isPlayerTurn={isPlayerOneTurn}
               isPlayerOne={true}
             />
             <GameboardShipStats 
@@ -115,8 +109,6 @@ export const GameboardsWrapper = ({ handlePlayerMove }) => {
           {/* Player one sees current state of gameboardPlayerTwo where player one or the computer plays on */}
           <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
             <GameboardPlayerGrid 
-              gameboardPlayer={gameboardPlayerOne}
-              isPlayerTurn={!isPlayerOneTurn}
               isPlayerOne={false}
             />
             <GameboardShipStats 

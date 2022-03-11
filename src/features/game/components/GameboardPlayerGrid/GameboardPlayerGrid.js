@@ -6,18 +6,21 @@ import {
   selectDisablePlayerMove, 
   selectEmptyGameboardValue, 
   selectFreemissGameboardValue, 
+  selectGameboardPlayerOne, 
+  selectGameboardPlayerTwo, 
   selectHitGameboardValue, 
   selectIsGameOver, 
   selectIsGameStarted, 
+  selectIsPlayerOneTurn, 
   selectIsPlayerTwoComputer, 
   selectMissGameboardValue 
 } from '../../gameSlice';
 
 export const GameboardPlayerGrid = ({ 
-  gameboardPlayer, 
+  // gameboardPlayer, 
   
   handlePlayerMove = null,
-  isPlayerTurn,
+  // isPlayerTurn,
   isPlayerOne,
 
 }) => {
@@ -31,6 +34,30 @@ export const GameboardPlayerGrid = ({
   const isGameStarted = useSelector(selectIsGameStarted);
   const isGameOver = useSelector(selectIsGameOver);
   const disablePlayerMove = useSelector(selectDisablePlayerMove);
+  const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
+  const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
+  const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
+
+  const getGameboardPlayer = (isPlayerOne) => {
+    if (isPlayerOne) {
+      return gameboardPlayerTwo;
+    } else {
+      return gameboardPlayerOne;
+    };
+  };
+
+  const getIsPlayerTurn = (isPlayerOne) => {
+    if (isPlayerOne) {
+      return isPlayerOneTurn;
+    } else {
+      return !isPlayerOneTurn;
+    };
+  };
+  
+  const gameboardPlayer = getGameboardPlayer(isPlayerOne);
+  const isPlayerTurn = getIsPlayerTurn(isPlayerOne);
+  
+
 
   return (
     <div 

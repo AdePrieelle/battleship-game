@@ -15,13 +15,13 @@ export const GameButtons = () => {
 
   return (
     <>
-      <Button buttonOnClick={() => dispatch(handleButtonNewGame)}>New game</Button>
+      <Button buttonOnClick={() => dispatch(handleButtonNewGame())}>New game</Button>
       {
           isPlayerTwoComputer
         ? null
         : 
           <Button 
-            buttonOnClick={() => dispatch(handleButtonGameSwitchPlayerTurn)} 
+            buttonOnClick={() => dispatch(handleButtonGameSwitchPlayerTurn())} 
             disableButton={disableButtonGameSwitchPlayerTurn}
           >
             Hand over
