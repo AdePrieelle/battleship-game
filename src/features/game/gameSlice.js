@@ -1,4 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addFreeMissGameboardValueCellsAroundCellDiagonally } from "../../common/utils/addFreeMissGameboardValueCellsAroundCellDiagonally/addFreeMissGameboardValueCellsAroundCellDiagonally";
+import { addFreeMissGameboardValueCellsAroundSunkenShip } from "../../common/utils/addFreeMissGameboardValueCellsAroundSunkenShip/addFreeMissGameboardValueCellsAroundSunkenShip";
+import { getAllIndexesOfAnArrayValue } from "../../common/utils/getAllIndexesOfAnArrayValue/getAllIndexesOfAnArrayValue";
+import { getGameboardAfterHitLogic } from "../../common/utils/getGameboardAfterHitLogic/getGameboardAfterHitLogic";
+import { getGameboardAfterMissLogic } from "../../common/utils/getGameboardAfterMissLogic/getGameboardAfterMissLogic";
+import { isAllShipsSunken } from "../../common/utils/isAllShipsSunken/isAllShipsSunken";
+import { isEmptyGameboardCell } from "../../common/utils/isEmptyGameboardCell/isEmptyGameboardCell";
+import { isHiddenShipGameboardCell } from "../../common/utils/isHiddenShipGameboardCell/isHiddenShipGameboardCell";
+import { isSunkenShip } from "../../common/utils/isSunkenShip/isSunkenShip";
+import { isSunkenShipAfterHit } from "../../common/utils/isSunkenShipAfterHit/isSunkenShipAfterHit";
+import { ships } from "./ships";
 
 const initialState = {
   amountOfRows: 10,
@@ -314,6 +325,65 @@ export const gameSlice = createSlice({
       state.showGameboards = true;
     },
 
+
+
+    handleMove: (state, action) => {
+      if (isHiddenShipGameboardCell(
+          action.gameboard, 
+          action.index, 
+          state.emptyGameboardValue, 
+          state.hitGameboardValue, 
+          state.missGameboardValue, 
+          state.freemissGameboardValue
+      )) {
+        const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
+          action.gameboard,
+          action.index,
+          state.hitGameboardValue,
+          isSunkenShip,
+          getAllIndexesOfAnArrayValue,
+          action.gameboardInitialState,
+          addFreeMissGameboardValueCellsAroundSunkenShip,
+          state.freemissGameboardValue,
+          state.emptyGameboardValue,
+          addFreeMissGameboardValueCellsAroundCellDiagonally
+        );
+        if (action.isComputer) {
+          if (isSunkenShipAfterHit(action.gameboard, action.index, state.hitGameboardValue, isSunkenShip)) {
+            // currently "hit" ship is sunken
+            gameSlice.caseReducers.updatePreviousHitComputerCellsNotSunkenShip(state.previousHitComputerCellsNotSunkenShipDefaultValue);
+            gameSlice.caseReducers.updatePreviousHitDirectionNotSunkenShip(state.previousHitDirectionNotSunkenShipDefaultValue);
+          } else {
+            // currently "hit" ship isn't sunken
+            let copyPreviousHitComputerCellNumbersInfo = [...state.previousHitComputerCellsNotSunkenShip];
+            copyPreviousHitComputerCellNumbersInfo.push(+action.index);
+            gameSlice.caseReducers.updatePreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo);
+          };
+          gameSlice.caseReducers.incrementComputerHitTurnAgainCount();
+        };
+        // updated gameboard
+        gameSlice.caseReducers.updateGameboardPlayer(newGameboardStateAfterHitLogicWithFreeMissCells);
+        // logic for isGameOver
+        const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, state.shipNamePropertyText);
+        if (allShipsSunken) {
+          gameSlice.caseReducers.handleIsGameOver({ computerWon: action.isComputer });
+        };
+      } else if (isEmptyGameboardCell(action.gameboard, action.index, state.emptyGameboardValue)) {
+        const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(action.gameboard, action.index, state.missGameboardValue);
+        gameSlice.caseReducers.updateGameboardPlayer(newGameboardStateAfterMissLogicWithMissCell);
+        if (action.isComputer) {
+          gameSlice.caseReducers.resetComputerHitTurnAgainCount();
+        };
+        if (state.isPlayerTwoComputer) {
+          gameSlice.caseReducers.updateIsPlayerOneTurn(!state.isPlayerOneTurn);
+        };
+        if (!action.isComputer && !state.isPlayerTwoComputer) {
+          gameSlice.caseReducers.updateDisablePlayerMove(true);
+          gameSlice.caseReducers.updateDisableButtonGameSwitchPlayerTurn(false);
+        };
+      };
+    },
+
   },
 });
 
@@ -375,6 +445,8 @@ export const {
   handleModalPreGameSwitchTurnToPlayerOne,
   handleModalGameSwitchTurnToPlayerTwo,
   handleModalGameSwitchTurnToPlayerOne,
+
+  handleMove,
 
 
 
