@@ -9,6 +9,7 @@ import { isEmptyGameboardCell } from "../../common/utils/isEmptyGameboardCell/is
 import { isHiddenShipGameboardCell } from "../../common/utils/isHiddenShipGameboardCell/isHiddenShipGameboardCell";
 import { isSunkenShip } from "../../common/utils/isSunkenShip/isSunkenShip";
 import { isSunkenShipAfterHit } from "../../common/utils/isSunkenShipAfterHit/isSunkenShipAfterHit";
+import { isValidPlayerTurn } from "../../common/utils/isValidPlayerTurn/isValidPlayerTurn";
 import { ships } from "./ships";
 
 const initialState = {
@@ -328,61 +329,186 @@ export const gameSlice = createSlice({
 
 
     handleMove: (state, action) => {
+      // only need to know index for action.payload
+      let gameboard;
+      let gameboardInitialState;
+      let updateGameboardPlayer;
+      const isComputer = !state.isPlayerOneTurn && state.isPlayerTwoComputer;
+
+      if (state.isPlayerOneTurn) {
+        gameboard = state.gameboardPlayerTwo;
+        gameboardInitialState = state.gameboardPlayerTwoInitialState;
+        updateGameboardPlayer = updateGameboardPlayerTwo;
+      } else {
+        gameboard = state.gameboardPlayerOne;
+        gameboardInitialState = state.gameboardPlayerOneInitialState;
+        updateGameboardPlayer = updateGameboardPlayerOne;
+      }
+
       if (isHiddenShipGameboardCell(
-          action.gameboard, 
-          action.index, 
+          gameboard, 
+          +action.payload.index, 
           state.emptyGameboardValue, 
           state.hitGameboardValue, 
           state.missGameboardValue, 
           state.freemissGameboardValue
       )) {
         const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
-          action.gameboard,
-          action.index,
+          gameboard,
+          +action.payload.index,
           state.hitGameboardValue,
           isSunkenShip,
           getAllIndexesOfAnArrayValue,
-          action.gameboardInitialState,
+          gameboardInitialState,
           addFreeMissGameboardValueCellsAroundSunkenShip,
           state.freemissGameboardValue,
           state.emptyGameboardValue,
           addFreeMissGameboardValueCellsAroundCellDiagonally
         );
-        if (action.isComputer) {
-          if (isSunkenShipAfterHit(action.gameboard, action.index, state.hitGameboardValue, isSunkenShip)) {
+        if (isComputer) {
+          if (isSunkenShipAfterHit(gameboard, +action.payload.index, state.hitGameboardValue, isSunkenShip)) {
             // currently "hit" ship is sunken
             gameSlice.caseReducers.updatePreviousHitComputerCellsNotSunkenShip(state.previousHitComputerCellsNotSunkenShipDefaultValue);
             gameSlice.caseReducers.updatePreviousHitDirectionNotSunkenShip(state.previousHitDirectionNotSunkenShipDefaultValue);
           } else {
             // currently "hit" ship isn't sunken
             let copyPreviousHitComputerCellNumbersInfo = [...state.previousHitComputerCellsNotSunkenShip];
-            copyPreviousHitComputerCellNumbersInfo.push(+action.index);
+            copyPreviousHitComputerCellNumbersInfo.push(+action.payload.index);
             gameSlice.caseReducers.updatePreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo);
           };
           gameSlice.caseReducers.incrementComputerHitTurnAgainCount();
         };
         // updated gameboard
-        gameSlice.caseReducers.updateGameboardPlayer(newGameboardStateAfterHitLogicWithFreeMissCells);
+        gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterHitLogicWithFreeMissCells);
         // logic for isGameOver
         const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, state.shipNamePropertyText);
         if (allShipsSunken) {
-          gameSlice.caseReducers.handleIsGameOver({ computerWon: action.isComputer });
+          gameSlice.caseReducers.handleIsGameOver({ computerWon: isComputer });
         };
-      } else if (isEmptyGameboardCell(action.gameboard, action.index, state.emptyGameboardValue)) {
-        const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(action.gameboard, action.index, state.missGameboardValue);
-        gameSlice.caseReducers.updateGameboardPlayer(newGameboardStateAfterMissLogicWithMissCell);
-        if (action.isComputer) {
+      } else if (isEmptyGameboardCell(gameboard, +action.payload.index, state.emptyGameboardValue)) {
+        const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, +action.payload.index, state.missGameboardValue);
+        gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterMissLogicWithMissCell);
+        if (isComputer) {
           gameSlice.caseReducers.resetComputerHitTurnAgainCount();
         };
         if (state.isPlayerTwoComputer) {
           gameSlice.caseReducers.updateIsPlayerOneTurn(!state.isPlayerOneTurn);
         };
-        if (!action.isComputer && !state.isPlayerTwoComputer) {
+        if (!isComputer && !state.isPlayerTwoComputer) {
           gameSlice.caseReducers.updateDisablePlayerMove(true);
           gameSlice.caseReducers.updateDisableButtonGameSwitchPlayerTurn(false);
         };
       };
     },
+
+    handlePlayerMove: (state, action) => {
+      // only need to know if isPlayerOne and index in action.payload
+      let gameboardPlayer;
+      let isPlayerTurn;
+      if (action.payload.isPlayerOne) {
+        gameboardPlayer = state.gameboardPlayerTwo;
+        isPlayerTurn = state.isPlayerOneTurn;
+      } else {
+        gameboardPlayer = state.gameboardPlayerOne;
+        isPlayerTurn = !state.isPlayerOneTurn;
+      };
+
+      if (isValidPlayerTurn(
+        gameboardPlayer, 
+        +action.payload.index,
+        isPlayerTurn, 
+        state.hitGameboardValue, 
+        state.missGameboardValue, 
+        state.freemissGameboardValue,
+        state.isGameStarted,
+        state.isGameOver
+      )) {
+        gameSlice.caseReducers.updateGameboardCellHitOrMiss(+action.payload.index);
+      }
+    },
+
+    // handlePlayerMove: (state, action) => {
+    //   // only need to know if isPlayerOne and eventTargetId in action.payload
+    //   let gameboardPlayer;
+    //   let isPlayerTurn;
+    //   let updateGameboardPlayer;
+    //   let gameboardPlayerInitialState;
+    //   if (action.isPlayerOne) {
+    //     gameboardPlayer = state.gameboardPlayerTwo;
+    //     isPlayerTurn = state.isPlayerOneTurn;
+    //     updateGameboardPlayer = updateGameboardPlayerTwo;
+    //     gameboardPlayerInitialState = state.gameboardPlayerTwoInitialState;
+    //   } else {
+    //     gameboardPlayer = state.gameboardPlayerOne;
+    //     isPlayerTurn = !state.isPlayerOneTurn;
+    //     updateGameboardPlayer = updateGameboardPlayerOne;
+    //     gameboardPlayerInitialState = state.gameboardPlayerOneInitialState;
+    //   };
+
+    //   if (isValidPlayerTurn(
+    //     gameboardPlayer, 
+    //     +action.eventTargetId,
+    //     isPlayerTurn, 
+    //     state.hitGameboardValue, 
+    //     state.missGameboardValue, 
+    //     state.freemissGameboardValue,
+    //     state.isGameStarted,
+    //     state.isGameOver
+    //   )) {
+    //     gameSlice.caseReducers.updateGameboardCellHitOrMiss(gameboardPlayer, +action.eventTargetId, updateGameboardPlayer, gameboardPlayerInitialState, false);
+    //   }
+    // },
+
+    // handlePlayerMove: (state, action) => {
+    //   if (isValidPlayerTurn(
+    //     action.gameboardPlayer, 
+    //     +action.eventTargetId,
+    //     action.isPlayerOneTurn, 
+    //     state.hitGameboardValue, 
+    //     state.missGameboardValue, 
+    //     state.freemissGameboardValue,
+    //     state.isGameStarted,
+    //     state.isGameOver
+    //   )) {
+    //     gameSlice.caseReducers.updateGameboardCellHitOrMiss(action.gameboardPlayer, +action.eventTargetId, action.updateGameboardPlayer, action.gameboardPlayerInitialState, false);
+    //   }
+    // },
+
+    // handlePlayerMove: (state, action) => {
+    //   let isPlayerTurn;
+    //   if (action.isPlayerOne) {
+    //     isPlayerturn = state.isPlayerOneTurn;
+    //   } else {
+    //     isPlayerTurn = !state.isPlayerOneTurn;
+    //   }
+    //   if (isValidPlayerTurn(
+    //     action.gameboardPlayer, 
+    //     +action.eventTargetId,
+    //     isPlayerTurn, 
+    //     state.hitGameboardValue, 
+    //     state.missGameboardValue, 
+    //     state.freemissGameboardValue,
+    //     state.isGameStarted,
+    //     state.isGameOver
+    //   )) {
+    //     gameSlice.caseReducers.updateGameboardCellHitOrMiss(action.gameboardPlayer, +action.eventTargetId, action.updateGameboardPlayer, action.gameboardPlayerInitialState, false);
+    //   }
+    // },
+
+    // const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, updateGameboardPlayer, gameboardPlayerInitialState) => {
+    //   if (isValidPlayerTurn(
+    //     gameboardPlayer, 
+    //     +event.target.id,
+    //     isPlayerOneTurn, 
+    //     hitGameboardValue, 
+    //     missGameboardValue, 
+    //     freemissGameboardValue,
+    //     isGameStarted,
+    //     isGameOver
+    //   )) {
+    //     updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, updateGameboardPlayer, gameboardPlayerInitialState, false);
+    //   }
+    // }
 
   },
 });
