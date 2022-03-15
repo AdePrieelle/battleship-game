@@ -23,6 +23,7 @@ import { ships } from './ships';
 import { createRandomGameboard } from '../../common/utils/createRandomGameboard/createRandomGameboard';
 import { generateRandomValidShipPosition } from '../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { useSelector, useDispatch } from 'react-redux';
+import { getArrayOfArrayOfObjectsKeyValues } from '../../common/utils/getArrayOfArrayOfObjectsKeyValues/getArrayOfArrayOfObjectsKeyValues';
 import { 
   selectAmountOfRows,
   selectAmountOfColumns,
@@ -184,9 +185,61 @@ export const Game = () => {
     }
   }, [dispatch, previousHitComputerCellsNotSunkenShip, previousHitDirectionNotSunkenShip, previousHitDirectionNotSunkenShipHorizontalValue, previousHitDirectionNotSunkenShipVerticalValue]);
 
+  // // update the gameboard with a hit or miss or freemiss value
+  // const updateGameboardCellHitOrMiss = (gameboard, index, updateGameboardPlayer, gameboardInitialState, isComputer) => {
+  //   if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
+  //     const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
+  //       gameboard, 
+  //       index, 
+  //       hitGameboardValue, 
+  //       isSunkenShip,
+  //       getAllIndexesOfAnArrayValue, 
+  //       gameboardInitialState,
+  //       addFreeMissGameboardValueCellsAroundSunkenShip, 
+  //       freemissGameboardValue, 
+  //       emptyGameboardValue,
+  //       addFreeMissGameboardValueCellsAroundCellDiagonally
+  //     )
+  //     if (isComputer) {
+  //       if (isSunkenShipAfterHit(gameboard, index, hitGameboardValue, isSunkenShip)) {
+  //         // currently "hit" ship is sunken
+  //         dispatch(updatePreviousHitComputerCellsNotSunkenShip(previousHitComputerCellsNotSunkenShipDefaultValue));
+  //         dispatch(updatePreviousHitDirectionNotSunkenShip(previousHitDirectionNotSunkenShipDefaultValue));
+  //       } else {
+  //         // currently "hit" ship isn't sunken
+  //         let copyPreviousHitComputerCellNumbersInfo = [...previousHitComputerCellsNotSunkenShip];
+  //         copyPreviousHitComputerCellNumbersInfo.push(+index);
+  //         dispatch(updatePreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo));
+  //       }
+  //       dispatch(incrementComputerHitTurnAgainCount());
+  //     }
+  //     // updated gameboard
+  //     dispatch(updateGameboardPlayer(newGameboardStateAfterHitLogicWithFreeMissCells));
+  //     // logic for isGameOver
+  //     const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, shipNamePropertyText);
+  //     if (allShipsSunken) {
+  //       handleIsGameOver({ computerWon: isComputer });
+  //     }
+  //   } else if (isEmptyGameboardCell(gameboard, index, emptyGameboardValue)) {
+  //     const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, index, missGameboardValue);
+  //     dispatch(updateGameboardPlayer(newGameboardStateAfterMissLogicWithMissCell));
+  //     if (isComputer) {
+  //       dispatch(resetComputerHitTurnAgainCount());
+  //     }
+  //     if (isPlayerTwoComputer) {
+  //       dispatch(updateIsPlayerOneTurn(!isPlayerOneTurn));
+  //     }
+  //     if (!isComputer && !isPlayerTwoComputer) {
+  //       dispatch(updateDisablePlayerMove(true));
+  //       dispatch(updateDisableButtonGameSwitchPlayerTurn(false));
+  //     }
+  //   }
+  // }
+
   // update the gameboard with a hit or miss or freemiss value
   const updateGameboardCellHitOrMiss = (gameboard, index, updateGameboardPlayer, gameboardInitialState, isComputer) => {
-    if (isHiddenShipGameboardCell(gameboard, index, emptyGameboardValue, hitGameboardValue, missGameboardValue, freemissGameboardValue)) {
+    const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, shipNamePropertyText);
+    if (isHiddenShipGameboardCell(gameboard, index, arrayOfShipNames)) {
       const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
         gameboard, 
         index, 
@@ -236,19 +289,34 @@ export const Game = () => {
   }
 
   const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, updateGameboardPlayer, gameboardPlayerInitialState) => {
+    const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, shipNamePropertyText);
     if (isValidPlayerTurn(
       gameboardPlayer, 
       +event.target.id,
       isPlayerOneTurn, 
-      hitGameboardValue, 
-      missGameboardValue, 
-      freemissGameboardValue,
       isGameStarted,
-      isGameOver
+      isGameOver,
+      emptyGameboardValue,
+      arrayOfShipNames
     )) {
       updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, updateGameboardPlayer, gameboardPlayerInitialState, false);
     }
   }
+
+  // const handlePlayerMove = (event, gameboardPlayer, isPlayerOneTurn, updateGameboardPlayer, gameboardPlayerInitialState) => {
+  //   if (isValidPlayerTurn(
+  //     gameboardPlayer, 
+  //     +event.target.id,
+  //     isPlayerOneTurn, 
+  //     hitGameboardValue, 
+  //     missGameboardValue, 
+  //     freemissGameboardValue,
+  //     isGameStarted,
+  //     isGameOver
+  //   )) {
+  //     updateGameboardCellHitOrMiss(gameboardPlayer, +event.target.id, updateGameboardPlayer, gameboardPlayerInitialState, false);
+  //   }
+  // }
   
   const handleComputerMove = () => {
     if (previousHitComputerCellsNotSunkenShip.length === 0) {

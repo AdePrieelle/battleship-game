@@ -2,19 +2,16 @@ export const isValidPlayerTurn = (
   gameboard, 
   id,
   isPlayerTurn, 
-  hitGameboardValue, 
-  missGameboardValue, 
-  freemissGameboardValue,
   isGameStarted,
-  isGameOver
+  isGameOver,
+  emptyGameboardValue, 
+  arrayOfShipNames
 ) => {
   if (
        isPlayerTurn 
     && isGameStarted
     && !isGameOver
-    && gameboard[+id] !== hitGameboardValue 
-    && gameboard[+id] !== missGameboardValue 
-    && gameboard[+id] !== freemissGameboardValue 
+    && (gameboard[+id] === emptyGameboardValue || arrayOfShipNames.includes(gameboard[+id]))
   ) {
     return true;
   }

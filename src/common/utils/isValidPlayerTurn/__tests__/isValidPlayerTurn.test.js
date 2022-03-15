@@ -3,7 +3,7 @@ import { isValidPlayerTurn } from "../isValidPlayerTurn";
 
 test("isValidPlayerTurn returns true if it is the players turn, the game has started, the game isn't over and the gameboard cell is a hidden ship", () => {
   const mockGameboard = jest.fn(() => ([
-    "d1", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
+    "d1", "empty", "d2", "empty", "s3", "empty", "d4", "empty", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
     "s1", "s1", "empty", "s2", "s2", "empty", "s3", "s3", "empty", "empty",
     "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty",
@@ -16,20 +16,19 @@ test("isValidPlayerTurn returns true if it is the players turn, the game has sta
   ]));
   const mockId = jest.fn(() => 4);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
+
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(true);
 });
 
@@ -48,20 +47,18 @@ test("isValidPlayerTurn returns true if it is the players turn, the game has sta
   ]));
   const mockId = jest.fn(() => 5);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(true);
 });
 
@@ -80,20 +77,18 @@ test("isValidPlayerTurn returns false if it isn't the players turn", () => {
   ]));
   const mockId = jest.fn(() => 4);
   const mockIsPlayerTurn = jest.fn(() => false);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(false);
 });
 
@@ -112,20 +107,18 @@ test("isValidPlayerTurn returns false if the game hasn't started yet", () => {
   ]));
   const mockId = jest.fn(() => 4);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => false);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(false);
 });
 
@@ -144,20 +137,18 @@ test("isValidPlayerTurn returns false if the game is over", () => {
   ]));
   const mockId = jest.fn(() => 4);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => true);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(false);
 });
 
@@ -176,20 +167,18 @@ test("isValidPlayerTurn returns false if the gameboard cell is a hit", () => {
   ]));
   const mockId = jest.fn(() => 4);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(false);
 });
 
@@ -208,20 +197,18 @@ test("isValidPlayerTurn returns false if the gameboard cell is a miss", () => {
   ]));
   const mockId = jest.fn(() => 5);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(false);
 });
 
@@ -240,19 +227,17 @@ test("isValidPlayerTurn returns false if the gameboard cell is a freemiss", () =
   ]));
   const mockId = jest.fn(() => 5);
   const mockIsPlayerTurn = jest.fn(() => true);
-  const mockHitGameboardValue = jest.fn(() => "hit");
-  const mockMissGameboardValue = jest.fn(() => "miss");
-  const mockFreeMissGameboardValue = jest.fn(() => "freemiss");
   const mockIsGameStarted = jest.fn(() => true);
   const mockIsGameOver = jest.fn(() => false);
+  const mockEmptyGameboardValue = jest.fn(() => "empty");
+  const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   expect(isValidPlayerTurn(
     mockGameboard(),
     mockId(),
     mockIsPlayerTurn(),
-    mockHitGameboardValue(),
-    mockMissGameboardValue(),
-    mockFreeMissGameboardValue(),
     mockIsGameStarted(),
-    mockIsGameOver()
+    mockIsGameOver(),
+    mockEmptyGameboardValue(),
+    mockArrayOfShipNames()
   )).toBe(false);
 });

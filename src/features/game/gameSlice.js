@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { addFreeMissGameboardValueCellsAroundCellDiagonally } from "../../common/utils/addFreeMissGameboardValueCellsAroundCellDiagonally/addFreeMissGameboardValueCellsAroundCellDiagonally";
 import { addFreeMissGameboardValueCellsAroundSunkenShip } from "../../common/utils/addFreeMissGameboardValueCellsAroundSunkenShip/addFreeMissGameboardValueCellsAroundSunkenShip";
 import { getAllIndexesOfAnArrayValue } from "../../common/utils/getAllIndexesOfAnArrayValue/getAllIndexesOfAnArrayValue";
+import { getArrayOfArrayOfObjectsKeyValues } from "../../common/utils/getArrayOfArrayOfObjectsKeyValues/getArrayOfArrayOfObjectsKeyValues";
 import { getGameboardAfterHitLogic } from "../../common/utils/getGameboardAfterHitLogic/getGameboardAfterHitLogic";
 import { getGameboardAfterMissLogic } from "../../common/utils/getGameboardAfterMissLogic/getGameboardAfterMissLogic";
 import { isAllShipsSunken } from "../../common/utils/isAllShipsSunken/isAllShipsSunken";
@@ -345,14 +346,8 @@ export const gameSlice = createSlice({
         updateGameboardPlayer = updateGameboardPlayerOne;
       }
 
-      if (isHiddenShipGameboardCell(
-          gameboard, 
-          +action.payload.index, 
-          state.emptyGameboardValue, 
-          state.hitGameboardValue, 
-          state.missGameboardValue, 
-          state.freemissGameboardValue
-      )) {
+      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, state.shipNamePropertyText);
+      if (isHiddenShipGameboardCell(gameboard, +action.payload.index, arrayOfShipNames)) {
         const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
           gameboard,
           +action.payload.index,
@@ -413,15 +408,15 @@ export const gameSlice = createSlice({
         isPlayerTurn = !state.isPlayerOneTurn;
       };
 
+      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, state.shipNamePropertyText);
       if (isValidPlayerTurn(
         gameboardPlayer, 
         +action.payload.index,
         isPlayerTurn, 
-        state.hitGameboardValue, 
-        state.missGameboardValue, 
-        state.freemissGameboardValue,
         state.isGameStarted,
-        state.isGameOver
+        state.isGameOver,
+        state.emptyGameboardValue,
+        arrayOfShipNames
       )) {
         gameSlice.caseReducers.updateGameboardCellHitOrMiss(+action.payload.index);
       }
