@@ -1,5 +1,5 @@
 import './GameboardPlayerGrid.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
   selectAmountOfColumns, 
   selectAmountOfRows, 
@@ -13,17 +13,12 @@ import {
   selectIsGameStarted, 
   selectIsPlayerOneTurn, 
   selectIsPlayerTwoComputer, 
-  selectMissGameboardValue 
+  selectMissGameboardValue,
+  handlePlayerMove,
 } from '../../gameSlice';
 
-export const GameboardPlayerGrid = ({ 
-  // gameboardPlayer, 
-  
-  handlePlayerMove = null,
-  // isPlayerTurn,
-  isPlayerOne,
-
-}) => {
+export const GameboardPlayerGrid = ({ isPlayerOne }) => {
+  const dispatch = useDispatch();
   const amountOfColumns = useSelector(selectAmountOfColumns);
   const amountOfRows = useSelector(selectAmountOfRows);
   const hitGameboardValue = useSelector(selectHitGameboardValue);
@@ -53,12 +48,10 @@ export const GameboardPlayerGrid = ({
       return !isPlayerOneTurn;
     };
   };
-  
+
   const gameboardPlayer = getGameboardPlayer(isPlayerOne);
   const isPlayerTurn = getIsPlayerTurn(isPlayerOne);
   
-
-
   return (
     <div 
       className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "" : "gameboard-inactive"} gameboard-player`}
@@ -93,7 +86,11 @@ export const GameboardPlayerGrid = ({
               : ""
             }`
           } 
-          onClick={(disablePlayerMove || (!isPlayerOne && isPlayerTwoComputer)) ? null : handlePlayerMove}
+          onClick={
+              (disablePlayerMove || (!isPlayerOne && isPlayerTwoComputer)) 
+            ? null 
+            : (event) => dispatch(handlePlayerMove({isPlayerOne, index: +event.target.id }))
+          }
         >
         </div>
       ))}

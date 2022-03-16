@@ -1,66 +1,20 @@
 import { GameboardPlayerGrid } from '../GameboardPlayerGrid/GameboardPlayerGrid';
 import { GameboardShipStats } from '../GameboardShipStats/GameboardShipStats';
-import { ships } from '../../ships';
 import { GameButtons } from '../GameButtons/GameButtons';
 import './GameboardsWrapper.scss';
 import { useSelector } from 'react-redux';
 import { 
-  selectAmountOfColumns, 
-  selectAmountOfRows, 
-  selectDisableButtonGameSwitchPlayerTurn, 
-  selectDisablePlayerMove, 
-  selectEmptyGameboardValue, 
-  selectFreemissGameboardValue, 
-  selectGameboardPlayerOne, 
-  selectGameboardPlayerOneInitialState, 
-  selectGameboardPlayerTwo, 
-  selectGameboardPlayerTwoInitialState, 
-  selectHitGameboardValue, 
-  selectIsGameOver, 
-  selectIsGameStarted, 
   selectIsPlayerOneTurn, 
   selectIsPlayerTwoComputer, 
-  selectMissGameboardValue, 
-  selectShipIsSunkenPropertyText, 
-  selectShipLengthPropertyText, 
-  selectShipNamePropertyText,
-  updateGameboardPlayerOne,
-  updateGameboardPlayerTwo,
-  handleButtonNewGame,
-  handleButtonGameSwitchPlayerTurn,
+  selectGameboardPlayerOne, 
+  selectGameboardPlayerTwo
 } from '../../gameSlice';
 
-export const GameboardsWrapper = ({ handlePlayerMove }) => {
+export const GameboardsWrapper = () => {
   const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
   const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
   const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
-  const amountOfColumns = useSelector(selectAmountOfColumns);
-  const amountOfRows = useSelector(selectAmountOfRows);
-  const hitGameboardValue = useSelector(selectHitGameboardValue);
-  const missGameboardValue = useSelector(selectMissGameboardValue);
-  const freemissGameboardValue = useSelector(selectFreemissGameboardValue);
-  const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
-
-  // const setGameboardPlayerOne = useSelector(selectGameboardPlayerOne);
-
-  const gameboardPlayerOneInitialState = useSelector(selectGameboardPlayerOneInitialState);
-  const isGameStarted = useSelector(selectIsGameStarted);
-  const isGameOver = useSelector(selectIsGameOver);
-  const disablePlayerMove = useSelector(selectDisablePlayerMove);
   const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
-
-  // const setGameboardPlayerTwo = useSelector(selectIsPlayerOneTurn);
-
-  const gameboardPlayerTwoInitialState = useSelector(selectGameboardPlayerTwoInitialState);
-
-  // const handleButtonNewGame = useSelector(selectHandleButtonNewGame);
-
-  // const handleButtonGameSwitchPlayerTurn = useSelector(selectIsPlayerOneTurn);
-
-  const disableButtonGameSwitchPlayerTurn = useSelector(selectDisableButtonGameSwitchPlayerTurn);
-  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
-  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
-  const shipIsSunkenPropertyText = useSelector(selectShipIsSunkenPropertyText);
 
   return (
     <div className="gameboards-wrapper">
@@ -71,7 +25,6 @@ export const GameboardsWrapper = ({ handlePlayerMove }) => {
             {/* Player two plays on gameboardPlayerOne */}
             <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
               <GameboardPlayerGrid 
-                handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerOne, !isPlayerOneTurn, updateGameboardPlayerOne, gameboardPlayerOneInitialState)}
                 isPlayerOne={false}
               />
               <GameboardShipStats 
@@ -96,7 +49,6 @@ export const GameboardsWrapper = ({ handlePlayerMove }) => {
           {/* Player one plays on gameboardPlayerTwo */}
           <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
             <GameboardPlayerGrid 
-              handlePlayerMove={(e) => handlePlayerMove(e, gameboardPlayerTwo, isPlayerOneTurn, updateGameboardPlayerTwo, gameboardPlayerTwoInitialState)}
               isPlayerOne={true}
             />
             <GameboardShipStats 
