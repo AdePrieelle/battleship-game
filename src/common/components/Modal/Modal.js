@@ -1,6 +1,6 @@
 import './Modal.scss';
 
-export const Modal = ({ children, setShowModal = false }) => {
+export const Modal = ({ children, closeModal = false }) => {
   return (
   <>
     <div className="modal-overlay"></div>
@@ -9,10 +9,10 @@ export const Modal = ({ children, setShowModal = false }) => {
         {children}
       </div>
       {
-          setShowModal
+          closeModal
         ? <button 
             className="modal-close-button" 
-            onClick={() => setShowModal(false)}
+            onClick={() => closeModal()}
           >
             <i className="fas fa-times"></i>
           </button>

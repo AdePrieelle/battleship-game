@@ -6,112 +6,72 @@ import { Button } from "../../../../common/components/Button/Button";
 import { GameboardPlayerGridShipPlacement } from "../GameboardPlayerGridShipPlacement/GameboardPlayerGridShipPlacement";
 import { capitalizeString } from "../../../../common/utils/capitalizeString/capitalizeString";
 import './GameLogicModals.scss';
-
-export const GameLogicModals = ({
-  setShowModalPickOpponent,
-  handleNewGame,
-  setIsPlayerTwoComputer,
-  handleStartGame,
-  setShowModalGameSwitchTurnToPlayerTwo,
-  setShowModalGameSwitchTurnToPlayerOne,
-  showModalGameOver,
-  setShowModalGameOver,
-  playerOneWonGame,
-  playerTwoWonGame,
-  playerOneName,
-  playerTwoName,
-  computerWonGame,
-  computerName,
+import { useDispatch, useSelector } from "react-redux";
+import { 
   handleButtonNewGame,
-  showModalPickOpponent,
-  setPlayerOneName,
-  setPlayerTwoName,
-  showModalGameSwitchTurnToPlayerTwo,
-  showModalGameSwitchTurnToPlayerOne,
-  amountOfRows,
-  amountOfColumns,
-  emptyGameboardValue,
-  horizontalDirectionValue,
-  verticalDirectionValue,
-  isPlayerTwoComputer,
-  setGameboardPlayerOneInitialState,
-  setGameboardPlayerTwoInitialState,
-  setShowGameboards,
-  buttonNextStepText,
-  shipNamePropertyText,
-  shipLengthPropertyText
-}) => {
-  // pre game logic for opponent is computer
-  const [showModalPreGamePlayerOneNameAgainstComputer, setShowModalPreGamePlayerOneNameAgainstComputer] = useState(false);
-  const [showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer, setShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer] = useState(false);
-  
-  // pre game logic for opponent is a player
-  const [showModalPreGamePlayerOneName, setShowModalPreGamePlayerOneName] = useState(false);
-  const [showModalPreGamePlayerTwoName, setShowModalPreGamePlayerTwoName] = useState(false);
-  const [showModalPreGameSwitchTurnToPlayerOneGameboard, setShowModalPreGameSwitchTurnToPlayerOneGameboard] = useState(false);
-  const [showModalPreGameGameboardPlayerOneGridShipPlacement, setShowModalPreGameGameboardPlayerOneGridShipPlacement] = useState(false);
-  const [showModalPreGameSwitchTurnToPlayerTwoGameboard, setShowModalPreGameSwitchTurnToPlayerTwoGameboard] = useState(false);
-  const [showModalPreGameGameboardPlayerTwoGridShipPlacement, setShowModalPreGameGameboardPlayerTwoGridShipPlacement] = useState(false);
-  const [showModalPreGameSwitchTurnToPlayerOne, setShowModalPreGameSwitchTurnToPlayerOne] = useState(false);
+  handleModalPickOpponentComputer,
+  handleModalPickOpponentPlayer,
+  handleModalPreGamePlayerOneNameAgainstComputer,
+  selectAmountOfColumns,
+  selectAmountOfRows,
+  selectButtonNextStepText,
+  selectComputerName,
+  selectComputerWonGame,
+  selectEmptyGameboardValue,
+  selectHorizontalDirectionValue,
+  selectPlayerOneName,
+  selectPlayerOneWonGame,
+  selectPlayerTwoName,
+  selectPlayerTwoWonGame,
+  selectShipLengthPropertyText,
+  selectShipNamePropertyText,
+  selectShowModalGameOver, 
+  selectShowModalPickOpponent, 
+  selectShowModalPreGamePlayerOneNameAgainstComputer, 
+  selectVerticalDirectionValue, 
+  updatePlayerOneName, 
+  updateShowModalGameOver, 
+  updateShowModalPickOpponent
+} from "../../gameSlice";
+import { getGeneratedRandomGameboardPlayerInitialStates } from "../../../../common/utils/getGeneratedRandomGameboardPlayerInitialStates/getGeneratedRandomGameboardPlayerInitialStates";
+import { createRandomGameboard } from "../../../../common/utils/createRandomGameboard/createRandomGameboard";
+import { generateRandomValidShipPosition } from "../../../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition";
+import { ships } from '../../ships';
 
-  // Pre game opponent is a computer logic
-  const handleModalPickOpponentComputer = () => {
-    setShowModalPickOpponent(false);
-    handleNewGame();
-    setIsPlayerTwoComputer(true);
-    setShowGameboards(false);
-    setShowModalPreGamePlayerOneNameAgainstComputer(true);
-  }
+export const GameLogicModals = () => {
+  const dispatch = useDispatch();
 
-  const handleModalPreGamePlayerOneNameAgainstComputer = () => {
-    setShowModalPreGamePlayerOneNameAgainstComputer(false);
-    setShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer(true);
-  }
+  const showModalGameOver = useSelector(selectShowModalGameOver);
+  const playerOneWonGame = useSelector(selectPlayerOneWonGame);
+  const playerOneName = useSelector(selectPlayerOneName);
+  const playerTwoWonGame = useSelector(selectPlayerTwoWonGame);
+  const playerTwoName = useSelector(selectPlayerTwoName);
+  const computerWonGame = useSelector(selectComputerWonGame);
+  const computerName = useSelector(selectComputerName);
+  const showModalPickOpponent = useSelector(selectShowModalPickOpponent);
+  const amountOfRows = useSelector(selectAmountOfRows);
+  const amountOfColumns = useSelector(selectAmountOfColumns);
+  const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
+  const horizontalDirectionValue = useSelector(selectHorizontalDirectionValue);
+  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
+  const showModalPreGamePlayerOneNameAgainstComputer = useSelector(selectShowModalPreGamePlayerOneNameAgainstComputer);
+  const buttonNextStepText = useSelector(selectButtonNextStepText);
 
-  // Pre game opponent is a player logic
-  const handleModalPickOpponentPlayer = () => {
-    setShowModalPickOpponent(false);
-    handleNewGame();
-    setIsPlayerTwoComputer(false);
-    setShowGameboards(false);
-    setShowModalPreGamePlayerOneName(true);
-  }
-
-  const handleModalPreGamePlayerOneName = () => {
-    setShowModalPreGamePlayerOneName(false);
-    setShowModalPreGamePlayerTwoName(true);
-  }
-
-  const handleModalPreGamePlayerTwoName = () => {
-    setShowModalPreGamePlayerTwoName(false);
-    setShowModalPreGameSwitchTurnToPlayerOneGameboard(true);
-  }
-
-  const handleModalPreGameSwitchToPlayerOneGameboard = () => {
-    setShowModalPreGameSwitchTurnToPlayerOneGameboard(false);
-    setShowModalPreGameGameboardPlayerOneGridShipPlacement(true);
-  }
-
-  const handleModalPreGameSwitchTurnToPlayerTwo = () => {
-    setShowModalPreGameSwitchTurnToPlayerTwoGameboard(false);
-    setShowModalPreGameGameboardPlayerTwoGridShipPlacement(true);
-  }
-
-  const handleModalPreGameSwitchTurnToPlayerOne = () => {
-    setShowModalPreGameSwitchTurnToPlayerOne(false);
-    setShowGameboards(true);
-    handleStartGame();
-  }
-
-  // modal game switch turns for opponent is a player
-  const handleModalGameSwitchTurnToPlayerTwo = () => {
-    setShowModalGameSwitchTurnToPlayerTwo(false);
-    setShowGameboards(true);
-  }
-
-  const handleModalGameSwitchTurnToPlayerOne = () => {
-    setShowModalGameSwitchTurnToPlayerOne(false);
-    setShowGameboards(true);
+  const generatedRandomGameboardInitialStates = () => {
+    return (getGeneratedRandomGameboardPlayerInitialStates(
+      createRandomGameboard, 
+      amountOfRows, 
+      amountOfColumns,
+      emptyGameboardValue,
+      generateRandomValidShipPosition,
+      ships,
+      horizontalDirectionValue,
+      verticalDirectionValue,
+      shipNamePropertyText,
+      shipLengthPropertyText
+    ));
   }
 
   return (
@@ -119,13 +79,13 @@ export const GameLogicModals = ({
       {
           showModalGameOver
         ? <Modal 
-            setShowModal={setShowModalGameOver}
+            closeModal={() => dispatch(updateShowModalGameOver(false))}
           >
             <ModalMessage>
               {playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleButtonNewGame}>Play again</Button>
+              <Button buttonOnClick={() => dispatch(handleButtonNewGame())}>Play again</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -134,14 +94,14 @@ export const GameLogicModals = ({
       {
           showModalPickOpponent
         ? <Modal 
-            setShowModal={setShowModalPickOpponent}
+            closeModal={() => dispatch(updateShowModalPickOpponent())}
           >
             <ModalMessage>
               Pick your opponent
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPickOpponentComputer}>Computer</Button>
-              <Button buttonOnClick={handleModalPickOpponentPlayer}>Player</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPickOpponentComputer(generatedRandomGameboardInitialStates()))}>Computer</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPickOpponentPlayer(generatedRandomGameboardInitialStates()))}>Player</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -157,11 +117,11 @@ export const GameLogicModals = ({
                 type="text" 
                 className="input-name"
                 value={playerOneName}
-                onChange={(e) => setPlayerOneName(capitalizeString(e.target.value))}
+                onChange={(e) => dispatch(updatePlayerOneName(capitalizeString(e.target.value)))}
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneNameAgainstComputer}>{buttonNextStepText}</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPreGamePlayerOneNameAgainstComputer())}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
