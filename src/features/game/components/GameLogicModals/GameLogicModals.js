@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Modal } from "../../../../common/components/Modal/Modal";
 import { ModalMessage } from "../../../../common/components/ModalMessage/ModalMessage";
 import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
@@ -9,9 +8,16 @@ import './GameLogicModals.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { 
   handleButtonNewGame,
+  handleModalGameSwitchTurnToPlayerOne,
+  handleModalGameSwitchTurnToPlayerTwo,
   handleModalPickOpponentComputer,
   handleModalPickOpponentPlayer,
+  handleModalPreGamePlayerOneName,
   handleModalPreGamePlayerOneNameAgainstComputer,
+  handleModalPreGamePlayerTwoName,
+  handleModalPreGameSwitchToPlayerOneGameboard,
+  handleModalPreGameSwitchTurnToPlayerOne,
+  handleModalPreGameSwitchTurnToPlayerTwo,
   selectAmountOfColumns,
   selectAmountOfRows,
   selectButtonNextStepText,
@@ -26,10 +32,21 @@ import {
   selectShipLengthPropertyText,
   selectShipNamePropertyText,
   selectShowModalGameOver, 
+  selectShowModalGameSwitchTurnToPlayerOne, 
+  selectShowModalGameSwitchTurnToPlayerTwo, 
   selectShowModalPickOpponent, 
+  selectShowModalPreGameGameboardPlayerOneGridShipPlacement, 
+  selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer, 
+  selectShowModalPreGameGameboardPlayerTwoGridShipPlacement, 
+  selectShowModalPreGamePlayerOneName, 
   selectShowModalPreGamePlayerOneNameAgainstComputer, 
+  selectShowModalPreGamePlayerTwoName, 
+  selectShowModalPreGameSwitchTurnToPlayerOne, 
+  selectShowModalPreGameSwitchTurnToPlayerOneGameboard, 
+  selectShowModalPreGameSwitchTurnToPlayerTwoGameboard, 
   selectVerticalDirectionValue, 
   updatePlayerOneName, 
+  updatePlayerTwoName, 
   updateShowModalGameOver, 
   updateShowModalPickOpponent
 } from "../../gameSlice";
@@ -58,6 +75,16 @@ export const GameLogicModals = () => {
   const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
   const showModalPreGamePlayerOneNameAgainstComputer = useSelector(selectShowModalPreGamePlayerOneNameAgainstComputer);
   const buttonNextStepText = useSelector(selectButtonNextStepText);
+  const showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = useSelector(selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer);
+  const showModalPreGamePlayerOneName = useSelector(selectShowModalPreGamePlayerOneName);
+  const showModalPreGamePlayerTwoName = useSelector(selectShowModalPreGamePlayerTwoName);
+  const showModalPreGameSwitchTurnToPlayerOneGameboard = useSelector(selectShowModalPreGameSwitchTurnToPlayerOneGameboard);
+  const showModalPreGameGameboardPlayerOneGridShipPlacement = useSelector(selectShowModalPreGameGameboardPlayerOneGridShipPlacement);
+  const showModalPreGameSwitchTurnToPlayerTwoGameboard = useSelector(selectShowModalPreGameSwitchTurnToPlayerTwoGameboard);
+  const showModalPreGameGameboardPlayerTwoGridShipPlacement = useSelector(selectShowModalPreGameGameboardPlayerTwoGridShipPlacement);
+  const showModalPreGameSwitchTurnToPlayerOne = useSelector(selectShowModalPreGameSwitchTurnToPlayerOne);
+  const showModalGameSwitchTurnToPlayerTwo  = useSelector(selectShowModalGameSwitchTurnToPlayerTwo);
+  const showModalGameSwitchTurnToPlayerOne = useSelector(selectShowModalGameSwitchTurnToPlayerOne);
 
   const generatedRandomGameboardInitialStates = () => {
     return (getGeneratedRandomGameboardPlayerInitialStates(
@@ -78,9 +105,7 @@ export const GameLogicModals = () => {
     <>
       {
           showModalGameOver
-        ? <Modal 
-            closeModal={() => dispatch(updateShowModalGameOver(false))}
-          >
+        ? <Modal closeModal={() => dispatch(updateShowModalGameOver(false))}>
             <ModalMessage>
               {playerOneWonGame ? playerOneName : playerTwoWonGame ? playerTwoName : computerWonGame ? computerName : "Noone"} won!
             </ModalMessage>
@@ -93,9 +118,7 @@ export const GameLogicModals = () => {
 
       {
           showModalPickOpponent
-        ? <Modal 
-            closeModal={() => dispatch(updateShowModalPickOpponent())}
-          >
+        ? <Modal closeModal={() => dispatch(updateShowModalPickOpponent(false))}>
             <ModalMessage>
               Pick your opponent
             </ModalMessage>
@@ -132,20 +155,7 @@ export const GameLogicModals = () => {
         ?
           <>
             <GameboardPlayerGridShipPlacement
-              amountOfColumns={amountOfColumns}
-              amountOfRows={amountOfRows}
-              emptyGameboardValue={emptyGameboardValue}
-              horizontalDirectionValue={horizontalDirectionValue}
-              verticalDirectionValue={verticalDirectionValue}
-              setGameboardPlayerInitialState={setGameboardPlayerOneInitialState}
-              setShowModalPreGameGameboardPlayerGridShipPlacement={setShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer}
-              handleStartGame={handleStartGame}
-              isPlayerTwoComputer={isPlayerTwoComputer}
-              setShowGameboards={setShowGameboards}
-              playerName={playerOneName}
-              buttonNextStepText={buttonNextStepText}
-              shipNamePropertyText={shipNamePropertyText}
-              shipLengthPropertyText={shipLengthPropertyText}
+              isPlayerOne={true}
             />
           </>
         : null
@@ -161,11 +171,11 @@ export const GameLogicModals = () => {
                 type="text" 
                 className="input-name"
                 value={playerOneName}
-                onChange={(e) => setPlayerOneName(capitalizeString(e.target.value))}
+                onChange={(e) => dispatch(updatePlayerOneName(capitalizeString(e.target.value)))}
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerOneName}>{buttonNextStepText}</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPreGamePlayerOneName())}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -181,11 +191,11 @@ export const GameLogicModals = () => {
                 type="text" 
                 className="input-name"
                 value={playerTwoName}
-                onChange={(e) => setPlayerTwoName(capitalizeString(e.target.value))}
+                onChange={(e) => dispatch(updatePlayerTwoName(capitalizeString(e.target.value)))}
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGamePlayerTwoName}>{buttonNextStepText}</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPreGamePlayerTwoName())}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -199,7 +209,7 @@ export const GameLogicModals = () => {
               Hand over to {playerOneName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchToPlayerOneGameboard}>{buttonNextStepText}</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPreGameSwitchToPlayerOneGameboard())}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null 
@@ -210,20 +220,7 @@ export const GameLogicModals = () => {
         ?
           <>
             <GameboardPlayerGridShipPlacement
-              amountOfColumns={amountOfColumns}
-              amountOfRows={amountOfRows}
-              emptyGameboardValue={emptyGameboardValue}
-              horizontalDirectionValue={horizontalDirectionValue}
-              verticalDirectionValue={verticalDirectionValue}
-              setGameboardPlayerInitialState={setGameboardPlayerOneInitialState}
-              setShowModalPreGameGameboardPlayerGridShipPlacement={setShowModalPreGameGameboardPlayerOneGridShipPlacement}
-              handleStartGame={handleStartGame}
-              isPlayerTwoComputer={isPlayerTwoComputer}
-              setNextModal={setShowModalPreGameSwitchTurnToPlayerTwoGameboard}
-              playerName={playerOneName}
-              buttonNextStepText={buttonNextStepText}
-              shipNamePropertyText={shipNamePropertyText}
-              shipLengthPropertyText={shipLengthPropertyText}
+              isPlayerOne={true}
             />
           </>
         : null
@@ -236,7 +233,7 @@ export const GameLogicModals = () => {
               Hand over to {playerTwoName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerTwo}>{buttonNextStepText}</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPreGameSwitchTurnToPlayerTwo())}>{buttonNextStepText}</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -247,20 +244,7 @@ export const GameLogicModals = () => {
         ?
           <>
             <GameboardPlayerGridShipPlacement
-              amountOfColumns={amountOfColumns}
-              amountOfRows={amountOfRows}
-              emptyGameboardValue={emptyGameboardValue}
-              horizontalDirectionValue={horizontalDirectionValue}
-              verticalDirectionValue={verticalDirectionValue}
-              setGameboardPlayerInitialState={setGameboardPlayerTwoInitialState}
-              setShowModalPreGameGameboardPlayerGridShipPlacement={setShowModalPreGameGameboardPlayerTwoGridShipPlacement}
-              handleStartGame={handleStartGame}
-              isPlayerTwoComputer={isPlayerTwoComputer}
-              setNextModal={setShowModalPreGameSwitchTurnToPlayerOne}
-              playerName={playerTwoName}
-              buttonNextStepText={buttonNextStepText}
-              shipNamePropertyText={shipNamePropertyText}
-              shipLengthPropertyText={shipLengthPropertyText}
+              isPlayerOne={false}
             />
           </>
         : null
@@ -273,7 +257,7 @@ export const GameLogicModals = () => {
               Hand over to {playerOneName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalPreGameSwitchTurnToPlayerOne}>Start game</Button>
+              <Button buttonOnClick={() => dispatch(handleModalPreGameSwitchTurnToPlayerOne())}>Start game</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -286,7 +270,7 @@ export const GameLogicModals = () => {
               Hand over to {playerTwoName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerTwo}>Go</Button>
+              <Button buttonOnClick={() => dispatch(handleModalGameSwitchTurnToPlayerTwo())}>Go</Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -299,7 +283,7 @@ export const GameLogicModals = () => {
               Hand over to {playerOneName}
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={handleModalGameSwitchTurnToPlayerOne}>Go</Button>
+              <Button buttonOnClick={() => dispatch(handleModalGameSwitchTurnToPlayerOne())}>Go</Button>
             </ButtonsWrapper>
           </Modal>
         : null

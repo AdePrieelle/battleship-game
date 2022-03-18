@@ -21,24 +21,43 @@ import { getRowNumberOfIndexTwoDimensionalArray } from "../../../../common/utils
 import { getLastIdInRowTwoDimensionalArray } from "../../../../common/utils/getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
 import { getLastDigitOfNumber } from "../../../../common/utils/getLastDigitOfNumber/getLastDigitOfNumber";
 import './GameboardPlayerGridShipPlacement.scss';
-
-export const GameboardPlayerGridShipPlacement = ({ 
-  amountOfColumns, 
-  amountOfRows, 
-  emptyGameboardValue,
-  horizontalDirectionValue,
-  verticalDirectionValue,
-  setGameboardPlayerInitialState,
-  setShowModalPreGameGameboardPlayerGridShipPlacement,
+import { useDispatch, useSelector } from "react-redux";
+import { 
   handleStartGame,
-  isPlayerTwoComputer,
-  playerName,
-  setNextModal = false,
-  setShowGameboards = false,
-  buttonNextStepText,
-  shipNamePropertyText,
-  shipLengthPropertyText
-}) => {
+  selectAmountOfColumns, 
+  selectAmountOfRows, 
+  selectButtonNextStepText, 
+  selectEmptyGameboardValue,
+  selectHorizontalDirectionValue,
+  selectIsPlayerTwoComputer,
+  selectPlayerOneName,
+  selectPlayerTwoName,
+  selectShipLengthPropertyText,
+  selectShipNamePropertyText,
+  selectVerticalDirectionValue,
+  updateGameboardPlayerOneInitialState,
+  updateGameboardPlayerTwoInitialState,
+  updateShowGameboards,
+  updateShowModalPreGameGameboardPlayerOneGridShipPlacement,
+  updateShowModalPreGameGameboardPlayerTwoGridShipPlacement,
+  updateShowModalPreGameSwitchTurnToPlayerOne,
+  updateShowModalPreGameSwitchTurnToPlayerTwoGameboard
+} from "../../gameSlice";
+
+export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
+  const dispatch = useDispatch();
+  const amountOfColumns = useSelector(selectAmountOfColumns);
+  const amountOfRows = useSelector(selectAmountOfRows);
+  const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
+  const horizontalDirectionValue = useSelector(selectHorizontalDirectionValue);
+  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
+  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
+  const buttonNextStepText = useSelector(selectButtonNextStepText);
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
+  const playerOneName = useSelector(selectPlayerOneName);
+  const playerTwoName = useSelector(selectPlayerTwoName);
+
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, emptyGameboardValue);
   const [gameboardPlayerShipPlacement, setGameboardPlayerShipPlacement] = useState(gameboardPlayerShipPlacementInitialState);
   const [shipPlacementDirection, setShipPlacementdirection] = useState(horizontalDirectionValue);
@@ -136,14 +155,19 @@ export const GameboardPlayerGridShipPlacement = ({
   }
 
   const handleModalGameboardPlayerGridShipPlacement = () => {
-    setGameboardPlayerInitialState(gameboardPlayerShipPlacement);
-    setShowModalPreGameGameboardPlayerGridShipPlacement(false);
-    if (setNextModal) {
-      setNextModal(true);
-    }
-    if (isPlayerTwoComputer) {
-      setShowGameboards(true);
-      handleStartGame();
+    if (isPlayerOne) {
+      dispatch(updateGameboardPlayerOneInitialState(gameboardPlayerShipPlacement));
+      dispatch(updateShowModalPreGameGameboardPlayerOneGridShipPlacement(false));
+      if (isPlayerTwoComputer) {
+        dispatch(handleStartGame());
+        dispatch(updateShowGameboards(true));
+      } else {
+        dispatch(updateShowModalPreGameSwitchTurnToPlayerTwoGameboard(true));
+      }
+    } else {
+      dispatch(updateGameboardPlayerTwoInitialState(gameboardPlayerShipPlacement));
+      dispatch(updateShowModalPreGameGameboardPlayerTwoGridShipPlacement(false));
+      dispatch(updateShowModalPreGameSwitchTurnToPlayerOne(true));
     }
   }
 
@@ -153,7 +177,7 @@ export const GameboardPlayerGridShipPlacement = ({
 
   return (
     <div className="gameboard-player-grid-ship-placement">
-      <h1 className="player-name-title">{`${playerName}'s ship placements`}</h1>
+      <h1 className="player-name-title">{`${isPlayerOne ? playerOneName : playerTwoName}'s ship placements`}</h1>
       <div className="ship-placement-message">
         {
             !isShipPlacementFinished()
