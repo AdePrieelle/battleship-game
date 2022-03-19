@@ -273,7 +273,7 @@ export const gameSlice = createSlice({
     handleModalPickOpponentComputer: (state, action) => {
       state.showModalPickOpponent = false;
       gameSlice.caseReducers.handleNewGame(state, action);
-      state.isPlayerTwoComputer = false;
+      state.isPlayerTwoComputer = true;
       state.showGameboards = false;
       state.showModalPreGamePlayerOneNameAgainstComputer = true;
     },
@@ -330,6 +330,9 @@ export const gameSlice = createSlice({
 
 
     handleMove: (state, action) => {
+      console.log(state);
+      console.log(state.isPlayerTwoComputer);
+      console.log(action);
       // only need to know index for action.payload
       let gameboard;
       let gameboardInitialState;
@@ -374,15 +377,25 @@ export const gameSlice = createSlice({
           gameSlice.caseReducers.incrementComputerHitTurnAgainCount();
         };
         // updated gameboard
-        gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterHitLogicWithFreeMissCells);
+        if (state.isPlayerOneTurn) {
+          gameSlice.caseReducers.updateGameboardPlayerTwo(newGameboardStateAfterHitLogicWithFreeMissCells);
+        } else {
+          gameSlice.caseReducers.updateGameboardPlayerOne(newGameboardStateAfterHitLogicWithFreeMissCells);
+        }
+        // gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterHitLogicWithFreeMissCells);
         // logic for isGameOver
         const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, state.shipNamePropertyText);
         if (allShipsSunken) {
-          gameSlice.caseReducers.handleIsGameOver({ computerWon: isComputer });
+          gameSlice.caseReducers.handleIsGameOver({ payload: { computerWon: isComputer } });
         };
       } else if (isEmptyGameboardCell(gameboard, +action.payload.index, state.emptyGameboardValue)) {
         const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, +action.payload.index, state.missGameboardValue);
-        gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterMissLogicWithMissCell);
+        if (state.isPlayerOneTurn) {
+          gameSlice.caseReducers.updateGameboardPlayerTwo(newGameboardStateAfterMissLogicWithMissCell);
+        } else {
+          gameSlice.caseReducers.updateGameboardPlayerOne(newGameboardStateAfterMissLogicWithMissCell);
+        }
+        // gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterMissLogicWithMissCell);
         if (isComputer) {
           gameSlice.caseReducers.resetComputerHitTurnAgainCount();
         };
@@ -418,7 +431,7 @@ export const gameSlice = createSlice({
         state.emptyGameboardValue,
         arrayOfShipNames
       )) {
-        gameSlice.caseReducers.updateGameboardCellHitOrMiss(+action.payload.index);
+        gameSlice.caseReducers.handleMove(state, { payload: { index: +action.payload.index } });
       }
     },
 
@@ -487,6 +500,7 @@ export const {
   handleModalGameSwitchTurnToPlayerOne,
 
   handleMove,
+  handlePlayerMove,
 
 
 

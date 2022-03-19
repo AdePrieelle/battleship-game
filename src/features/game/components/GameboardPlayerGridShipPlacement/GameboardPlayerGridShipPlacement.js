@@ -39,6 +39,7 @@ import {
   updateGameboardPlayerTwoInitialState,
   updateShowGameboards,
   updateShowModalPreGameGameboardPlayerOneGridShipPlacement,
+  updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer,
   updateShowModalPreGameGameboardPlayerTwoGridShipPlacement,
   updateShowModalPreGameSwitchTurnToPlayerOne,
   updateShowModalPreGameSwitchTurnToPlayerTwoGameboard
@@ -157,11 +158,12 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const handleModalGameboardPlayerGridShipPlacement = () => {
     if (isPlayerOne) {
       dispatch(updateGameboardPlayerOneInitialState(gameboardPlayerShipPlacement));
-      dispatch(updateShowModalPreGameGameboardPlayerOneGridShipPlacement(false));
       if (isPlayerTwoComputer) {
+        dispatch(updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer(false));
         dispatch(handleStartGame());
         dispatch(updateShowGameboards(true));
       } else {
+        dispatch(updateShowModalPreGameGameboardPlayerOneGridShipPlacement(false));
         dispatch(updateShowModalPreGameSwitchTurnToPlayerTwoGameboard(true));
       }
     } else {
