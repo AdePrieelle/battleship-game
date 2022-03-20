@@ -89,7 +89,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
           onClick={
               (disablePlayerMove || (!isPlayerOne && isPlayerTwoComputer)) 
             ? null 
-            : (event) => dispatch(handlePlayerMove({isPlayerOne, index: +event.target.id }))
+            : (event) => dispatch(handlePlayerMove({ isPlayerOne, index: +event.target.id }))
           }
         >
         </div>
