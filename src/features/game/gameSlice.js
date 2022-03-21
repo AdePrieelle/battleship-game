@@ -423,7 +423,10 @@ export const gameSlice = createSlice({
         state.isGameStarted,
         state.isGameOver,
         state.emptyGameboardValue,
-        arrayOfShipNames
+        arrayOfShipNames,
+        state.disablePlayerMove,
+        action.payload.isPlayerOne,
+        state.isPlayerTwoComputer
       )) {
         gameSlice.caseReducers.handleMove(state, { payload: +action.payload.index });
       }

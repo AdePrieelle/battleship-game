@@ -15,7 +15,11 @@ import {
   selectIsPlayerTwoComputer, 
   selectMissGameboardValue,
   handlePlayerMove,
+  selectShipNamePropertyText,
 } from '../../gameSlice';
+import { getArrayOfArrayOfObjectsKeyValues } from '../../../../common/utils/getArrayOfArrayOfObjectsKeyValues/getArrayOfArrayOfObjectsKeyValues';
+import { ships } from '../../ships';
+import { isValidPlayerTurn } from '../../../../common/utils/isValidPlayerTurn/isValidPlayerTurn';
 
 export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   const dispatch = useDispatch();
@@ -32,6 +36,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
   const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
   const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
 
   const getGameboardPlayer = (isPlayerOne) => {
     if (isPlayerOne) {
@@ -51,6 +56,24 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
 
   const gameboardPlayer = getGameboardPlayer(isPlayerOne);
   const isPlayerTurn = getIsPlayerTurn(isPlayerOne);
+  const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, shipNamePropertyText);
+
+  const onGameboardCellClicked = (id) => {
+    if (isValidPlayerTurn(
+      gameboardPlayer, 
+      +id,
+      isPlayerTurn, 
+      isGameStarted,
+      isGameOver,
+      emptyGameboardValue,
+      arrayOfShipNames,
+      disablePlayerMove,
+      isPlayerOne,
+      isPlayerTwoComputer
+    )) {
+      dispatch(handlePlayerMove({ isPlayerOne, index: +id }))
+    } 
+  }
   
   return (
     <div 
@@ -86,11 +109,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
               : ""
             }`
           } 
-          onClick={
-              (disablePlayerMove || (!isPlayerOne && isPlayerTwoComputer)) 
-            ? null 
-            : (event) => dispatch(handlePlayerMove({ isPlayerOne, index: +event.target.id }))
-          }
+          onClick={(event) => onGameboardCellClicked(+event.target.id)}
         >
         </div>
       ))}
