@@ -7,7 +7,7 @@ export const isValidPlayerTurn = (
   emptyGameboardValue, 
   arrayOfShipNames,
   disablePlayerMove,
-  isPlayerOne,
+  isPlayerOneTurn,
   isPlayerTwoComputer
 ) => {
   if (
@@ -16,7 +16,7 @@ export const isValidPlayerTurn = (
     && !isGameOver
     && (gameboard[+id] === emptyGameboardValue || arrayOfShipNames.includes(gameboard[+id]))
     && !disablePlayerMove
-    && !(!isPlayerOne && isPlayerTwoComputer)
+    && !(!isPlayerOneTurn && isPlayerTwoComputer)
   ) {
     return true;
   }

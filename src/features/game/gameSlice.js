@@ -376,20 +376,19 @@ export const gameSlice = createSlice({
         } else {
           gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterHitLogicWithFreeMissCells });
         }
-        // gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterHitLogicWithFreeMissCells);
         // logic for isGameOver
         const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, state.shipNamePropertyText);
         if (allShipsSunken) {
           gameSlice.caseReducers.handleIsGameOver(state, { payload: { computerWon: isComputer } });
         };
       } else if (isEmptyGameboardCell(gameboard, +action.payload, state.emptyGameboardValue)) {
+        // logic for miss
         const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, +action.payload, state.missGameboardValue);
         if (state.isPlayerOneTurn) {
           gameSlice.caseReducers.updateGameboardPlayerTwo(state, { payload: newGameboardStateAfterMissLogicWithMissCell });
         } else {
           gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterMissLogicWithMissCell });
         }
-        // gameSlice.caseReducers[updateGameboardPlayer](newGameboardStateAfterMissLogicWithMissCell);
         if (isComputer) {
           gameSlice.caseReducers.resetComputerHitTurnAgainCount(state);
         };
@@ -404,10 +403,10 @@ export const gameSlice = createSlice({
     },
 
     handlePlayerMove: (state, action) => {
-      // need to know isPlayerOne and index for action.payload
+      // need to know index for action.payload
       let gameboardPlayer;
       let isPlayerTurn;
-      if (action.payload.isPlayerOne) {
+      if (state.isPlayerOneTurn) {
         gameboardPlayer = state.gameboardPlayerTwo;
         isPlayerTurn = state.isPlayerOneTurn;
       } else {
@@ -418,17 +417,17 @@ export const gameSlice = createSlice({
       const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, state.shipNamePropertyText);
       if (isValidPlayerTurn(
         gameboardPlayer, 
-        +action.payload.index,
+        +action.payload,
         isPlayerTurn, 
         state.isGameStarted,
         state.isGameOver,
         state.emptyGameboardValue,
         arrayOfShipNames,
         state.disablePlayerMove,
-        action.payload.isPlayerOne,
+        state.isPlayerOneTurn,
         state.isPlayerTwoComputer
       )) {
-        gameSlice.caseReducers.handleMove(state, { payload: +action.payload.index });
+        gameSlice.caseReducers.handleMove(state, action);
       }
     },
 

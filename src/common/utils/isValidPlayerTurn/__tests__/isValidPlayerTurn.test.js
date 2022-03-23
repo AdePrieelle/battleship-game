@@ -21,7 +21,7 @@ test("isValidPlayerTurn returns true if it is the players turn, the game has sta
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -32,7 +32,7 @@ test("isValidPlayerTurn returns true if it is the players turn, the game has sta
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(true);
 });
@@ -57,7 +57,7 @@ test("isValidPlayerTurn returns true if it is the players turn, the game has sta
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -68,7 +68,7 @@ test("isValidPlayerTurn returns true if it is the players turn, the game has sta
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(true);
 });
@@ -93,7 +93,7 @@ test("isValidPlayerTurn returns false if it isn't the players turn", () => {
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -104,7 +104,7 @@ test("isValidPlayerTurn returns false if it isn't the players turn", () => {
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -129,7 +129,7 @@ test("isValidPlayerTurn returns false if the game hasn't started yet", () => {
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -140,7 +140,7 @@ test("isValidPlayerTurn returns false if the game hasn't started yet", () => {
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -165,7 +165,7 @@ test("isValidPlayerTurn returns false if the game is over", () => {
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -176,7 +176,7 @@ test("isValidPlayerTurn returns false if the game is over", () => {
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -201,7 +201,7 @@ test("isValidPlayerTurn returns false if the gameboard cell is a hit", () => {
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -212,7 +212,7 @@ test("isValidPlayerTurn returns false if the gameboard cell is a hit", () => {
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -237,7 +237,7 @@ test("isValidPlayerTurn returns false if the gameboard cell is a miss", () => {
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -248,7 +248,7 @@ test("isValidPlayerTurn returns false if the gameboard cell is a miss", () => {
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -273,7 +273,7 @@ test("isValidPlayerTurn returns false if the gameboard cell is a freemiss", () =
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -284,7 +284,7 @@ test("isValidPlayerTurn returns false if the gameboard cell is a freemiss", () =
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -309,7 +309,7 @@ test("isValidPlayerTurn returns false if disablePlayerMove is true", () => {
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => true);
-  const mockIsPlayerOne = jest.fn(() => true);
+  const mockIsPlayerOneTurn = jest.fn(() => true);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -320,7 +320,7 @@ test("isValidPlayerTurn returns false if disablePlayerMove is true", () => {
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -345,7 +345,7 @@ test("isValidPlayerTurn returns false if isPlayerOne is false and isPlayerTwoCom
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => false);
+  const mockIsPlayerOneTurn = jest.fn(() => false);
   const mockIsPlayerTwoComputer = jest.fn(() => true);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -356,7 +356,7 @@ test("isValidPlayerTurn returns false if isPlayerOne is false and isPlayerTwoCom
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(false);
 });
@@ -381,7 +381,7 @@ test("isValidPlayerTurn returns true if isPlayerOne is false and isPlayerTwoComp
   const mockEmptyGameboardValue = jest.fn(() => "empty");
   const mockArrayOfShipNames = jest.fn(() => (["d1", "d2", "d3", "d4", "s1", "s2", "s3", "b1", "b2", "c1"]));
   const mockDisablePlayerMove = jest.fn(() => false);
-  const mockIsPlayerOne = jest.fn(() => false);
+  const mockIsPlayerOneTurn = jest.fn(() => false);
   const mockIsPlayerTwoComputer = jest.fn(() => false);
   expect(isValidPlayerTurn(
     mockGameboard(),
@@ -392,7 +392,7 @@ test("isValidPlayerTurn returns true if isPlayerOne is false and isPlayerTwoComp
     mockEmptyGameboardValue(),
     mockArrayOfShipNames(),
     mockDisablePlayerMove(),
-    mockIsPlayerOne(),
+    mockIsPlayerOneTurn(),
     mockIsPlayerTwoComputer()
   )).toBe(true);
 });

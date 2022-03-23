@@ -68,10 +68,10 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
       emptyGameboardValue,
       arrayOfShipNames,
       disablePlayerMove,
-      isPlayerOne,
+      isPlayerOneTurn,
       isPlayerTwoComputer
     )) {
-      dispatch(handlePlayerMove({ isPlayerOne, index: +id }))
+      dispatch(handlePlayerMove(+id))
     } 
   }
   
