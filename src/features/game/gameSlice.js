@@ -11,7 +11,6 @@ import { isHiddenShipGameboardCell } from "../../common/utils/isHiddenShipGamebo
 import { isSunkenShip } from "../../common/utils/isSunkenShip/isSunkenShip";
 import { isSunkenShipAfterHit } from "../../common/utils/isSunkenShipAfterHit/isSunkenShipAfterHit";
 import { isValidPlayerTurn } from "../../common/utils/isValidPlayerTurn/isValidPlayerTurn";
-import { ships } from "./ships";
 
 const initialState = {
   amountOfRows: 10,
@@ -97,7 +96,48 @@ const initialState = {
   showModalPreGameGameboardPlayerTwoGridShipPlacement: false,
   showModalPreGameSwitchTurnToPlayerOne: false,
 
-
+  ships: [
+    {
+      name: "d1",
+      shipLength: 1,
+    },
+    {
+      name: "d2",
+      shipLength: 1,
+    },
+    {
+      name: "d3",
+      shipLength: 1,
+    },
+    {
+      name: "d4",
+      shipLength: 1,
+    },
+    {
+      name: "s1",
+      shipLength: 2,
+    },
+    {
+      name: "s2",
+      shipLength: 2,
+    },
+    {
+      name: "s3",
+      shipLength: 2,
+    },
+    {
+      name: "b1",
+      shipLength: 3,
+    },
+    {
+      name: "b2",
+      shipLength: 3,
+    },
+    {
+      name: "c1",
+      shipLength: 4,
+    },
+  ],
 
 
 };
@@ -343,7 +383,7 @@ export const gameSlice = createSlice({
         gameboardInitialState = state.gameboardPlayerOneInitialState;
       }
 
-      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, state.shipNamePropertyText);
+      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
       if (isHiddenShipGameboardCell(gameboard, +action.payload, arrayOfShipNames)) {
         const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
           gameboard,
@@ -377,7 +417,7 @@ export const gameSlice = createSlice({
           gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterHitLogicWithFreeMissCells });
         }
         // logic for isGameOver
-        const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, ships, state.shipNamePropertyText);
+        const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, state.ships, state.shipNamePropertyText);
         if (allShipsSunken) {
           gameSlice.caseReducers.handleIsGameOver(state, { payload: { computerWon: isComputer } });
         };
@@ -414,7 +454,7 @@ export const gameSlice = createSlice({
         isPlayerTurn = !state.isPlayerOneTurn;
       };
 
-      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, state.shipNamePropertyText);
+      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
       if (isValidPlayerTurn(
         gameboardPlayer, 
         +action.payload,
@@ -561,6 +601,8 @@ export const selectShowModalPreGameGameboardPlayerOneGridShipPlacement = (state)
 export const selectShowModalPreGameSwitchTurnToPlayerTwoGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerTwoGameboard;
 export const selectShowModalPreGameGameboardPlayerTwoGridShipPlacement = (state) => state.game.showModalPreGameGameboardPlayerTwoGridShipPlacement;
 export const selectShowModalPreGameSwitchTurnToPlayerOne = (state) => state.game.showModalPreGameSwitchTurnToPlayerOne;
+
+export const selectShips = (state) => state.game.ships;
 
 
 export default gameSlice.reducer;

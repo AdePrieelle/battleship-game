@@ -31,6 +31,7 @@ import {
   selectPlayerTwoWonGame,
   selectShipLengthPropertyText,
   selectShipNamePropertyText,
+  selectShips,
   selectShowModalGameOver, 
   selectShowModalGameSwitchTurnToPlayerOne, 
   selectShowModalGameSwitchTurnToPlayerTwo, 
@@ -53,11 +54,11 @@ import {
 import { getGeneratedRandomGameboardPlayerInitialStates } from "../../../../common/utils/getGeneratedRandomGameboardPlayerInitialStates/getGeneratedRandomGameboardPlayerInitialStates";
 import { createRandomGameboard } from "../../../../common/utils/createRandomGameboard/createRandomGameboard";
 import { generateRandomValidShipPosition } from "../../../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition";
-import { ships } from '../../ships';
 
 export const GameLogicModals = () => {
   const dispatch = useDispatch();
 
+  const ships = useSelector(selectShips);
   const showModalGameOver = useSelector(selectShowModalGameOver);
   const playerOneWonGame = useSelector(selectPlayerOneWonGame);
   const playerOneName = useSelector(selectPlayerOneName);

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ships } from "../../ships";
 import { Button } from "../../../../common/components/Button/Button";
 import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
 import { GameButtonsShipPlacement } from "../GameButtonsShipPlacement/GameButtonsShipPlacement";
@@ -34,6 +33,7 @@ import {
   selectPlayerTwoName,
   selectShipLengthPropertyText,
   selectShipNamePropertyText,
+  selectShips,
   selectVerticalDirectionValue,
   updateGameboardPlayerOneInitialState,
   updateGameboardPlayerTwoInitialState,
@@ -58,6 +58,7 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
   const playerOneName = useSelector(selectPlayerOneName);
   const playerTwoName = useSelector(selectPlayerTwoName);
+  const ships = useSelector(selectShips);
 
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, emptyGameboardValue);
   const [gameboardPlayerShipPlacement, setGameboardPlayerShipPlacement] = useState(gameboardPlayerShipPlacementInitialState);

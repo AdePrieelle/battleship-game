@@ -1,6 +1,7 @@
 export const sortArrayOfObjectsBasedOnAPropertyValue = (array, propertyToSort) => {
-  const sortedArrayOfObjectsBasedOnAPropertyValue = array.sort((one, other) => {
+  const copyArray = [...array];
+  const sortedArrayOfObjectsBasedOnAPropertyValue = copyArray.sort((one, other) => {
     return (other[propertyToSort] - one[propertyToSort]);
   });
   return sortedArrayOfObjectsBasedOnAPropertyValue;
-}
+};

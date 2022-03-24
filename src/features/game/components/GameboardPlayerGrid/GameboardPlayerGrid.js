@@ -16,9 +16,9 @@ import {
   selectMissGameboardValue,
   handlePlayerMove,
   selectShipNamePropertyText,
+  selectShips,
 } from '../../gameSlice';
 import { getArrayOfArrayOfObjectsKeyValues } from '../../../../common/utils/getArrayOfArrayOfObjectsKeyValues/getArrayOfArrayOfObjectsKeyValues';
-import { ships } from '../../ships';
 import { isValidPlayerTurn } from '../../../../common/utils/isValidPlayerTurn/isValidPlayerTurn';
 
 export const GameboardPlayerGrid = ({ isPlayerOne }) => {
@@ -37,6 +37,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
   const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
   const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const ships = useSelector(selectShips);
 
   const getGameboardPlayer = (isPlayerOne) => {
     if (isPlayerOne) {
