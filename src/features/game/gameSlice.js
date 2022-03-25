@@ -28,7 +28,6 @@ const initialState = {
   computerName: "Computer",
   playerOneName: "Player 1",
   playerTwoName: "Player 2",
-  
   isPlayerOneTurn: true,
   computerHitTurnAgainCountDefaultValue: 0,
   computerHitTurnAgainCount: 0,
@@ -38,7 +37,6 @@ const initialState = {
   playerTwoWonGame: false,
   computerWonGame: false,
   isPlayerTwoComputer: true,
-
   gameboardPlayerOneInitialState: [
     "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
@@ -65,16 +63,12 @@ const initialState = {
   ],
   gameboardPlayerOne: [],
   gameboardPlayerTwo: [],
-
   previousHitComputerCellsNotSunkenShipDefaultValue: [],
   previousHitDirectionNotSunkenShipHorizontalValue: "horizontal",
   previousHitDirectionNotSunkenShipVerticalValue: "vertical",
   previousHitDirectionNotSunkenShipDefaultValue: null,
-
   previousHitComputerCellsNotSunkenShip: [],
   previousHitDirectionNotSunkenShip: null,
-
-
   showGameboards: true,
   showModalGameOver: false,
   showModalPickOpponent: false,
@@ -82,10 +76,6 @@ const initialState = {
   showModalGameSwitchTurnToPlayerOne: false,
   disablePlayerMove: false,
   disableButtonGameSwitchPlayerTurn: false,
-
-
-  // GameLogicModals
-
   showModalPreGamePlayerOneNameAgainstComputer: false,
   showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer: false,
   showModalPreGamePlayerOneName: false,
@@ -95,7 +85,6 @@ const initialState = {
   showModalPreGameSwitchTurnToPlayerTwoGameboard: false,
   showModalPreGameGameboardPlayerTwoGridShipPlacement: false,
   showModalPreGameSwitchTurnToPlayerOne: false,
-
   ships: [
     {
       name: "d1",
@@ -138,8 +127,6 @@ const initialState = {
       shipLength: 4,
     },
   ],
-
-
 };
 
 export const gameSlice = createSlice({
@@ -179,7 +166,6 @@ export const gameSlice = createSlice({
     updateIsPlayerTwoComputer: (state, action) => {
       state.isPlayerTwoComputer = action.payload;
     },
-
     updateGameboardPlayerOneInitialState: (state, action) => {
       state.gameboardPlayerOneInitialState = action.payload;
     },
@@ -192,14 +178,12 @@ export const gameSlice = createSlice({
     updateGameboardPlayerTwo: (state, action) => {
       state.gameboardPlayerTwo = action.payload;
     },
-
     updatePreviousHitComputerCellsNotSunkenShip: (state, action) => {
       state.previousHitComputerCellsNotSunkenShip = action.payload;
     },
     updatePreviousHitDirectionNotSunkenShip: (state, action) => {
       state.previousHitDirectionNotSunkenShip = action.payload;
     },
-
     updateShowGameboards: (state, action) => {
       state.showGameboards = action.payload;
     },
@@ -221,8 +205,6 @@ export const gameSlice = createSlice({
     updateDisableButtonGameSwitchPlayerTurn: (state, action) => {
       state.disableButtonGameSwitchPlayerTurn = action.payload;
     },
-
-
     handleIsGameOver: (state, action) => {
       state.isGameStarted = false;
       state.isGameOver = true;
@@ -238,7 +220,6 @@ export const gameSlice = createSlice({
       }
       state.showModalGameOver = true;
     },
-
     handleStartGame: (state) => {
       state.isGameOver = false;
       state.isPlayerOneTurn = true;
@@ -246,12 +227,10 @@ export const gameSlice = createSlice({
       state.disablePlayerMove = false;
       state.isGameStarted = true;
     },
-
     handleButtonNewGame: (state) => {
       state.showModalGameOver = false;
       state.showModalPickOpponent = true;
     },
-
     handleButtonGameSwitchPlayerTurn: (state) => {
       state.showGameboards = false;
       state.disablePlayerMove = false;
@@ -263,7 +242,6 @@ export const gameSlice = createSlice({
       }
       state.isPlayerOneTurn = !state.isPlayerOneTurn;
     },
-
     handleNewGame: (state, action) => {
       state.isGameOver = false;
       state.isGameStarted = false;
@@ -275,10 +253,6 @@ export const gameSlice = createSlice({
       state.gameboardPlayerOneInitialState = action.payload.generatedRandomGameboardPlayerOneInitialState;
       state.gameboardPlayerTwoInitialState = action.payload.generatedRandomGameboardPlayerTwoInitialState;
     },
-
-
-    // GameLogicModals
-
     updateShowModalPreGamePlayerOneNameAgainstComputer: (state, action) => {
       state.showModalPreGamePlayerOneNameAgainstComputer = action.payload;
     },
@@ -306,10 +280,6 @@ export const gameSlice = createSlice({
     updateShowModalPreGameSwitchTurnToPlayerOne: (state, action) => {
       state.showModalPreGameSwitchTurnToPlayerOne = action.payload;
     },
-
-    
-    
-    
     handleModalPickOpponentComputer: (state, action) => {
       state.showModalPickOpponent = false;
       gameSlice.caseReducers.handleNewGame(state, action);
@@ -317,12 +287,10 @@ export const gameSlice = createSlice({
       state.showGameboards = false;
       state.showModalPreGamePlayerOneNameAgainstComputer = true;
     },
-      
     handleModalPreGamePlayerOneNameAgainstComputer: (state) => {
       state.showModalPreGamePlayerOneNameAgainstComputer = false;
       state.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = true;
     },
-
     handleModalPickOpponentPlayer: (state, action) => {
       state.showModalPickOpponent = false;
       gameSlice.caseReducers.handleNewGame(state, action);
@@ -330,45 +298,35 @@ export const gameSlice = createSlice({
       state.showGameboards = false;
       state.showModalPreGamePlayerOneName = true;
     },
-  
     handleModalPreGamePlayerOneName: (state) => {
       state.showModalPreGamePlayerOneName = false;
       state.showModalPreGamePlayerTwoName = true;
     },
-  
     handleModalPreGamePlayerTwoName: (state) => {
       state.showModalPreGamePlayerTwoName = false;
       state.showModalPreGameSwitchTurnToPlayerOneGameboard = true;
     },
-  
     handleModalPreGameSwitchToPlayerOneGameboard: (state) => {
       state.showModalPreGameSwitchTurnToPlayerOneGameboard = false;
       state.showModalPreGameGameboardPlayerOneGridShipPlacement = true;
     },
-  
     handleModalPreGameSwitchTurnToPlayerTwo: (state) => {
       state.showModalPreGameSwitchTurnToPlayerTwoGameboard= false;
       state.showModalPreGameGameboardPlayerTwoGridShipPlacement = true;
     },
-
     handleModalPreGameSwitchTurnToPlayerOne: (state) => {
       state.showModalPreGameSwitchTurnToPlayerOne = false;
       state.showGameboards = true;
       gameSlice.caseReducers.handleStartGame(state);
     },
-  
     handleModalGameSwitchTurnToPlayerTwo: (state) => {
       state.showModalGameSwitchTurnToPlayerTwo = false;
       state.showGameboards = true;
     },
-  
     handleModalGameSwitchTurnToPlayerOne: (state) => {
       state.showModalGameSwitchTurnToPlayerOne = false;
       state.showGameboards = true;
     },
-
-
-
     handleMove: (state, action) => {
       // need to know index for action.payload
       let gameboard;
@@ -441,7 +399,6 @@ export const gameSlice = createSlice({
         };
       };
     },
-
     handlePlayerMove: (state, action) => {
       // need to know index for action.payload
       let gameboardPlayer;
@@ -470,9 +427,6 @@ export const gameSlice = createSlice({
         gameSlice.caseReducers.handleMove(state, action);
       }
     },
-
-    
-
   },
 });
 
@@ -488,15 +442,12 @@ export const {
   updatePlayerTwoWonGame,
   updateComputerWonGame,
   updateIsPlayerTwoComputer,
-
   updateGameboardPlayerOneInitialState,
   updateGameboardPlayerTwoInitialState,
   updateGameboardPlayerOne,
   updateGameboardPlayerTwo,
-
   updatePreviousHitComputerCellsNotSunkenShip,
   updatePreviousHitDirectionNotSunkenShip,
-
   updateShowGameboards,
   updateShowModalGameOver,
   updateShowModalPickOpponent,
@@ -504,16 +455,11 @@ export const {
   updateShowModalGameSwitchTurnToPlayerOne,
   updateDisablePlayerMove,
   updateDisableButtonGameSwitchPlayerTurn,
-
   handleIsGameOver,
   handleStartGame,
   handleButtonNewGame,
   handleButtonGameSwitchPlayerTurn,
   handleNewGame,
-
-
-  // GameLogicModals
-
   updateShowModalPreGamePlayerOneNameAgainstComputer,
   updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer,
   updateShowModalPreGamePlayerOneName,
@@ -523,7 +469,6 @@ export const {
   updateShowModalPreGameSwitchTurnToPlayerTwoGameboard,
   updateShowModalPreGameGameboardPlayerTwoGridShipPlacement,
   updateShowModalPreGameSwitchTurnToPlayerOne,
-
   handleModalPickOpponentComputer,
   handleModalPreGamePlayerOneNameAgainstComputer,
   handleModalPickOpponentPlayer,
@@ -534,12 +479,8 @@ export const {
   handleModalPreGameSwitchTurnToPlayerOne,
   handleModalGameSwitchTurnToPlayerTwo,
   handleModalGameSwitchTurnToPlayerOne,
-
   handleMove,
   handlePlayerMove,
-
-
-
 } = gameSlice.actions;
 
 // Selector functions
@@ -558,9 +499,7 @@ export const selectShipIsSunkenPropertyText = (state) => state.game.shipIsSunken
 export const selectComputerName = (state) => state.game.computerName;
 export const selectPlayerOneName = (state) => state.game.playerOneName;
 export const selectPlayerTwoName = (state) => state.game.playerTwoName;
-
 export const selectIsPlayerOneTurn = (state) => state.game.isPlayerOneTurn;
-// export const selectComputerHitTurnAgainCountDefaultValue = (state) => state.game.computerHitTurnAgainCountDefaultValue;
 export const selectComputerHitTurnAgainCount = (state) => state.game.computerHitTurnAgainCount;
 export const selectIsGameStarted = (state) => state.game.isGameStarted;
 export const selectIsGameOver = (state) => state.game.isGameOver;
@@ -568,20 +507,16 @@ export const selectPlayerOneWonGame = (state) => state.game.playerOneWonGame;
 export const selectPlayerTwoWonGame = (state) => state.game.playerTwoWonGame;
 export const selectComputerWonGame = (state) => state.game.computerWonGame;
 export const selectIsPlayerTwoComputer = (state) => state.game.isPlayerTwoComputer;
-
 export const selectGameboardPlayerOneInitialState = (state) => state.game.gameboardPlayerOneInitialState;
 export const selectGameboardPlayerTwoInitialState = (state) => state.game.gameboardPlayerTwoInitialState;
 export const selectGameboardPlayerOne = (state) => state.game.gameboardPlayerOne;
 export const selectGameboardPlayerTwo = (state) => state.game.gameboardPlayerTwo;
-
 export const selectPreviousHitComputerCellsNotSunkenShipDefaultValue = (state) => state.game.previousHitComputerCellsNotSunkenShipDefaultValue;
 export const selectPreviousHitDirectionNotSunkenShipHorizontalValue = (state) => state.game.previousHitDirectionNotSunkenShipHorizontalValue;
 export const selectPreviousHitDirectionNotSunkenShipVerticalValue = (state) => state.game.previousHitDirectionNotSunkenShipVerticalValue;
 export const selectPreviousHitDirectionNotSunkenShipDefaultValue = (state) => state.game.previousHitDirectionNotSunkenShipDefaultValue;
-
 export const selectPreviousHitComputerCellsNotSunkenShip = (state) => state.game.previousHitComputerCellsNotSunkenShip;
 export const selectPreviousHitDirectionNotSunkenShip = (state) => state.game.previousHitDirectionNotSunkenShip;
-
 export const selectShowGameboards = (state) => state.game.showGameboards;
 export const selectShowModalGameOver = (state) => state.game.showModalGameOver;
 export const selectShowModalPickOpponent = (state) => state.game.showModalPickOpponent;
@@ -589,9 +524,6 @@ export const selectShowModalGameSwitchTurnToPlayerTwo = (state) => state.game.sh
 export const selectShowModalGameSwitchTurnToPlayerOne = (state) => state.game.showModalGameSwitchTurnToPlayerOne;
 export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
 export const selectDisableButtonGameSwitchPlayerTurn = (state) => state.game.disableButtonGameSwitchPlayerTurn;
-
-// GameLogicModals
-
 export const selectShowModalPreGamePlayerOneNameAgainstComputer = (state) => state.game.showModalPreGamePlayerOneNameAgainstComputer;
 export const selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = (state) => state.game.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer;
 export const selectShowModalPreGamePlayerOneName = (state) => state.game.showModalPreGamePlayerOneName;
@@ -601,8 +533,6 @@ export const selectShowModalPreGameGameboardPlayerOneGridShipPlacement = (state)
 export const selectShowModalPreGameSwitchTurnToPlayerTwoGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerTwoGameboard;
 export const selectShowModalPreGameGameboardPlayerTwoGridShipPlacement = (state) => state.game.showModalPreGameGameboardPlayerTwoGridShipPlacement;
 export const selectShowModalPreGameSwitchTurnToPlayerOne = (state) => state.game.showModalPreGameSwitchTurnToPlayerOne;
-
 export const selectShips = (state) => state.game.ships;
-
 
 export default gameSlice.reducer;
