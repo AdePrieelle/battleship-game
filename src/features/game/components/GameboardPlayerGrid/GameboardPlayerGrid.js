@@ -1,25 +1,23 @@
-import './GameboardPlayerGrid.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  selectAmountOfColumns, 
-  selectAmountOfRows, 
-  selectDisablePlayerMove, 
-  selectEmptyGameboardValue, 
-  selectFreemissGameboardValue, 
-  selectGameboardPlayerOne, 
-  selectGameboardPlayerTwo, 
-  selectHitGameboardValue, 
-  selectIsGameOver, 
-  selectIsGameStarted, 
-  selectIsPlayerOneTurn, 
-  selectIsPlayerTwoComputer, 
-  selectMissGameboardValue,
-  handlePlayerMove,
-  selectShipNamePropertyText,
-  selectShips,
-} from '../../gameSlice';
 import { getArrayOfArrayOfObjectsKeyValues } from '../../../../common/utils/getArrayOfArrayOfObjectsKeyValues/getArrayOfArrayOfObjectsKeyValues';
 import { isValidPlayerTurn } from '../../../../common/utils/isValidPlayerTurn/isValidPlayerTurn';
+import {
+  handlePlayerMove, selectAmountOfColumns,
+  selectAmountOfRows,
+  selectDisablePlayerMove,
+  selectEmptyGameboardValue,
+  selectFreemissGameboardValue,
+  selectGameboardPlayerOne,
+  selectGameboardPlayerTwo,
+  selectHitGameboardValue,
+  selectIsGameOver,
+  selectIsGameStarted,
+  selectIsPlayerOneTurn,
+  selectIsPlayerTwoComputer,
+  selectMissGameboardValue, selectShipNamePropertyText,
+  selectShips
+} from '../../gameSlice';
+import './GameboardPlayerGrid.scss';
 
 export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   const dispatch = useDispatch();
@@ -73,8 +71,8 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
       isPlayerTwoComputer
     )) {
       dispatch(handlePlayerMove(+id))
-    } 
-  }
+    }; 
+  };
   
   return (
     <div 

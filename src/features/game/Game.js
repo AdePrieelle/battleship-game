@@ -1,41 +1,27 @@
 import { useEffect } from 'react';
-import { getRandomIndexFromArray } from '../../common/utils/getRandomIndexFromArray/getRandomIndexFromArray';
+import { useDispatch, useSelector } from 'react-redux';
 import { getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips } from '../../common/utils/getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips/getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips';
-import { getAvailableRandomGameboardComputerCellNumber } from '../../common/utils/getAvailableRandomGameboardComputerCellNumber/getAvailableRandomGameboardComputerCellNumber';
-import { isValidComputerTurn } from '../../common/utils/isValidComputerTurn/isValidComputerTurn';
-import { getPreviousHitDirectionNotSunkenShip } from '../../common/utils/getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
 import { getAvailableNextSmartComputerMovesAfterHit } from '../../common/utils/getAvailableNextSmartComputerMovesAfterHit/getAvailableNextSmartComputerMovesAfterHit';
+import { getAvailableRandomGameboardComputerCellNumber } from '../../common/utils/getAvailableRandomGameboardComputerCellNumber/getAvailableRandomGameboardComputerCellNumber';
+import { getPreviousHitDirectionNotSunkenShip } from '../../common/utils/getPreviousHitDirectionNotSunkenShip/getPreviousHitDirectionNotSunkenShip';
+import { getRandomIndexFromArray } from '../../common/utils/getRandomIndexFromArray/getRandomIndexFromArray';
 import { isShipOrEmptyGameboardValue } from '../../common/utils/isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
-import { GameLogicModals } from './components/GameLogicModals/GameLogicModals';
+import { isValidComputerTurn } from '../../common/utils/isValidComputerTurn/isValidComputerTurn';
 import { GameboardsWrapper } from './components/GameboardsWrapper/GameboardsWrapper';
-import { useSelector, useDispatch } from 'react-redux';
-import { 
-  selectHitGameboardValue,
-  selectMissGameboardValue,
-  selectFreemissGameboardValue,
-  selectIsPlayerOneTurn,
-  selectComputerHitTurnAgainCount,
-  selectIsGameStarted,
-  selectIsGameOver,
-  selectIsPlayerTwoComputer,
-  selectGameboardPlayerOneInitialState,
-  selectGameboardPlayerTwoInitialState,
-  selectGameboardPlayerOne,
-  selectPreviousHitDirectionNotSunkenShipHorizontalValue,
-  selectPreviousHitDirectionNotSunkenShipVerticalValue,
-  selectPreviousHitComputerCellsNotSunkenShip,
-  selectPreviousHitDirectionNotSunkenShip,
-  selectShowGameboards,
+import { GameLogicModals } from './components/GameLogicModals/GameLogicModals';
+import './Game.scss';
+import {
+  handleMove, selectComputerHitTurnAgainCount, selectFreemissGameboardValue, selectGameboardPlayerOne, selectGameboardPlayerOneInitialState,
+  selectGameboardPlayerTwoInitialState, selectHitGameboardValue, selectIsGameOver, selectIsGameStarted, selectIsPlayerOneTurn, selectIsPlayerTwoComputer, selectMissGameboardValue, selectPreviousHitComputerCellsNotSunkenShip,
+  selectPreviousHitDirectionNotSunkenShip, selectPreviousHitDirectionNotSunkenShipHorizontalValue,
+  selectPreviousHitDirectionNotSunkenShipVerticalValue, selectShowGameboards,
   updateGameboardPlayerOne,
   updateGameboardPlayerTwo,
-  updatePreviousHitDirectionNotSunkenShip,
-  handleMove,
+  updatePreviousHitDirectionNotSunkenShip
 } from './gameSlice';
-import './Game.scss';
 
 export const Game = () => {
   const dispatch = useDispatch();
-
   const hitGameboardValue = useSelector(selectHitGameboardValue);
   const missGameboardValue = useSelector(selectMissGameboardValue);
   const freemissGameboardValue = useSelector(selectFreemissGameboardValue);;
@@ -68,15 +54,15 @@ export const Game = () => {
           handleComputerMove();
         }, 500);
         return () => clearTimeout(computerTurnTimeout);
-      }
+      };
       // if the computer hits a ship increase the "virtual thinking time" for the next step
       if (computerHitTurnAgainCount) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
         }, 1000);
         return () => clearTimeout(computerTurnTimeout);
-      }
-    }
+      };
+    };
   });
 
   useEffect(() => {
@@ -92,8 +78,6 @@ export const Game = () => {
 
   const handleComputerMove = () => {
     if (previousHitComputerCellsNotSunkenShip.length === 0) {
-      // array of indexes of computercells that are either "empty" or a hidden ship
-      const gameboardComputerCellsAvailable = getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips(gameboardPlayerOne, hitGameboardValue, missGameboardValue, freemissGameboardValue);
       const randomGameboardComputerCellNumber = getAvailableRandomGameboardComputerCellNumber(
         getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips,
         gameboardPlayerOne,
@@ -101,13 +85,9 @@ export const Game = () => {
         missGameboardValue,
         freemissGameboardValue,
         getRandomIndexFromArray,
-        );
-      if (gameboardComputerCellsAvailable.length > 0) {
-        // update the gameboardComputer state with a "hit" or "miss" value depending if the randomly picked index randomGameboardComputerCellNumber is a ship or not
-        dispatch(handleMove(+randomGameboardComputerCellNumber));
-      }
+      );
+      dispatch(handleMove(+randomGameboardComputerCellNumber));
     } else if (previousHitComputerCellsNotSunkenShip.length > 0) {
-      // array of indexes for next possible smart computer move if a ship has been hit but isn't sunken yet
       const availableNextSmartComputerMovesAfterHit = getAvailableNextSmartComputerMovesAfterHit(
         gameboardPlayerOne,
         previousHitComputerCellsNotSunkenShip,
@@ -122,8 +102,8 @@ export const Game = () => {
       const availableNextSmartComputerMovesAfterHitRandomIndex = getRandomIndexFromArray(availableNextSmartComputerMovesAfterHit);
       const smartComputerMoveIndex = availableNextSmartComputerMovesAfterHit[availableNextSmartComputerMovesAfterHitRandomIndex];
       dispatch(handleMove(+smartComputerMoveIndex));
-    }
-  }
+    };
+  };
 
   return (
     <div className="game">

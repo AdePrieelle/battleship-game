@@ -13,30 +13,18 @@ import { isSunkenShipAfterHit } from "../../common/utils/isSunkenShipAfterHit/is
 import { isValidPlayerTurn } from "../../common/utils/isValidPlayerTurn/isValidPlayerTurn";
 
 const initialState = {
-  amountOfRows: 10,
   amountOfColumns: 10,
-  emptyGameboardValue: "empty",
-  hitGameboardValue: "hit",
-  missGameboardValue: "miss",
-  freemissGameboardValue: "freemiss",
-  horizontalDirectionValue: "horizontal",
-  verticalDirectionValue: "vertical",
+  amountOfRows: 10,
   buttonNextStepText: "Next",
-  shipNamePropertyText: "name",
-  shipLengthPropertyText: "shipLength",
-  shipIsSunkenPropertyText: "isSunken",
-  computerName: "Computer",
-  playerOneName: "Player 1",
-  playerTwoName: "Player 2",
-  isPlayerOneTurn: true,
-  computerHitTurnAgainCountDefaultValue: 0,
   computerHitTurnAgainCount: 0,
-  isGameStarted: false,
-  isGameOver: false,
-  playerOneWonGame: false,
-  playerTwoWonGame: false,
+  computerHitTurnAgainCountDefaultValue: 0,
+  computerName: "Computer",
   computerWonGame: false,
-  isPlayerTwoComputer: true,
+  disableButtonGameSwitchPlayerTurn: false,
+  disablePlayerMove: false,
+  emptyGameboardValue: "empty",
+  freemissGameboardValue: "freemiss",
+  gameboardPlayerOne: [],
   gameboardPlayerOneInitialState: [
     "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
@@ -49,6 +37,7 @@ const initialState = {
     "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
   ],
+  gameboardPlayerTwo: [],
   gameboardPlayerTwoInitialState: [
     "hit", "miss", "hit", "miss", "hit", "miss", "hit", "miss", "miss", "empty",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "empty",
@@ -61,30 +50,26 @@ const initialState = {
     "hit", "hit", "miss", "hit", "hit", "miss", "miss", "miss", "miss", "miss",
     "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss", "miss",
   ],
-  gameboardPlayerOne: [],
-  gameboardPlayerTwo: [],
+  hitGameboardValue: "hit",
+  horizontalDirectionValue: "horizontal",
+  isGameOver: false,
+  isGameStarted: false,
+  isPlayerOneTurn: true,
+  isPlayerTwoComputer: true,
+  missGameboardValue: "miss",
+  playerOneName: "Player 1",
+  playerOneWonGame: false,
+  playerTwoName: "Player 2",
+  playerTwoWonGame: false,
+  previousHitComputerCellsNotSunkenShip: [],
   previousHitComputerCellsNotSunkenShipDefaultValue: [],
+  previousHitDirectionNotSunkenShip: null,
+  previousHitDirectionNotSunkenShipDefaultValue: null,
   previousHitDirectionNotSunkenShipHorizontalValue: "horizontal",
   previousHitDirectionNotSunkenShipVerticalValue: "vertical",
-  previousHitDirectionNotSunkenShipDefaultValue: null,
-  previousHitComputerCellsNotSunkenShip: [],
-  previousHitDirectionNotSunkenShip: null,
-  showGameboards: true,
-  showModalGameOver: false,
-  showModalPickOpponent: false,
-  showModalGameSwitchTurnToPlayerTwo: false,
-  showModalGameSwitchTurnToPlayerOne: false,
-  disablePlayerMove: false,
-  disableButtonGameSwitchPlayerTurn: false,
-  showModalPreGamePlayerOneNameAgainstComputer: false,
-  showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer: false,
-  showModalPreGamePlayerOneName: false,
-  showModalPreGamePlayerTwoName: false,
-  showModalPreGameSwitchTurnToPlayerOneGameboard: false,
-  showModalPreGameGameboardPlayerOneGridShipPlacement: false,
-  showModalPreGameSwitchTurnToPlayerTwoGameboard: false,
-  showModalPreGameGameboardPlayerTwoGridShipPlacement: false,
-  showModalPreGameSwitchTurnToPlayerOne: false,
+  shipIsSunkenPropertyText: "isSunken",
+  shipLengthPropertyText: "shipLength",
+  shipNamePropertyText: "name",
   ships: [
     {
       name: "d1",
@@ -127,6 +112,21 @@ const initialState = {
       shipLength: 4,
     },
   ],
+  showGameboards: true,
+  showModalGameOver: false,
+  showModalGameSwitchTurnToPlayerOne: false,
+  showModalGameSwitchTurnToPlayerTwo: false,
+  showModalPickOpponent: false,
+  showModalPreGameGameboardPlayerOneGridShipPlacement: false,
+  showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer: false,
+  showModalPreGameGameboardPlayerTwoGridShipPlacement: false,
+  showModalPreGamePlayerOneName: false,
+  showModalPreGamePlayerOneNameAgainstComputer: false,
+  showModalPreGamePlayerTwoName: false,
+  showModalPreGameSwitchTurnToPlayerOne: false,
+  showModalPreGameSwitchTurnToPlayerOneGameboard: false,
+  showModalPreGameSwitchTurnToPlayerTwoGameboard: false,
+  verticalDirectionValue: "vertical",
 };
 
 export const gameSlice = createSlice({
@@ -339,7 +339,7 @@ export const gameSlice = createSlice({
       } else {
         gameboard = state.gameboardPlayerOne;
         gameboardInitialState = state.gameboardPlayerOneInitialState;
-      }
+      };
 
       const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
       if (isHiddenShipGameboardCell(gameboard, +action.payload, arrayOfShipNames)) {
@@ -373,7 +373,7 @@ export const gameSlice = createSlice({
           gameSlice.caseReducers.updateGameboardPlayerTwo(state, { payload: newGameboardStateAfterHitLogicWithFreeMissCells });
         } else {
           gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterHitLogicWithFreeMissCells });
-        }
+        };
         // logic for isGameOver
         const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, state.ships, state.shipNamePropertyText);
         if (allShipsSunken) {
@@ -386,7 +386,7 @@ export const gameSlice = createSlice({
           gameSlice.caseReducers.updateGameboardPlayerTwo(state, { payload: newGameboardStateAfterMissLogicWithMissCell });
         } else {
           gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterMissLogicWithMissCell });
-        }
+        };
         if (isComputer) {
           gameSlice.caseReducers.resetComputerHitTurnAgainCount(state);
         };
@@ -425,114 +425,114 @@ export const gameSlice = createSlice({
         state.isPlayerTwoComputer
       )) {
         gameSlice.caseReducers.handleMove(state, action);
-      }
+      };
     },
   },
 });
 
 export const { 
-  updatePlayerOneName, 
-  updatePlayerTwoName,
-  updateIsPlayerOneTurn,
-  resetComputerHitTurnAgainCount,
+  handleButtonGameSwitchPlayerTurn,
+  handleButtonNewGame,
+  handleIsGameOver,
+  handleModalGameSwitchTurnToPlayerOne,
+  handleModalGameSwitchTurnToPlayerTwo,
+  handleModalPickOpponentComputer,
+  handleModalPickOpponentPlayer,
+  handleModalPreGamePlayerOneName,
+  handleModalPreGamePlayerOneNameAgainstComputer,
+  handleModalPreGamePlayerTwoName,
+  handleModalPreGameSwitchToPlayerOneGameboard,
+  handleModalPreGameSwitchTurnToPlayerOne,
+  handleModalPreGameSwitchTurnToPlayerTwo,
+  handleMove,
+  handleNewGame,
+  handlePlayerMove,
+  handleStartGame,
   incrementComputerHitTurnAgainCount,
-  updateIsGameStarted,
-  updateIsGameOver,
-  updatePlayerOneWonGame,
-  updatePlayerTwoWonGame,
+  resetComputerHitTurnAgainCount,
   updateComputerWonGame,
-  updateIsPlayerTwoComputer,
-  updateGameboardPlayerOneInitialState,
-  updateGameboardPlayerTwoInitialState,
+  updateDisableButtonGameSwitchPlayerTurn,
+  updateDisablePlayerMove,
   updateGameboardPlayerOne,
+  updateGameboardPlayerOneInitialState,
   updateGameboardPlayerTwo,
+  updateGameboardPlayerTwoInitialState,
+  updateIsGameOver,
+  updateIsGameStarted,
+  updateIsPlayerOneTurn,
+  updateIsPlayerTwoComputer,
+  updatePlayerOneName, 
+  updatePlayerOneWonGame,
+  updatePlayerTwoName,
+  updatePlayerTwoWonGame,
   updatePreviousHitComputerCellsNotSunkenShip,
   updatePreviousHitDirectionNotSunkenShip,
   updateShowGameboards,
   updateShowModalGameOver,
-  updateShowModalPickOpponent,
-  updateShowModalGameSwitchTurnToPlayerTwo,
   updateShowModalGameSwitchTurnToPlayerOne,
-  updateDisablePlayerMove,
-  updateDisableButtonGameSwitchPlayerTurn,
-  handleIsGameOver,
-  handleStartGame,
-  handleButtonNewGame,
-  handleButtonGameSwitchPlayerTurn,
-  handleNewGame,
-  updateShowModalPreGamePlayerOneNameAgainstComputer,
-  updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer,
-  updateShowModalPreGamePlayerOneName,
-  updateShowModalPreGamePlayerTwoName,
-  updateShowModalPreGameSwitchTurnToPlayerOneGameboard,
+  updateShowModalGameSwitchTurnToPlayerTwo,
+  updateShowModalPickOpponent,
   updateShowModalPreGameGameboardPlayerOneGridShipPlacement,
-  updateShowModalPreGameSwitchTurnToPlayerTwoGameboard,
+  updateShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer,
   updateShowModalPreGameGameboardPlayerTwoGridShipPlacement,
+  updateShowModalPreGamePlayerOneName,
+  updateShowModalPreGamePlayerOneNameAgainstComputer,
+  updateShowModalPreGamePlayerTwoName,
   updateShowModalPreGameSwitchTurnToPlayerOne,
-  handleModalPickOpponentComputer,
-  handleModalPreGamePlayerOneNameAgainstComputer,
-  handleModalPickOpponentPlayer,
-  handleModalPreGamePlayerOneName,
-  handleModalPreGamePlayerTwoName,
-  handleModalPreGameSwitchToPlayerOneGameboard,
-  handleModalPreGameSwitchTurnToPlayerTwo,
-  handleModalPreGameSwitchTurnToPlayerOne,
-  handleModalGameSwitchTurnToPlayerTwo,
-  handleModalGameSwitchTurnToPlayerOne,
-  handleMove,
-  handlePlayerMove,
+  updateShowModalPreGameSwitchTurnToPlayerOneGameboard,
+  updateShowModalPreGameSwitchTurnToPlayerTwoGameboard,
 } = gameSlice.actions;
 
 // Selector functions
-export const selectAmountOfRows = (state) => state.game.amountOfRows;
 export const selectAmountOfColumns = (state) => state.game.amountOfColumns;
-export const selectEmptyGameboardValue = (state) => state.game.emptyGameboardValue;
-export const selectHitGameboardValue = (state) => state.game.hitGameboardValue;
-export const selectMissGameboardValue = (state) => state.game.missGameboardValue;
-export const selectFreemissGameboardValue = (state) => state.game.freemissGameboardValue;
-export const selectHorizontalDirectionValue = (state) => state.game.horizontalDirectionValue;
-export const selectVerticalDirectionValue = (state) => state.game.verticalDirectionValue;
+export const selectAmountOfRows = (state) => state.game.amountOfRows;
 export const selectButtonNextStepText = (state) => state.game.buttonNextStepText;
-export const selectShipNamePropertyText = (state) => state.game.shipNamePropertyText;
-export const selectShipLengthPropertyText = (state) => state.game.shipLengthPropertyText;
-export const selectShipIsSunkenPropertyText = (state) => state.game.shipIsSunkenPropertyText;
-export const selectComputerName = (state) => state.game.computerName;
-export const selectPlayerOneName = (state) => state.game.playerOneName;
-export const selectPlayerTwoName = (state) => state.game.playerTwoName;
-export const selectIsPlayerOneTurn = (state) => state.game.isPlayerOneTurn;
 export const selectComputerHitTurnAgainCount = (state) => state.game.computerHitTurnAgainCount;
-export const selectIsGameStarted = (state) => state.game.isGameStarted;
-export const selectIsGameOver = (state) => state.game.isGameOver;
-export const selectPlayerOneWonGame = (state) => state.game.playerOneWonGame;
-export const selectPlayerTwoWonGame = (state) => state.game.playerTwoWonGame;
+export const selectComputerName = (state) => state.game.computerName;
 export const selectComputerWonGame = (state) => state.game.computerWonGame;
-export const selectIsPlayerTwoComputer = (state) => state.game.isPlayerTwoComputer;
-export const selectGameboardPlayerOneInitialState = (state) => state.game.gameboardPlayerOneInitialState;
-export const selectGameboardPlayerTwoInitialState = (state) => state.game.gameboardPlayerTwoInitialState;
+export const selectDisableButtonGameSwitchPlayerTurn = (state) => state.game.disableButtonGameSwitchPlayerTurn;
+export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
+export const selectEmptyGameboardValue = (state) => state.game.emptyGameboardValue;
+export const selectFreemissGameboardValue = (state) => state.game.freemissGameboardValue;
 export const selectGameboardPlayerOne = (state) => state.game.gameboardPlayerOne;
+export const selectGameboardPlayerOneInitialState = (state) => state.game.gameboardPlayerOneInitialState;
 export const selectGameboardPlayerTwo = (state) => state.game.gameboardPlayerTwo;
+export const selectGameboardPlayerTwoInitialState = (state) => state.game.gameboardPlayerTwoInitialState;
+export const selectHitGameboardValue = (state) => state.game.hitGameboardValue;
+export const selectHorizontalDirectionValue = (state) => state.game.horizontalDirectionValue;
+export const selectIsGameOver = (state) => state.game.isGameOver;
+export const selectIsGameStarted = (state) => state.game.isGameStarted;
+export const selectIsPlayerOneTurn = (state) => state.game.isPlayerOneTurn;
+export const selectIsPlayerTwoComputer = (state) => state.game.isPlayerTwoComputer;
+export const selectMissGameboardValue = (state) => state.game.missGameboardValue;
+export const selectPlayerOneName = (state) => state.game.playerOneName;
+export const selectPlayerOneWonGame = (state) => state.game.playerOneWonGame;
+export const selectPlayerTwoName = (state) => state.game.playerTwoName;
+export const selectPlayerTwoWonGame = (state) => state.game.playerTwoWonGame;
+export const selectPreviousHitComputerCellsNotSunkenShip = (state) => state.game.previousHitComputerCellsNotSunkenShip;
 export const selectPreviousHitComputerCellsNotSunkenShipDefaultValue = (state) => state.game.previousHitComputerCellsNotSunkenShipDefaultValue;
+export const selectPreviousHitDirectionNotSunkenShip = (state) => state.game.previousHitDirectionNotSunkenShip;
+export const selectPreviousHitDirectionNotSunkenShipDefaultValue = (state) => state.game.previousHitDirectionNotSunkenShipDefaultValue;
 export const selectPreviousHitDirectionNotSunkenShipHorizontalValue = (state) => state.game.previousHitDirectionNotSunkenShipHorizontalValue;
 export const selectPreviousHitDirectionNotSunkenShipVerticalValue = (state) => state.game.previousHitDirectionNotSunkenShipVerticalValue;
-export const selectPreviousHitDirectionNotSunkenShipDefaultValue = (state) => state.game.previousHitDirectionNotSunkenShipDefaultValue;
-export const selectPreviousHitComputerCellsNotSunkenShip = (state) => state.game.previousHitComputerCellsNotSunkenShip;
-export const selectPreviousHitDirectionNotSunkenShip = (state) => state.game.previousHitDirectionNotSunkenShip;
+export const selectShipIsSunkenPropertyText = (state) => state.game.shipIsSunkenPropertyText;
+export const selectShipLengthPropertyText = (state) => state.game.shipLengthPropertyText;
+export const selectShipNamePropertyText = (state) => state.game.shipNamePropertyText;
+export const selectShips = (state) => state.game.ships;
 export const selectShowGameboards = (state) => state.game.showGameboards;
 export const selectShowModalGameOver = (state) => state.game.showModalGameOver;
-export const selectShowModalPickOpponent = (state) => state.game.showModalPickOpponent;
-export const selectShowModalGameSwitchTurnToPlayerTwo = (state) => state.game.showModalGameSwitchTurnToPlayerTwo;
 export const selectShowModalGameSwitchTurnToPlayerOne = (state) => state.game.showModalGameSwitchTurnToPlayerOne;
-export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
-export const selectDisableButtonGameSwitchPlayerTurn = (state) => state.game.disableButtonGameSwitchPlayerTurn;
-export const selectShowModalPreGamePlayerOneNameAgainstComputer = (state) => state.game.showModalPreGamePlayerOneNameAgainstComputer;
-export const selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = (state) => state.game.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer;
-export const selectShowModalPreGamePlayerOneName = (state) => state.game.showModalPreGamePlayerOneName;
-export const selectShowModalPreGamePlayerTwoName = (state) => state.game.showModalPreGamePlayerTwoName;
-export const selectShowModalPreGameSwitchTurnToPlayerOneGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerOneGameboard;
+export const selectShowModalGameSwitchTurnToPlayerTwo = (state) => state.game.showModalGameSwitchTurnToPlayerTwo;
+export const selectShowModalPickOpponent = (state) => state.game.showModalPickOpponent;
 export const selectShowModalPreGameGameboardPlayerOneGridShipPlacement = (state) => state.game.showModalPreGameGameboardPlayerOneGridShipPlacement;
-export const selectShowModalPreGameSwitchTurnToPlayerTwoGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerTwoGameboard;
+export const selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = (state) => state.game.showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer;
 export const selectShowModalPreGameGameboardPlayerTwoGridShipPlacement = (state) => state.game.showModalPreGameGameboardPlayerTwoGridShipPlacement;
+export const selectShowModalPreGamePlayerOneName = (state) => state.game.showModalPreGamePlayerOneName;
+export const selectShowModalPreGamePlayerOneNameAgainstComputer = (state) => state.game.showModalPreGamePlayerOneNameAgainstComputer;
+export const selectShowModalPreGamePlayerTwoName = (state) => state.game.showModalPreGamePlayerTwoName;
 export const selectShowModalPreGameSwitchTurnToPlayerOne = (state) => state.game.showModalPreGameSwitchTurnToPlayerOne;
-export const selectShips = (state) => state.game.ships;
+export const selectShowModalPreGameSwitchTurnToPlayerOneGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerOneGameboard;
+export const selectShowModalPreGameSwitchTurnToPlayerTwoGameboard = (state) => state.game.showModalPreGameSwitchTurnToPlayerTwoGameboard;
+export const selectVerticalDirectionValue = (state) => state.game.verticalDirectionValue;
 
 export default gameSlice.reducer;
