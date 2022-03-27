@@ -2,13 +2,13 @@ import { Button } from "../../../../common/components/Button/Button";
 import './GameButtonsShipPlacement.scss';
 
 export const GameButtonsShipPlacement = ({
-  resetGameboardPlayerShipPlacement,
-  isAllShipsPlaced,
   currentIndexShipToBePlaced,
+  isAllShipsPlaced,
   randomizeGameboardPlayerShipPlacement,
-  undoLastShipPlacement,
+  resetGameboardPlayerShipPlacement,
+  shipPlacementDirection,
   toggleShipPlacementDirection,
-  shipPlacementDirection
+  undoLastShipPlacement
 }) => {
   return (
     <>

@@ -1,12 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "../../../../common/components/Button/Button";
+import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
 import { Modal } from "../../../../common/components/Modal/Modal";
 import { ModalMessage } from "../../../../common/components/ModalMessage/ModalMessage";
-import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
-import { Button } from "../../../../common/components/Button/Button";
-import { GameboardPlayerGridShipPlacement } from "../GameboardPlayerGridShipPlacement/GameboardPlayerGridShipPlacement";
 import { capitalizeString } from "../../../../common/utils/capitalizeString/capitalizeString";
-import './GameLogicModals.scss';
-import { useDispatch, useSelector } from "react-redux";
-import { 
+import { createRandomGameboard } from "../../../../common/utils/createRandomGameboard/createRandomGameboard";
+import { generateRandomValidShipPosition } from "../../../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition";
+import { getGeneratedRandomGameboardPlayerInitialStates } from "../../../../common/utils/getGeneratedRandomGameboardPlayerInitialStates/getGeneratedRandomGameboardPlayerInitialStates";
+import {
   handleButtonNewGame,
   handleModalGameSwitchTurnToPlayerOne,
   handleModalGameSwitchTurnToPlayerTwo,
@@ -32,60 +33,58 @@ import {
   selectShipLengthPropertyText,
   selectShipNamePropertyText,
   selectShips,
-  selectShowModalGameOver, 
-  selectShowModalGameSwitchTurnToPlayerOne, 
-  selectShowModalGameSwitchTurnToPlayerTwo, 
-  selectShowModalPickOpponent, 
-  selectShowModalPreGameGameboardPlayerOneGridShipPlacement, 
-  selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer, 
-  selectShowModalPreGameGameboardPlayerTwoGridShipPlacement, 
-  selectShowModalPreGamePlayerOneName, 
-  selectShowModalPreGamePlayerOneNameAgainstComputer, 
-  selectShowModalPreGamePlayerTwoName, 
-  selectShowModalPreGameSwitchTurnToPlayerOne, 
-  selectShowModalPreGameSwitchTurnToPlayerOneGameboard, 
-  selectShowModalPreGameSwitchTurnToPlayerTwoGameboard, 
-  selectVerticalDirectionValue, 
-  updatePlayerOneName, 
-  updatePlayerTwoName, 
-  updateShowModalGameOver, 
+  selectShowModalGameOver,
+  selectShowModalGameSwitchTurnToPlayerOne,
+  selectShowModalGameSwitchTurnToPlayerTwo,
+  selectShowModalPickOpponent,
+  selectShowModalPreGameGameboardPlayerOneGridShipPlacement,
+  selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer,
+  selectShowModalPreGameGameboardPlayerTwoGridShipPlacement,
+  selectShowModalPreGamePlayerOneName,
+  selectShowModalPreGamePlayerOneNameAgainstComputer,
+  selectShowModalPreGamePlayerTwoName,
+  selectShowModalPreGameSwitchTurnToPlayerOne,
+  selectShowModalPreGameSwitchTurnToPlayerOneGameboard,
+  selectShowModalPreGameSwitchTurnToPlayerTwoGameboard,
+  selectVerticalDirectionValue,
+  updatePlayerOneName,
+  updatePlayerTwoName,
+  updateShowModalGameOver,
   updateShowModalPickOpponent
 } from "../../gameSlice";
-import { getGeneratedRandomGameboardPlayerInitialStates } from "../../../../common/utils/getGeneratedRandomGameboardPlayerInitialStates/getGeneratedRandomGameboardPlayerInitialStates";
-import { createRandomGameboard } from "../../../../common/utils/createRandomGameboard/createRandomGameboard";
-import { generateRandomValidShipPosition } from "../../../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition";
+import { GameboardPlayerGridShipPlacement } from "../GameboardPlayerGridShipPlacement/GameboardPlayerGridShipPlacement";
+import './GameLogicModals.scss';
 
 export const GameLogicModals = () => {
   const dispatch = useDispatch();
-
-  const ships = useSelector(selectShips);
-  const showModalGameOver = useSelector(selectShowModalGameOver);
-  const playerOneWonGame = useSelector(selectPlayerOneWonGame);
-  const playerOneName = useSelector(selectPlayerOneName);
-  const playerTwoWonGame = useSelector(selectPlayerTwoWonGame);
-  const playerTwoName = useSelector(selectPlayerTwoName);
-  const computerWonGame = useSelector(selectComputerWonGame);
-  const computerName = useSelector(selectComputerName);
-  const showModalPickOpponent = useSelector(selectShowModalPickOpponent);
-  const amountOfRows = useSelector(selectAmountOfRows);
   const amountOfColumns = useSelector(selectAmountOfColumns);
+  const amountOfRows = useSelector(selectAmountOfRows);
+  const buttonNextStepText = useSelector(selectButtonNextStepText);
+  const computerName = useSelector(selectComputerName);
+  const computerWonGame = useSelector(selectComputerWonGame);
   const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
   const horizontalDirectionValue = useSelector(selectHorizontalDirectionValue);
-  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
-  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const playerOneName = useSelector(selectPlayerOneName);
+  const playerOneWonGame = useSelector(selectPlayerOneWonGame);
+  const playerTwoName = useSelector(selectPlayerTwoName);
+  const playerTwoWonGame = useSelector(selectPlayerTwoWonGame);
   const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
-  const showModalPreGamePlayerOneNameAgainstComputer = useSelector(selectShowModalPreGamePlayerOneNameAgainstComputer);
-  const buttonNextStepText = useSelector(selectButtonNextStepText);
-  const showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = useSelector(selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer);
-  const showModalPreGamePlayerOneName = useSelector(selectShowModalPreGamePlayerOneName);
-  const showModalPreGamePlayerTwoName = useSelector(selectShowModalPreGamePlayerTwoName);
-  const showModalPreGameSwitchTurnToPlayerOneGameboard = useSelector(selectShowModalPreGameSwitchTurnToPlayerOneGameboard);
-  const showModalPreGameGameboardPlayerOneGridShipPlacement = useSelector(selectShowModalPreGameGameboardPlayerOneGridShipPlacement);
-  const showModalPreGameSwitchTurnToPlayerTwoGameboard = useSelector(selectShowModalPreGameSwitchTurnToPlayerTwoGameboard);
-  const showModalPreGameGameboardPlayerTwoGridShipPlacement = useSelector(selectShowModalPreGameGameboardPlayerTwoGridShipPlacement);
-  const showModalPreGameSwitchTurnToPlayerOne = useSelector(selectShowModalPreGameSwitchTurnToPlayerOne);
-  const showModalGameSwitchTurnToPlayerTwo  = useSelector(selectShowModalGameSwitchTurnToPlayerTwo);
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
+  const ships = useSelector(selectShips);
+  const showModalGameOver = useSelector(selectShowModalGameOver);
   const showModalGameSwitchTurnToPlayerOne = useSelector(selectShowModalGameSwitchTurnToPlayerOne);
+  const showModalGameSwitchTurnToPlayerTwo  = useSelector(selectShowModalGameSwitchTurnToPlayerTwo);
+  const showModalPickOpponent = useSelector(selectShowModalPickOpponent);
+  const showModalPreGameGameboardPlayerOneGridShipPlacement = useSelector(selectShowModalPreGameGameboardPlayerOneGridShipPlacement);
+  const showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer = useSelector(selectShowModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer);
+  const showModalPreGameGameboardPlayerTwoGridShipPlacement = useSelector(selectShowModalPreGameGameboardPlayerTwoGridShipPlacement);
+  const showModalPreGamePlayerOneName = useSelector(selectShowModalPreGamePlayerOneName);
+  const showModalPreGamePlayerOneNameAgainstComputer = useSelector(selectShowModalPreGamePlayerOneNameAgainstComputer);
+  const showModalPreGamePlayerTwoName = useSelector(selectShowModalPreGamePlayerTwoName);
+  const showModalPreGameSwitchTurnToPlayerOne = useSelector(selectShowModalPreGameSwitchTurnToPlayerOne);
+  const showModalPreGameSwitchTurnToPlayerOneGameboard = useSelector(selectShowModalPreGameSwitchTurnToPlayerOneGameboard);
+  const showModalPreGameSwitchTurnToPlayerTwoGameboard = useSelector(selectShowModalPreGameSwitchTurnToPlayerTwoGameboard);
+  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
 
   const generatedRandomGameboardInitialStates = () => {
     return (getGeneratedRandomGameboardPlayerInitialStates(
@@ -100,7 +99,7 @@ export const GameLogicModals = () => {
       shipNamePropertyText,
       shipLengthPropertyText
     ));
-  }
+  };
 
   return (
     <>
@@ -155,9 +154,7 @@ export const GameLogicModals = () => {
           showModalPreGameGameboardPlayerOneGridShipPlacementAgainstComputer
         ?
           <>
-            <GameboardPlayerGridShipPlacement
-              isPlayerOne={true}
-            />
+            <GameboardPlayerGridShipPlacement isPlayerOne={true} />
           </>
         : null
       }
@@ -220,9 +217,7 @@ export const GameLogicModals = () => {
           showModalPreGameGameboardPlayerOneGridShipPlacement
         ?
           <>
-            <GameboardPlayerGridShipPlacement
-              isPlayerOne={true}
-            />
+            <GameboardPlayerGridShipPlacement isPlayerOne={true} />
           </>
         : null
       }
@@ -244,9 +239,7 @@ export const GameLogicModals = () => {
           showModalPreGameGameboardPlayerTwoGridShipPlacement
         ?
           <>
-            <GameboardPlayerGridShipPlacement
-              isPlayerOne={false}
-            />
+            <GameboardPlayerGridShipPlacement isPlayerOne={false} />
           </>
         : null
       }

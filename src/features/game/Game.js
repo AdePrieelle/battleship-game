@@ -22,21 +22,21 @@ import {
 
 export const Game = () => {
   const dispatch = useDispatch();
-  const hitGameboardValue = useSelector(selectHitGameboardValue);
-  const missGameboardValue = useSelector(selectMissGameboardValue);
-  const freemissGameboardValue = useSelector(selectFreemissGameboardValue);;
-  const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
   const computerHitTurnAgainCount = useSelector(selectComputerHitTurnAgainCount);
-  const isGameStarted = useSelector(selectIsGameStarted);
-  const isGameOver = useSelector(selectIsGameOver);
-  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
+  const freemissGameboardValue = useSelector(selectFreemissGameboardValue);;
+  const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
   const gameboardPlayerOneInitialState = useSelector(selectGameboardPlayerOneInitialState);
   const gameboardPlayerTwoInitialState = useSelector(selectGameboardPlayerTwoInitialState);
-  const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
-  const previousHitDirectionNotSunkenShipHorizontalValue = useSelector(selectPreviousHitDirectionNotSunkenShipHorizontalValue);
-  const previousHitDirectionNotSunkenShipVerticalValue = useSelector(selectPreviousHitDirectionNotSunkenShipVerticalValue);
+  const hitGameboardValue = useSelector(selectHitGameboardValue);
+  const isGameOver = useSelector(selectIsGameOver);
+  const isGameStarted = useSelector(selectIsGameStarted);
+  const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
+  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
+  const missGameboardValue = useSelector(selectMissGameboardValue);
   const previousHitComputerCellsNotSunkenShip = useSelector(selectPreviousHitComputerCellsNotSunkenShip)
   const previousHitDirectionNotSunkenShip = useSelector(selectPreviousHitDirectionNotSunkenShip);
+  const previousHitDirectionNotSunkenShipHorizontalValue = useSelector(selectPreviousHitDirectionNotSunkenShipHorizontalValue);
+  const previousHitDirectionNotSunkenShipVerticalValue = useSelector(selectPreviousHitDirectionNotSunkenShipVerticalValue);
   const showGameboards = useSelector(selectShowGameboards);
 
   useEffect(() => {

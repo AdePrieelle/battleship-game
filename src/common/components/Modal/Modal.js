@@ -1,6 +1,6 @@
 import './Modal.scss';
 
-export const Modal = ({ children, closeModal = false }) => {
+export const Modal = ({ children, closeModal=false }) => {
   return (
   <>
     <div className="modal-overlay"></div>

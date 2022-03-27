@@ -1,6 +1,6 @@
 import React from 'react';
-import { Game } from './features/game/Game';
 import './App.scss';
+import { Game } from './features/game/Game';
 
 const App = () => {
   return (

@@ -23,17 +23,17 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   const dispatch = useDispatch();
   const amountOfColumns = useSelector(selectAmountOfColumns);
   const amountOfRows = useSelector(selectAmountOfRows);
-  const hitGameboardValue = useSelector(selectHitGameboardValue);
-  const missGameboardValue = useSelector(selectMissGameboardValue);
-  const freemissGameboardValue = useSelector(selectFreemissGameboardValue);
-  const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
-  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
-  const isGameStarted = useSelector(selectIsGameStarted);
-  const isGameOver = useSelector(selectIsGameOver);
   const disablePlayerMove = useSelector(selectDisablePlayerMove);
+  const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
+  const freemissGameboardValue = useSelector(selectFreemissGameboardValue);
   const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
   const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
+  const hitGameboardValue = useSelector(selectHitGameboardValue);
+  const isGameOver = useSelector(selectIsGameOver);
+  const isGameStarted = useSelector(selectIsGameStarted);
   const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
+  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
+  const missGameboardValue = useSelector(selectMissGameboardValue);
   const shipNamePropertyText = useSelector(selectShipNamePropertyText);
   const ships = useSelector(selectShips);
 
@@ -70,7 +70,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
       isPlayerOneTurn,
       isPlayerTwoComputer
     )) {
-      dispatch(handlePlayerMove(+id))
+      dispatch(handlePlayerMove(+id));
     }; 
   };
   

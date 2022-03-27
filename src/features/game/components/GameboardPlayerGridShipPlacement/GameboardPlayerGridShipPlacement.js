@@ -1,31 +1,29 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../../../common/components/Button/Button";
 import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
-import { GameButtonsShipPlacement } from "../GameButtonsShipPlacement/GameButtonsShipPlacement";
-import { replaceAllSpecificArrayValuesWithNewValue } from '../../../../common/utils/replaceAllSpecificArrayValuesWithNewValue/replaceAllSpecificArrayValuesWithNewValue';
+import { calculateShipCoords } from "../../../../common/utils/calculateShipCoords/calculateShipCoords";
+import { checkIfShipIsNotSurroundedByAnotherShip } from "../../../../common/utils/checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip";
+import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from "../../../../common/utils/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds";
+import { createGameboard } from "../../../../common/utils/createGameboard/createGameboard";
 import { createRandomGameboard } from "../../../../common/utils/createRandomGameboard/createRandomGameboard";
 import { generateRandomValidShipPosition } from "../../../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition";
-import { createGameboard } from "../../../../common/utils/createGameboard/createGameboard";
-import { sortArrayOfObjectsBasedOnAPropertyValue } from "../../../../common/utils/sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue";
-import { isValidShipPosition } from "../../../../common/utils/isValidShipPosition/isValidShipPosition";
-import { isEmptyGameboardCell } from "../../../../common/utils/isEmptyGameboardCell/isEmptyGameboardCell";
-import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from "../../../../common/utils/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds";
-import { getFirstDigitOfNumber } from "../../../../common/utils/getFirstDigitOfNumber/getFirstDigitOfNumber";
-import { checkIfShipIsNotSurroundedByAnotherShip } from "../../../../common/utils/checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip";
-import { calculateShipCoords } from "../../../../common/utils/calculateShipCoords/calculateShipCoords";
 import { getArrayWithArrayOfIndexValuesReplacedByNewValue } from '../../../../common/utils/getArrayWithArrayOfIndexValuesReplacedByNewValue/getArrayWithArrayOfIndexValuesReplacedByNewValue';
+import { getFirstDigitOfNumber } from "../../../../common/utils/getFirstDigitOfNumber/getFirstDigitOfNumber";
+import { getLastDigitOfNumber } from "../../../../common/utils/getLastDigitOfNumber/getLastDigitOfNumber";
+import { getLastIdInRowTwoDimensionalArray } from "../../../../common/utils/getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
+import { getRowNumberOfIndexTwoDimensionalArray } from "../../../../common/utils/getRowNumberOfIndexTwoDimensionalArray/getRowNumberOfIndexTwoDimensionalArray";
 import { getToggleValue } from "../../../../common/utils/getToggleValue/getToggleValue";
 import { getValidStartIdShipNotOutOfBounds } from "../../../../common/utils/getValidStartIdShipNotOutOfBounds/getValidStartIdShipNotOutOfBounds";
-import { getRowNumberOfIndexTwoDimensionalArray } from "../../../../common/utils/getRowNumberOfIndexTwoDimensionalArray/getRowNumberOfIndexTwoDimensionalArray";
-import { getLastIdInRowTwoDimensionalArray } from "../../../../common/utils/getLastIdInRowTwoDimensionalArray/getLastIdInRowTwoDimensionalArray";
-import { getLastDigitOfNumber } from "../../../../common/utils/getLastDigitOfNumber/getLastDigitOfNumber";
-import './GameboardPlayerGridShipPlacement.scss';
-import { useDispatch, useSelector } from "react-redux";
-import { 
+import { isEmptyGameboardCell } from "../../../../common/utils/isEmptyGameboardCell/isEmptyGameboardCell";
+import { isValidShipPosition } from "../../../../common/utils/isValidShipPosition/isValidShipPosition";
+import { replaceAllSpecificArrayValuesWithNewValue } from '../../../../common/utils/replaceAllSpecificArrayValuesWithNewValue/replaceAllSpecificArrayValuesWithNewValue';
+import { sortArrayOfObjectsBasedOnAPropertyValue } from "../../../../common/utils/sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue";
+import {
   handleStartGame,
-  selectAmountOfColumns, 
-  selectAmountOfRows, 
-  selectButtonNextStepText, 
+  selectAmountOfColumns,
+  selectAmountOfRows,
+  selectButtonNextStepText,
   selectEmptyGameboardValue,
   selectHorizontalDirectionValue,
   selectIsPlayerTwoComputer,
@@ -44,21 +42,23 @@ import {
   updateShowModalPreGameSwitchTurnToPlayerOne,
   updateShowModalPreGameSwitchTurnToPlayerTwoGameboard
 } from "../../gameSlice";
+import { GameButtonsShipPlacement } from "../GameButtonsShipPlacement/GameButtonsShipPlacement";
+import './GameboardPlayerGridShipPlacement.scss';
 
 export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const dispatch = useDispatch();
   const amountOfColumns = useSelector(selectAmountOfColumns);
   const amountOfRows = useSelector(selectAmountOfRows);
+  const buttonNextStepText = useSelector(selectButtonNextStepText);
   const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
   const horizontalDirectionValue = useSelector(selectHorizontalDirectionValue);
-  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
   const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
-  const buttonNextStepText = useSelector(selectButtonNextStepText);
-  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
-  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
   const playerOneName = useSelector(selectPlayerOneName);
   const playerTwoName = useSelector(selectPlayerTwoName);
+  const shipLengthPropertyText = useSelector(selectShipLengthPropertyText);
+  const shipNamePropertyText = useSelector(selectShipNamePropertyText);
   const ships = useSelector(selectShips);
+  const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
 
   const gameboardPlayerShipPlacementInitialState = createGameboard(amountOfRows, amountOfColumns, emptyGameboardValue);
   const [gameboardPlayerShipPlacement, setGameboardPlayerShipPlacement] = useState(gameboardPlayerShipPlacementInitialState);
@@ -80,13 +80,13 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const toggleShipPlacementDirection = () => {
     const toggledShipPlacementDirectionValue = getToggleValue(shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
     setShipPlacementdirection(toggledShipPlacementDirectionValue);
-  }
+  };
 
   const resetGameboardPlayerShipPlacement = () => {
     setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementInitialState);
     setShipPlacementdirection(horizontalDirectionValue);
     setCurrentIndexShipToBePlaced(0);
-  }
+  };
 
   const removeLastShipPlacementFromGameboard = () => {
     const removedLastShipPlacementFromGameboard = replaceAllSpecificArrayValuesWithNewValue(
@@ -95,14 +95,14 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
       emptyGameboardValue
     );
     setGameboardPlayerShipPlacement(removedLastShipPlacementFromGameboard);
-  }
+  };
   
   const undoLastShipPlacement = () => {
     if (currentIndexShipToBePlaced > 0) {
       removeLastShipPlacementFromGameboard();
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced - 1);
-    }
-  }
+    };
+  };
 
   const getAValidStartIdShipNotOutOfBounds = (id) => getValidStartIdShipNotOutOfBounds(
     id,
@@ -127,19 +127,18 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
       checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds(id, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced], shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue, shipLengthPropertyText, getFirstDigitOfNumber),
       checkIfShipIsNotSurroundedByAnotherShip(gameboardPlayerShipPlacement, shipCoordsArray, emptyGameboardValue) 
     ));
-  }
+  };
 
   const handleShipPlacementOnGameboard = (id) => {
     const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
     let shipCoordsShipPlacement = calculateShipCoords(sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipLengthPropertyText], validStartIdShipNotOutOfBounds, shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
-    // if succesful placement
     if (isAValidShipPlacement(validStartIdShipNotOutOfBounds, shipCoordsShipPlacement)) {
       const gameboardPlayerShipPlacementWithPlacedShip = getArrayWithArrayOfIndexValuesReplacedByNewValue(gameboardPlayerShipPlacement, shipCoordsShipPlacement, sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipNamePropertyText]);
       setGameboardPlayerShipPlacement(gameboardPlayerShipPlacementWithPlacedShip);
       setHoveredIds([]);
       setCurrentIndexShipToBePlaced(currentIndexShipToBePlaced + 1);
-    }
-  }
+    };
+  };
 
   const handleOnMouseEnter = (id) => {
     const validStartIdShipNotOutOfBounds = getAValidStartIdShipNotOutOfBounds(id);
@@ -149,12 +148,12 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
 
   const handleOnMouseLeave = () => {
     setHoveredIds([]);
-  }
+  };
 
   const randomizeGameboardPlayerShipPlacement = () => {
     setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
     setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard))
-  }
+  };
 
   const handleModalGameboardPlayerGridShipPlacement = () => {
     if (isPlayerOne) {
@@ -166,17 +165,17 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
       } else {
         dispatch(updateShowModalPreGameGameboardPlayerOneGridShipPlacement(false));
         dispatch(updateShowModalPreGameSwitchTurnToPlayerTwoGameboard(true));
-      }
+      };
     } else {
       dispatch(updateGameboardPlayerTwoInitialState(gameboardPlayerShipPlacement));
       dispatch(updateShowModalPreGameGameboardPlayerTwoGridShipPlacement(false));
       dispatch(updateShowModalPreGameSwitchTurnToPlayerOne(true));
-    }
-  }
+    };
+  };
 
   const isShipPlacementFinished = () => {
     return (!((currentIndexShipToBePlaced < sortedShipsLengthDescendingOrder.length) && !isAllShipsPlaced));
-  }
+  };
 
   return (
     <div className="gameboard-player-grid-ship-placement">
@@ -191,13 +190,13 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
       <div className="game-buttons-ship-placement-wrapper">
         <ButtonsWrapper>
           <GameButtonsShipPlacement
-            resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
-            isAllShipsPlaced={isAllShipsPlaced}
             currentIndexShipToBePlaced={currentIndexShipToBePlaced}
+            isAllShipsPlaced={isAllShipsPlaced}
             randomizeGameboardPlayerShipPlacement={randomizeGameboardPlayerShipPlacement}
-            undoLastShipPlacement={undoLastShipPlacement}
-            toggleShipPlacementDirection={toggleShipPlacementDirection}
+            resetGameboardPlayerShipPlacement={resetGameboardPlayerShipPlacement}
             shipPlacementDirection={shipPlacementDirection}
+            toggleShipPlacementDirection={toggleShipPlacementDirection}
+            undoLastShipPlacement={undoLastShipPlacement}
           />
         </ButtonsWrapper>
       </div>

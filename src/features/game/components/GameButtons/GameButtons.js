@@ -1,17 +1,14 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../../../common/components/Button/Button";
-import './GameButtons.scss';
-import { useSelector, useDispatch } from "react-redux";
-import { 
-  selectIsPlayerTwoComputer,
-  handleButtonNewGame,
-  handleButtonGameSwitchPlayerTurn,
-  selectDisableButtonGameSwitchPlayerTurn,
+import {
+  handleButtonGameSwitchPlayerTurn, handleButtonNewGame, selectDisableButtonGameSwitchPlayerTurn, selectIsPlayerTwoComputer
 } from "../../gameSlice";
+import './GameButtons.scss';
 
 export const GameButtons = () => {
   const dispatch = useDispatch();
-  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
   const disableButtonGameSwitchPlayerTurn = useSelector(selectDisableButtonGameSwitchPlayerTurn);
+  const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
 
   return (
     <>
