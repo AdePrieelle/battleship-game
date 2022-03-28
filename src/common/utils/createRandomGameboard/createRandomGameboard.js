@@ -1,14 +1,14 @@
-import { checkIfShipIsNotSurroundedByAnotherShip } from '../checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip'
-import { createGameboard } from '../createGameboard/createGameboard';
-import { getRandomIndexFromArray } from '../getRandomIndexFromArray/getRandomIndexFromArray';
-import { getRandomArrayValue } from '../getRandomArrayValue/getRandomArrayValue';
 import { calculateShipCoords } from '../calculateShipCoords/calculateShipCoords';
-import { sortArrayOfObjectsBasedOnAPropertyValue } from '../sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
+import { checkIfShipIsNotSurroundedByAnotherShip } from '../checkIfShipIsNotSurroundedByAnotherShip/checkIfShipIsNotSurroundedByAnotherShip';
 import { checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds } from '../checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds/checkIfStartIndexShipCoordsDirectionIsNotOutOfBounds';
-import { getFirstDigitOfNumber } from '../getFirstDigitOfNumber/getFirstDigitOfNumber';
+import { createGameboard } from '../createGameboard/createGameboard';
 import { generateRandomShipPosition } from '../generateRandomShipPosition/generateRandomShipPosition';
-import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
+import { getFirstDigitOfNumber } from '../getFirstDigitOfNumber/getFirstDigitOfNumber';
+import { getRandomArrayValue } from '../getRandomArrayValue/getRandomArrayValue';
+import { getRandomIndexFromArray } from '../getRandomIndexFromArray/getRandomIndexFromArray';
 import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
+import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
+import { sortArrayOfObjectsBasedOnAPropertyValue } from '../sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
 
 export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, callback) => {
   const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);

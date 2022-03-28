@@ -151,8 +151,8 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   };
 
   const randomizeGameboardPlayerShipPlacement = () => {
-    setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
     setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard))
+    setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
   };
 
   const handleModalGameboardPlayerGridShipPlacement = () => {

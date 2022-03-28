@@ -13,7 +13,7 @@ export const getGeneratedRandomGameboardPlayerInitialStates = (
   const generatedRandomGameboardPlayerOneInitialState = createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard);
   const generatedRandomGameboardPlayerTwoInitialState = createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard);
   return ({
-    generatedRandomGameboardPlayerOneInitialState: generatedRandomGameboardPlayerOneInitialState,
-    generatedRandomGameboardPlayerTwoInitialState: generatedRandomGameboardPlayerTwoInitialState
+    generatedRandomGameboardPlayerOneInitialState,
+    generatedRandomGameboardPlayerTwoInitialState
   });
 };

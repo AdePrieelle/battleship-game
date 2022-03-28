@@ -1,9 +1,6 @@
 import { expect } from "@jest/globals";
 import { addFreeMissGameboardValueCellsAroundSunkenShip } from "../addFreeMissGameboardValueCellsAroundSunkenShip";
 
-// use freemiss as gameboardvalue
-
-// test for single cell ship
 test("if a hit on gameboard mark the surrounding cells as missed if they can't be a hit value for top left gameboard", () => {
   expect(addFreeMissGameboardValueCellsAroundSunkenShip([
     "hit", "empty", "d2", "empty", "d3", "empty", "d4", "empty", "empty", "empty",
