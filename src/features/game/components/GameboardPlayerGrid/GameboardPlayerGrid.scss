@@ -15,11 +15,26 @@
   .hit {
     background-color: $gameboard-hit-bg-color;
   }
+  .icon-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: $gameboard-icon-circle-font-size;
+    transform: translate(-50%, -50%);
+  }
   .miss {
+    position: relative;
     background-color: $gameboard-miss-bg-color;
+    .icon-circle {
+      color: $gameboard-miss-icon-circle-color;
+    }
   }
   .freemiss {
+    position: relative;
     background-color: $gameboard-freemiss-bg-color;
+    .icon-circle {
+      color: $gameboard-freemiss-icon-circle-color;
+    }
   }
   .ship {
     background-color: $gameboard-ship-bg-color;
