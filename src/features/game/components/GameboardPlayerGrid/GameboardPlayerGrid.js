@@ -110,11 +110,6 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
           } 
           onClick={(event) => onGameboardCellClicked(+event.target.id)}
         >
-          {
-              (gameboardPlayer[id] === missGameboardValue || gameboardPlayer[id] === freemissGameboardValue)
-            ? <i className="fa-solid fa-circle icon-circle"></i>
-            : null
-          }
         </div>
       ))}
     </div>

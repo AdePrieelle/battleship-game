@@ -2,9 +2,10 @@ import { useSelector } from 'react-redux';
 import {
   selectGameboardPlayerOne,
   selectGameboardPlayerTwo, selectIsPlayerOneTurn,
-  selectIsPlayerTwoComputer
+  selectIsPlayerTwoComputer,
 } from '../../gameSlice';
 import { GameboardPlayerGrid } from '../GameboardPlayerGrid/GameboardPlayerGrid';
+import { GameboardPlayerName } from '../GameboardPlayerName/GameboardPlayerName';
 import { GameboardShipStats } from '../GameboardShipStats/GameboardShipStats';
 import { GameButtons } from '../GameButtons/GameButtons';
 import './GameboardsWrapper.scss';
@@ -14,7 +15,6 @@ export const GameboardsWrapper = () => {
   const gameboardPlayerTwo = useSelector(selectGameboardPlayerTwo);
   const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
   const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
-
   return (
     <div className="gameboards-wrapper">
       {
@@ -23,6 +23,7 @@ export const GameboardsWrapper = () => {
           <>
             {/* Player two plays on gameboardPlayerOne */}
             <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
+              <GameboardPlayerName isPlayerOne={false} />
               <GameboardPlayerGrid isPlayerOne={false} />
               <GameboardShipStats gameboard={gameboardPlayerOne} />
             </div>
@@ -31,6 +32,7 @@ export const GameboardsWrapper = () => {
             </div>
             {/* Player two sees current state of gameboardPlayerTwo where player one plays on */}
             <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
+              <GameboardPlayerName isPlayerOne={true} />
               <GameboardPlayerGrid isPlayerOne={true} />
               <GameboardShipStats gameboard={gameboardPlayerTwo} />
             </div>
@@ -39,6 +41,7 @@ export const GameboardsWrapper = () => {
         <>
           {/* Player one plays on gameboardPlayerTwo */}
           <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
+            <GameboardPlayerName isPlayerOne={true} />
             <GameboardPlayerGrid isPlayerOne={true} />
             <GameboardShipStats gameboard={gameboardPlayerTwo} />
           </div>
@@ -47,6 +50,7 @@ export const GameboardsWrapper = () => {
           </div>
           {/* Player one sees current state of gameboardPlayerTwo where player two or the computer plays on */}
           <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
+            <GameboardPlayerName isPlayerOne={false} />
             <GameboardPlayerGrid isPlayerOne={false} />
             <GameboardShipStats gameboard={gameboardPlayerOne} />
           </div>
