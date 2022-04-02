@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { getPlayerName } from "../../../../common/utils/getPlayerName/getPlayerName";
 import { selectComputerName, selectIsPlayerTwoComputer, selectPlayerOneName, selectPlayerTwoName } from "../../gameSlice";
-import "./GameboardPlayerName.scss";
+import "./GameboardPlayerGridTitle.scss";
 
-export const GameboardPlayerName = ({ isPlayerOne }) => {
+export const GameboardPlayerGridTitle = ({ isPlayerOne }) => {
   const computerName = useSelector(selectComputerName);
   const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
   const playerOneName = useSelector(selectPlayerOneName);
@@ -12,6 +12,6 @@ export const GameboardPlayerName = ({ isPlayerOne }) => {
   const playerName = getPlayerName(isPlayerOne, isPlayerTwoComputer, playerOneName, playerTwoName, computerName);
 
   return (
-    <h1 className="gameboard-player-name">{playerName}</h1>
+    <h1 className="gameboard-player-grid-title">{playerName}</h1>
   );
 };
