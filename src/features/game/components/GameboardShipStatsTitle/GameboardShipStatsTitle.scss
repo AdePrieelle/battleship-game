@@ -1,9 +1,9 @@
 @import "../../../../styles/partials/variables";
 
 .gameboard-ship-stats-title {
-  margin: 20px 0 8px 0;
+  margin: $gameboard-ship-stats-title-margin;
   font-family: "Roboto", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  text-align: left;
+  font-size: $gameboard-ship-stats-title-font-size;
+  font-weight: $gameboard-ship-stats-title-font-weight;
+  text-align: $gameboard-ship-stats-title-text-align;
 }

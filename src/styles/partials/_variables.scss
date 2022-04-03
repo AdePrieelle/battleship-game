@@ -11,6 +11,7 @@ $index-bg-color: white;
 
 // App
 $app-margin: 20px;
+$app-color: black;
 $app-bg-color: white;
 
 // General
@@ -88,6 +89,18 @@ $gameboard-ship-stats-ship-cell-height: 18px;
 $gameboard-ship-stats-ship-cell-margin-left: 2px;
 $gameboard-ship-stats-ship-hidden: $gameboard-ship-bg-color;
 $gameboard-ship-stats-ship-sunken: $gameboard-hit-bg-color;
+
+// GameboardPlayerGridTitle
+$gameboard-player-grid-title-margin: 16px 0;
+$gameboard-player-grid-title-font-size: 1.5rem;
+$gameboard-player-grid-title-font-weight: 500;
+$gameboard-player-grid-title-text-align: center;
+
+// GameboardShipStatsTitle
+$gameboard-ship-stats-title-margin: 20px 0 8px 0;
+$gameboard-ship-stats-title-font-size: 1rem;
+$gameboard-ship-stats-title-font-weight: 400;
+$gameboard-ship-stats-title-text-align: left;
 
 // GameButtons
 $game-buttons-margin: 5px;
