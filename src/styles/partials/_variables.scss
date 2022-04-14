@@ -7,12 +7,13 @@ $media-query-large-screen: 900px;
 $media-query-xlarge-screen: 1200px;
 
 // index
-$index-bg-color: white;
+$index-html-font-size: 32px;
+$index-body-bg-color: none;
 
 // App
 $app-margin: 20px;
-$app-color: black;
-$app-bg-color: white;
+$app-color: white;
+$app-bg-color: none;
 
 // General
 $primary-text-color: white;
@@ -27,14 +28,29 @@ $gameboards-wrapper-grid-row-gap: 1.2rem;
 $gameboard-max-width: 400px;
 $gameboard-grid-gap: 2px;
 $gameboard-cell-bg-color: white;
+$gameboard-cell-bg-color: rgb(218, 182, 107);
+$gameboard-cell-bg-color: rgb(252, 206, 145);
+$gameboard-cell-bg-color: rgb(248, 223, 191);
+$gameboard-cell-bg-color: rgb(233, 219, 200);
+$gameboard-cell-bg-color: rgb(255, 243, 225);
 $gameboard-bg-color: #b4b4ff;
+$gameboard-bg-color: #9e632d;
 $gameboard-hit-bg-color: rgb(168, 56, 56);
 $gameboard-icon-circle-font-size: 4px;
 $gameboard-miss-bg-color: rgb(235, 235, 235);
+$gameboard-miss-bg-color: rgb(247, 209, 159);
+$gameboard-miss-bg-color: rgb(218, 182, 107);
+$gameboard-miss-bg-color: rgb(241, 219, 169);
 $gameboard-miss-pseudo-circle-bg-color: black;
 $gameboard-freemiss-bg-color: rgb(235, 235, 235);
+$gameboard-freemiss-bg-color: rgb(218, 182, 107);
+$gameboard-freemiss-bg-color: rgb(241, 219, 169);
 $gameboard-freemiss-pseudo-circle-bg-color: rgb(185, 185, 185);
+$gameboard-freemiss-pseudo-circle-bg-color: rgb(214, 104, 30);
+$gameboard-freemiss-pseudo-circle-bg-color: rgb(197, 153, 150);
+// $gameboard-freemiss-pseudo-circle-bg-color: rgb(241, 219, 169);
 $gameboard-ship-bg-color: rgb(58, 163, 223);
+$gameboard-ship-bg-color: rgb(24, 117, 179);
 $gameboard-ship-hovered-valid-ship-position-bg-color: rgb(58, 163, 223);
 $gameboard-ship-hovered-invalid-ship-position-bg-color: rgb(192, 37, 37);
 $gameboard-inactive-opacity: 0.6;
@@ -42,8 +58,10 @@ $gameboard-inactive-opacity: 0.6;
 // GameboardPlayerGridShipPlacement
 $gameboard-player-grid-ship-placement-margin-top: 1.5rem;
 $player-name-title-font-size: 1.5rem;
+$player-name-title-font-weight: 700;
 $player-name-title-margin-bottom: 1.8rem;
 $ship-placement-message-font-size: 1.2rem;
+$ship-placement-message-font-weight: 700;
 $ship-placement-message-margin-bottom: 1rem;
 $game-buttons-ship-placement-wrapper-margin-bottom: 1.2rem;
 $gameboard-placement-wrapper-margin-bottom: 1.2rem;
@@ -57,14 +75,26 @@ $modal-border-radius: 0px;
 $modal-width: 500px;
 $modal-content-padding: 20px;
 $modal-content-color: black;
-$modal-content-font-size: 36px;
+$modal-content-font-size: 1.8rem;
 $modal-content-font-weight: 700;
 $modal-close-button-color: white;
 $modal-close-button-bg-color: black;
 $modal-close-button-font-size: 22px;
+$modal-close-button-border-radius: 0px;
 
 // ModalMessage
 $modal-message-margin: 20px 0;
+
+// input-name
+$input-name-width: 100%;
+$input-name-margin-top: 20px;
+$input-name-padding: 6px 8px;
+$input-name-font-family: "Tangerine", "Roboto", sans-serif;
+$input-name-font-size: 1rem;
+$input-name-font-weight: 700;
+$input-name-bg-color: rgb(248, 236, 213);
+$input-name-border: 0;
+$input-name-border-radius: 4px;
 
 // ButtonsWrapper
 $buttons-wrapper-grid-gap: 10px;
@@ -74,6 +104,7 @@ $button-margin: 0;
 $button-width: 130px;
 $button-height: 38px;
 $button-color: white;
+$button-font-family: "Roboto", sans-serif;
 $button-font-size: 16px;
 $button-font-weight: 700;
 $button-bg-color: rgb(233, 73, 33);
@@ -83,24 +114,29 @@ $button-disabled-opacity: 0.6;
 // gameboardShipStats
 $gameboard-ship-stats-max-width: 150px;
 $gameboard-ship-stats-ship-margin-top-bottom: 8px;
-$gameboard-ship-stats-ship-margin-right-left: 10px;
+$gameboard-ship-stats-ship-margin-right-left: 5px;
+$gameboard-ship-stats-ship-box-shadow: 2px 2px 5px rgb(250, 250, 250);
+$gameboard-ship-stats-ship-box-shadow: none;
 $gameboard-ship-stats-ship-cell-width: 18px;
 $gameboard-ship-stats-ship-cell-height: 18px;
-$gameboard-ship-stats-ship-cell-margin-left: 2px;
+$gameboard-ship-stats-ship-cell-margin-right: 2px;
+$gameboard-ship-stats-ship-cell-box-shadow: 2px 2px 2px rgb(0, 0, 0);
 $gameboard-ship-stats-ship-hidden: $gameboard-ship-bg-color;
 $gameboard-ship-stats-ship-sunken: $gameboard-hit-bg-color;
 
 // GameboardPlayerGridTitle
 $gameboard-player-grid-title-margin: 16px 0;
+$gameboard-player-grid-title-font-family: "Tangerine", cursive;
 $gameboard-player-grid-title-font-size: 1.5rem;
-$gameboard-player-grid-title-font-weight: 500;
+$gameboard-player-grid-title-font-weight: 700;
 $gameboard-player-grid-title-text-align: center;
 
 // GameboardShipStatsTitle
 $gameboard-ship-stats-title-margin: 20px 0 8px 0;
-$gameboard-ship-stats-title-font-size: 1rem;
-$gameboard-ship-stats-title-font-weight: 400;
-$gameboard-ship-stats-title-text-align: left;
+$gameboard-ship-stats-title-font-family: "Tangerine", cursive;
+$gameboard-ship-stats-title-font-size: 1.1rem;
+$gameboard-ship-stats-title-font-weight: 700;
+$gameboard-ship-stats-title-text-align: center;
 
 // GameButtons
 $game-buttons-margin: 5px;

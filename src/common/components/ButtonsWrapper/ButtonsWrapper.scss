@@ -7,29 +7,3 @@
   gap: $buttons-wrapper-grid-gap;
   max-width: $gameboard-max-width;
 }
-
-// .buttons-wrapper {
-//   display: inline-grid;
-//   justify-content: center;
-//   align-items: center;
-//   grid-template-columns: repeat(auto-fit, $button-width);
-//   grid-gap: $buttons-wrapper-grid-gap;
-//   width: 100%;
-//   max-width: calc(2 * #{$button-width} + #{$buttons-wrapper-grid-gap});
-// }
-
-// .buttons-wrapper {
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   gap: 10px;
-//   > button {
-//     // margin: $game-buttons-margin;
-//     &:first-child {
-//       margin-left: 0;
-//     }
-//     &:last-child {
-//       margin-right: 0;
-//     }
-//   }
-// }

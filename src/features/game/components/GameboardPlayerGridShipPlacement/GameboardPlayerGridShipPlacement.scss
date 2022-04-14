@@ -9,10 +9,12 @@
   text-align: center;
   .player-name-title {
     font-size: $player-name-title-font-size;
+    font-weight: $player-name-title-font-weight;
     margin-bottom: $player-name-title-margin-bottom;
   }
   .ship-placement-message {
     font-size: $ship-placement-message-font-size;
+    font-weight: $ship-placement-message-font-weight;
     margin-bottom: $ship-placement-message-margin-bottom;
   }
   .game-buttons-ship-placement-wrapper {
@@ -28,7 +30,7 @@
 .button-text-wrapper {
   display: flex;
   justify-content: center;
-  align-items: baseline;
+  align-items: center;
 }
 
 .randomise-icon {

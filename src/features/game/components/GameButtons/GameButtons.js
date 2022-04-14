@@ -11,7 +11,7 @@ export const GameButtons = () => {
   const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
 
   return (
-    <>
+    <div className="game-buttons">
       <Button buttonOnClick={() => dispatch(handleButtonNewGame())}>New game</Button>
       {
           isPlayerTwoComputer
@@ -24,6 +24,6 @@ export const GameButtons = () => {
             Hand over
           </Button>
       }
-    </>
+    </div>
   );
 };

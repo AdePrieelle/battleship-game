@@ -1,5 +1,9 @@
 @import "../../../styles/partials/variables";
 
 .modal-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: $modal-message-margin;
 }

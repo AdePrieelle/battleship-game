@@ -243,6 +243,7 @@ export const gameSlice = createSlice({
       state.isPlayerOneTurn = !state.isPlayerOneTurn;
     },
     handleNewGame: (state, action) => {
+      state.disableButtonGameSwitchPlayerTurn = true;
       state.isGameOver = false;
       state.isGameStarted = false;
       state.computerWonGame = false;

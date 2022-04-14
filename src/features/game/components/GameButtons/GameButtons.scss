@@ -1,4 +1,9 @@
 @import "../../../../styles/partials/variables";
 
-// .game-buttons {
-// }
+.game-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: $buttons-wrapper-grid-gap;
+}

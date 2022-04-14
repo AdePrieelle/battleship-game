@@ -27,7 +27,7 @@ export const GameboardsWrapper = () => {
         ? 
           <>
             {/* Player two plays on gameboardPlayerOne */}
-            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
+            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper-1">
               <GameboardPlayerGridTitle isPlayerOne={false} />
               <GameboardPlayerGrid isPlayerOne={false} />
               <GameboardShipStatsTitle shipStatsTitle={opponentShipStatsTitle} />
@@ -37,7 +37,7 @@ export const GameboardsWrapper = () => {
               <GameButtons />
             </div>
             {/* Player two sees current state of gameboardPlayerTwo where player one plays on */}
-            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
+            <div className="gameboard-player-grid-gameboard-ship-stats-wrapper-2">
               <GameboardPlayerGridTitle isPlayerOne={true} />
               <GameboardPlayerGrid isPlayerOne={true} />
               <GameboardShipStatsTitle shipStatsTitle={yourShipStatsTitle} />
@@ -47,7 +47,7 @@ export const GameboardsWrapper = () => {
       :
         <>
           {/* Player one plays on gameboardPlayerTwo */}
-          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-1">
+          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper-1">
             <GameboardPlayerGridTitle isPlayerOne={true} />
             <GameboardPlayerGrid isPlayerOne={true} />
             <GameboardShipStatsTitle shipStatsTitle={opponentShipStatsTitle} />
@@ -57,7 +57,7 @@ export const GameboardsWrapper = () => {
             <GameButtons />
           </div>
           {/* Player one sees current state of gameboardPlayerTwo where player two or the computer plays on */}
-          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper gameboard-player-grid-gameboard-ship-stats-wrapper-2">
+          <div className="gameboard-player-grid-gameboard-ship-stats-wrapper-2">
             <GameboardPlayerGridTitle isPlayerOne={false} />
             <GameboardPlayerGrid isPlayerOne={false} />
             <GameboardShipStatsTitle shipStatsTitle={yourShipStatsTitle} />

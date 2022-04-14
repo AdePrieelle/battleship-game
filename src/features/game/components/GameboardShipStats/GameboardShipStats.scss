@@ -1,27 +1,32 @@
 @import "../../../../styles/partials/variables";
 
 .gameboard-ship-stats {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: $gameboard-ship-stats-max-width;
-  .gameboard-ship-stats-ship {
+  // width: 100%;
+  .gameboard-ship-stats-shiplength-row {
     display: flex;
-    margin: $gameboard-ship-stats-ship-margin-top-bottom
-      $gameboard-ship-stats-ship-margin-right-left;
-    margin-left: 0;
-    .gameboard-ship-stats-ship-cell {
-      width: $gameboard-ship-stats-ship-cell-width;
-      height: $gameboard-ship-stats-ship-cell-height;
-      margin-left: $gameboard-ship-stats-ship-cell-margin-left;
-      &:first-child {
-        margin-left: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    .gameboard-ship-stats-ship {
+      display: flex;
+      margin: $gameboard-ship-stats-ship-margin-top-bottom
+        $gameboard-ship-stats-ship-margin-right-left;
+      box-shadow: $gameboard-ship-stats-ship-box-shadow;
+      .gameboard-ship-stats-ship-cell {
+        width: $gameboard-ship-stats-ship-cell-width;
+        height: $gameboard-ship-stats-ship-cell-height;
+        margin-right: $gameboard-ship-stats-ship-cell-margin-right;
+        box-shadow: $gameboard-ship-stats-ship-cell-box-shadow;
+        &:last-child {
+          margin-right: 0;
+        }
       }
-    }
-    .gameboard-ship-stats-ship-hidden {
-      background-color: $gameboard-ship-stats-ship-hidden;
-    }
-    .gameboard-ship-stats-ship-sunken {
-      background-color: $gameboard-ship-stats-ship-sunken;
+      .gameboard-ship-stats-ship-hidden {
+        background-color: $gameboard-ship-stats-ship-hidden;
+      }
+      .gameboard-ship-stats-ship-sunken {
+        background-color: $gameboard-ship-stats-ship-sunken;
+      }
     }
   }
 }

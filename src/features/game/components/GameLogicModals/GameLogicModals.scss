@@ -1,12 +1,16 @@
 @import "../../../../styles/partials/variables";
 
 .input-name {
-  border: 1px solid #dfe1e5;
-  padding: 8px;
-  border-radius: 4px;
-  margin-top: 20px;
-  width: 100%;
-  // &:focus {
-  //   outline: none;
-  // }
+  width: $input-name-width;
+  margin-top: $input-name-margin-top;
+  padding: $input-name-padding;
+  font-family: $input-name-font-family;
+  font-size: $input-name-font-size;
+  font-weight: $input-name-font-weight;
+  background-color: $input-name-bg-color;
+  border: $input-name-border;
+  border-radius: $input-name-border-radius;
+  &:focus {
+    outline: none;
+  }
 }

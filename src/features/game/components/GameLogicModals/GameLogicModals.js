@@ -135,16 +135,22 @@ export const GameLogicModals = () => {
         ? 
           <Modal>
             <ModalMessage>
-              <h1>Enter Player 1's name</h1>
+              <label htmlFor="player-name">Player 1's name:</label>
               <input 
                 type="text" 
                 className="input-name"
+                id="player-name"
                 value={playerOneName}
                 onChange={(e) => dispatch(updatePlayerOneName(capitalizeString(e.target.value)))}
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={() => dispatch(handleModalPreGamePlayerOneNameAgainstComputer())}>{buttonNextStepText}</Button>
+              <Button 
+                buttonOnClick={() => dispatch(handleModalPreGamePlayerOneNameAgainstComputer())}
+                disableButton={!playerOneName}
+              >
+                {buttonNextStepText}
+              </Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -164,16 +170,22 @@ export const GameLogicModals = () => {
         ? 
           <Modal>
             <ModalMessage>
-              <h1>Enter Player 1's name</h1>
+              <label htmlFor="player-name">Player 1's name:</label>
               <input 
                 type="text" 
                 className="input-name"
+                id="player-name"
                 value={playerOneName}
                 onChange={(e) => dispatch(updatePlayerOneName(capitalizeString(e.target.value)))}
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={() => dispatch(handleModalPreGamePlayerOneName())}>{buttonNextStepText}</Button>
+              <Button 
+                buttonOnClick={() => dispatch(handleModalPreGamePlayerOneName())}
+                disableButton={!playerOneName}
+              >
+                {buttonNextStepText}
+              </Button>
             </ButtonsWrapper>
           </Modal>
         : null
@@ -184,16 +196,22 @@ export const GameLogicModals = () => {
         ? 
           <Modal>
             <ModalMessage>
-              <h1>Enter Player 2's name</h1>
+              <label htmlFor="player-name">Player 2's name:</label>
               <input 
                 type="text" 
                 className="input-name"
+                id="player-name"
                 value={playerTwoName}
                 onChange={(e) => dispatch(updatePlayerTwoName(capitalizeString(e.target.value)))}
               />
             </ModalMessage>
             <ButtonsWrapper>
-              <Button buttonOnClick={() => dispatch(handleModalPreGamePlayerTwoName())}>{buttonNextStepText}</Button>
+              <Button 
+                buttonOnClick={() => dispatch(handleModalPreGamePlayerTwoName())}
+                disableButton={!playerTwoName}
+              >
+                {buttonNextStepText}
+              </Button>
             </ButtonsWrapper>
           </Modal>
         : null

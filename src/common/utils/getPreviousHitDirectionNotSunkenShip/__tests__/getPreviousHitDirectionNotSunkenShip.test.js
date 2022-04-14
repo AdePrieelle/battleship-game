@@ -3,7 +3,7 @@ import { getPreviousHitDirectionNotSunkenShip } from "../getPreviousHitDirection
 test("returns vertical if previousHitComputerCellsNotSunkenShip cells are vertically above eachother and has ascending numbers for previousHitComputerCellsNotSunkenShip array", () => {
   const mockPreviousHitDirectionNotSunkenShipVerticalValue = jest.fn(() => "vertical");
   const mockPreviousHitDirectionNotSunkenShipHorizontalValue = jest.fn(() => "horizontal");
-  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([12, 22]));
+  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([5, 15]));
   expect(getPreviousHitDirectionNotSunkenShip(
     mockPreviousHitDirectionNotSunkenShipVerticalValue(),
     mockPreviousHitDirectionNotSunkenShipHorizontalValue(),
@@ -14,7 +14,7 @@ test("returns vertical if previousHitComputerCellsNotSunkenShip cells are vertic
 test("returns vertical if previousHitComputerCellsNotSunkenShip cells are vertically above eachother and has descending numbers for previousHitComputerCellsNotSunkenShip array", () => {
   const mockPreviousHitDirectionNotSunkenShipVerticalValue = jest.fn(() => "vertical");
   const mockPreviousHitDirectionNotSunkenShipHorizontalValue = jest.fn(() => "horizontal");
-  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([22, 12]));
+  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([15, 5]));
   expect(getPreviousHitDirectionNotSunkenShip(
     mockPreviousHitDirectionNotSunkenShipVerticalValue(),
     mockPreviousHitDirectionNotSunkenShipHorizontalValue(),
@@ -25,7 +25,7 @@ test("returns vertical if previousHitComputerCellsNotSunkenShip cells are vertic
 test("returns horizontal if previousHitComputerCellsNotSunkenShip cells are horizontally besides eachother and has ascending numbers for previousHitComputerCellsNotSunkenShip array", () => {
   const mockPreviousHitDirectionNotSunkenShipVerticalValue = jest.fn(() => "vertical");
   const mockPreviousHitDirectionNotSunkenShipHorizontalValue = jest.fn(() => "horizontal");
-  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([43, 44]));
+  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([0, 1]));
   expect(getPreviousHitDirectionNotSunkenShip(
     mockPreviousHitDirectionNotSunkenShipVerticalValue(),
     mockPreviousHitDirectionNotSunkenShipHorizontalValue(),
@@ -36,7 +36,7 @@ test("returns horizontal if previousHitComputerCellsNotSunkenShip cells are hori
 test("returns horizontal if previousHitComputerCellsNotSunkenShip cells are horizontally besides eachother and has descending numbers for previousHitComputerCellsNotSunkenShip array", () => {
   const mockPreviousHitDirectionNotSunkenShipVerticalValue = jest.fn(() => "vertical");
   const mockPreviousHitDirectionNotSunkenShipHorizontalValue = jest.fn(() => "horizontal");
-  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([44, 43]));
+  const mockPreviousHitComputerCellsNotSunkenShip = jest.fn(() => ([1, 0]));
   expect(getPreviousHitDirectionNotSunkenShip(
     mockPreviousHitDirectionNotSunkenShipVerticalValue(),
     mockPreviousHitDirectionNotSunkenShipHorizontalValue(),

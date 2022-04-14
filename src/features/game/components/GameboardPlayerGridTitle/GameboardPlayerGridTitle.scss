@@ -2,7 +2,7 @@
 
 .gameboard-player-grid-title {
   margin: $gameboard-player-grid-title-margin;
-  font-family: "Roboto", sans-serif;
+  font-family: $gameboard-player-grid-title-font-family;
   font-size: $gameboard-player-grid-title-font-size;
   font-weight: $gameboard-player-grid-title-font-weight;
   text-align: $gameboard-player-grid-title-text-align;

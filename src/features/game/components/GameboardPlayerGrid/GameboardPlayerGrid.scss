@@ -54,6 +54,18 @@
 }
 
 .gameboard-inactive {
-  opacity: $gameboard-inactive-opacity;
-  box-shadow: none;
+  // opacity: $gameboard-inactive-opacity;
+  // background: rgba(0, 0, 0, 6);
+
+  // position: relative;
+  // &::after {
+  //   position: absolute;
+  //   content: "";
+  //   width: calc(100% + 4px);
+  //   height: calc(100% + 4px);
+  //   top: -2px;
+  //   left: -2px;
+  //   background: rgba(0, 0, 0, 0.5);
+  // }
+  filter: brightness(65%);
 }

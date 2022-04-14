@@ -8,12 +8,12 @@ import { getRandomArrayValue } from '../getRandomArrayValue/getRandomArrayValue'
 import { getRandomIndexFromArray } from '../getRandomIndexFromArray/getRandomIndexFromArray';
 import { isEmptyGameboardCell } from '../isEmptyGameboardCell/isEmptyGameboardCell';
 import { isValidShipPosition } from '../isValidShipPosition/isValidShipPosition';
-import { sortArrayOfObjectsBasedOnAPropertyValue } from '../sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue';
+import { sortArrayOfObjectsBasedOnAKeyValueByOrder } from '../sortArrayOfObjectsBasedOnAKeyValueByOrder/sortArrayOfObjectsBasedOnAKeyValueByOrder';
 
 export const createRandomGameboard = (amountRows, amountColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, callback) => {
   const randomGameboard = createGameboard(amountRows, amountColumns, emptyGameboardValue);
   const maxAmountTimesTriedToPlaceShip = 25;
-  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, shipLengthPropertyText);
+  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAKeyValueByOrder(ships, shipLengthPropertyText, "descending");
 
   for (const ship of sortedShipsLengthDescendingOrder) {
     const randomValidShipPosition = generateRandomValidShipPosition(

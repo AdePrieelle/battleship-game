@@ -13,19 +13,16 @@
   @media screen and (min-width: $media-query-medium-screen) {
     max-width: 100%;
   }
-  .gameboard-player-grid-gameboard-ship-stats-wrapper {
-    width: 100%;
-  }
   .gameboard-player-grid-gameboard-ship-stats-wrapper-1 {
     order: 1;
   }
   .gameboards-wrapper-button-wrapper {
     display: flex;
-    flex-wrap: wrap;
-    gap: $buttons-wrapper-grid-gap;
+    justify-content: center;
     order: 2;
     @media screen and (min-width: $media-query-medium-screen) {
       order: 3;
+      grid-column: span 2;
     }
   }
   .gameboard-player-grid-gameboard-ship-stats-wrapper-2 {

@@ -18,7 +18,7 @@ import { getValidStartIdShipNotOutOfBounds } from "../../../../common/utils/getV
 import { isEmptyGameboardCell } from "../../../../common/utils/isEmptyGameboardCell/isEmptyGameboardCell";
 import { isValidShipPosition } from "../../../../common/utils/isValidShipPosition/isValidShipPosition";
 import { replaceAllSpecificArrayValuesWithNewValue } from '../../../../common/utils/replaceAllSpecificArrayValuesWithNewValue/replaceAllSpecificArrayValuesWithNewValue';
-import { sortArrayOfObjectsBasedOnAPropertyValue } from "../../../../common/utils/sortArrayOfObjectsBasedOnAPropertyValue/sortArrayOfObjectsBasedOnAPropertyValue";
+import { sortArrayOfObjectsBasedOnAKeyValueByOrder } from "../../../../common/utils/sortArrayOfObjectsBasedOnAKeyValueByOrder/sortArrayOfObjectsBasedOnAKeyValueByOrder";
 import {
   handleStartGame,
   selectAmountOfColumns,
@@ -67,7 +67,7 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const [isAllShipsPlaced, setIsAllShipsPlaced] = useState(false);
   const [hoveredIds, setHoveredIds] = useState([]);
   
-  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAPropertyValue(ships, shipLengthPropertyText);
+  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAKeyValueByOrder(ships, shipLengthPropertyText, "descending");
 
   useEffect(() => {
     if (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length)) {
