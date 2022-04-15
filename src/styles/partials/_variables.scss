@@ -7,13 +7,13 @@ $media-query-large-screen: 900px;
 $media-query-xlarge-screen: 1200px;
 
 // index
-$index-html-font-size: 32px;
-$index-body-bg-color: none;
+$html-font-size: 32px;
+$body-bg-color: transparent;
 
 // App
 $app-margin: 20px;
 $app-color: white;
-$app-bg-color: none;
+$app-bg-color: transparent;
 
 // General
 $primary-text-color: white;
@@ -37,7 +37,6 @@ $gameboard-freemiss-pseudo-circle-bg-color: rgb(197, 153, 150);
 $gameboard-ship-bg-color: rgb(24, 117, 179);
 $gameboard-ship-hovered-valid-ship-position-bg-color: rgb(210, 210, 210);
 $gameboard-ship-hovered-invalid-ship-position-bg-color: rgb(192, 37, 37);
-$gameboard-inactive-opacity: 0.6;
 
 // GameboardPlayerGridShipPlacement
 $gameboard-player-grid-ship-placement-margin-top: 1.5rem;
@@ -93,7 +92,7 @@ $button-font-size: 16px;
 $button-font-weight: 700;
 $button-bg-color: rgb(233, 73, 33);
 $button-border-radius: 4px;
-$button-disabled-opacity: 0.6;
+$button-disabled-filter-brightness: 70%;
 
 // gameboardShipStats
 $gameboard-ship-stats-max-width: 150px;

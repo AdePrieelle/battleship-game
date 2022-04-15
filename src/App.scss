@@ -3,7 +3,7 @@
 .App {
   display: flex;
   justify-content: center;
-  margin: 20px;
+  margin: $app-margin;
   color: $app-color;
   background-color: $app-bg-color;
 }

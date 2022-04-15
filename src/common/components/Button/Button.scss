@@ -24,7 +24,7 @@
 }
 
 .button-disabled {
-  opacity: $button-disabled-opacity;
+  filter: brightness($button-disabled-filter-brightness);
   &:active {
     scale: 1;
   }
