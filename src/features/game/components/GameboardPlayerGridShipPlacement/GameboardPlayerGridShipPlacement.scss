@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: $gameboard-max-width;
   margin-top: $gameboard-player-grid-ship-placement-margin-top;
   text-align: center;
   .player-name-title {

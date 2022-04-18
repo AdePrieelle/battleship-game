@@ -6,4 +6,12 @@
   margin: $app-margin;
   color: $app-color;
   background-color: $app-bg-color;
+  &::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    content: url("./images/yellow-bg.jpg");
+  }
 }
