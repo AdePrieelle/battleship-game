@@ -180,13 +180,6 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   return (
     <div className="gameboard-player-grid-ship-placement">
       <h1 className="player-name-title">{`${isPlayerOne ? playerOneName : playerTwoName}'s ship placements`}</h1>
-      <div className="ship-placement-message">
-        {
-            !isShipPlacementFinished()
-          ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipNamePropertyText]} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipLengthPropertyText]}`
-          : "All ships have been placed"
-        }
-      </div>
       <div className="game-buttons-ship-placement-wrapper">
         <ButtonsWrapper>
           <GameButtonsShipPlacement
@@ -199,6 +192,13 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
             undoLastShipPlacement={undoLastShipPlacement}
           />
         </ButtonsWrapper>
+      </div>
+      <div className="ship-placement-message">
+        {
+            !isShipPlacementFinished()
+          ? `Place ship ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipNamePropertyText]} with size ${sortedShipsLengthDescendingOrder[currentIndexShipToBePlaced][shipLengthPropertyText]}`
+          : "All ships have been placed"
+        }
       </div>
       <div className="gameboard-placement-wrapper">
         <div 
