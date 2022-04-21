@@ -142,6 +142,8 @@ export const GameLogicModals = () => {
                 id="player-name"
                 value={playerOneName}
                 onChange={(e) => dispatch(updatePlayerOneName(capitalizeString(e.target.value)))}
+                onKeyUp={(e) => ((e.key === "Enter") ? dispatch(handleModalPreGamePlayerOneNameAgainstComputer()) : null)}
+                autoFocus
               />
             </ModalMessage>
             <ButtonsWrapper>
@@ -177,6 +179,8 @@ export const GameLogicModals = () => {
                 id="player-name"
                 value={playerOneName}
                 onChange={(e) => dispatch(updatePlayerOneName(capitalizeString(e.target.value)))}
+                onKeyUp={(e) => ((e.key === "Enter") ? dispatch(handleModalPreGamePlayerOneName()) : null)}
+                autoFocus
               />
             </ModalMessage>
             <ButtonsWrapper>
@@ -203,6 +207,8 @@ export const GameLogicModals = () => {
                 id="player-name"
                 value={playerTwoName}
                 onChange={(e) => dispatch(updatePlayerTwoName(capitalizeString(e.target.value)))}
+                onKeyUp={(e) => ((e.key === "Enter") ? dispatch(handleModalPreGamePlayerTwoName()) : null)}
+                autoFocus
               />
             </ModalMessage>
             <ButtonsWrapper>
