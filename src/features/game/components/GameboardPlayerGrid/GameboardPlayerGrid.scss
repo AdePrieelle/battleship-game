@@ -5,7 +5,8 @@
   grid-gap: $gameboard-grid-gap;
   min-width: 100%;
   background-color: $gameboard-bg-color;
-  border: $gameboard-grid-gap solid $gameboard-bg-color;
+  // border: $gameboard-grid-gap solid $gameboard-bg-color;
+  box-shadow: $gameboard-box-shadow;
   aspect-ratio: 1;
   .gameboard-cell {
     padding-top: 100%;
@@ -54,18 +55,10 @@
 }
 
 .gameboard-inactive {
-  // opacity: $gameboard-inactive-opacity;
-  // background: rgba(0, 0, 0, 6);
+  filter: brightness($gameboard-inactive-filter-brigtness);
+}
 
-  // position: relative;
-  // &::after {
-  //   position: absolute;
-  //   content: "";
-  //   width: calc(100% + 4px);
-  //   height: calc(100% + 4px);
-  //   top: -2px;
-  //   left: -2px;
-  //   background: rgba(0, 0, 0, 0.5);
-  // }
-  filter: brightness(65%);
+.gameboard-active {
+  // box-shadow: 5px 5px 20px rgb(0, 0, 0);
+  box-shadow: $gameboard-box-shadow-active;
 }

@@ -12,11 +12,13 @@
     font-size: $player-name-title-font-size;
     font-weight: $player-name-title-font-weight;
     margin-bottom: $player-name-title-margin-bottom;
+    text-shadow: $gameboard-player-grid-ship-placement-player-name-title-text-shadow;
   }
   .ship-placement-message {
     font-size: $ship-placement-message-font-size;
     font-weight: $ship-placement-message-font-weight;
     margin-bottom: $ship-placement-message-margin-bottom;
+    text-shadow: $gameboard-player-grid-ship-placement-ship-placement-message-text-shadow;
   }
   .game-buttons-ship-placement-wrapper {
     margin-bottom: $game-buttons-ship-placement-wrapper-margin-bottom;

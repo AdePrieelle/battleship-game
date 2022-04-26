@@ -76,7 +76,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   
   return (
     <div 
-      className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "" : "gameboard-inactive"} gameboard-player`}
+      className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "gameboard-active" : "gameboard-inactive"} gameboard-player`}
       style={{
         gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
         gridTemplateRows: `repeat(${amountOfRows}, auto)`,
