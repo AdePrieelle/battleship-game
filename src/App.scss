@@ -3,14 +3,9 @@
 .App {
   display: flex;
   justify-content: center;
-  margin: $app-margin calc(#{$app-margin} + #{$gameboard-box-shadow-width});
+  margin: $app-margin;
   @media screen and (min-width: $media-query-medium-screen) {
-    margin-left: calc(
-      #{$gameboards-wrapper-grid-column-gap} - #{$gameboard-box-shadow-width}
-    );
-    margin-right: calc(
-      #{$gameboards-wrapper-grid-column-gap} - #{$gameboard-box-shadow-width}
-    );
+    margin: $app-margin $gameboards-wrapper-grid-column-gap;
   }
   color: $app-color;
   background-color: $app-bg-color;

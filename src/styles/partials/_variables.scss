@@ -22,16 +22,16 @@ $primary-text-color: white;
 // Game
 
 // GameboardsWrapper
-$gameboard-box-shadow-width: 12px;
-// gameboard-cell-max-width depends on the gameboard-box-shadow-width on full screen
-$gameboard-cell-max-width: 38.2px;
-$gameboards-wrapper-grid-column-gap: calc(
-  #{$gameboard-cell-max-width} + (2 * #{$gameboard-box-shadow-width})
-);
+// gameboards-wrapper-grid-column-gap depends on the on the max width of a gameboard-cell on full screen
+$gameboards-wrapper-grid-column-gap: 38.2px;
 $gameboards-wrapper-grid-row-gap: 1.2rem;
 
 // Gameboard
-$gameboard-max-width: 400px;
+$gameboard-box-shadow-width: 12px;
+$gameboard-inner-max-width: 400px;
+$gameboard-max-width: calc(
+  #{$gameboard-inner-max-width} + (2 * #{$gameboard-box-shadow-width})
+);
 $gameboard-grid-gap: 2px;
 $gameboard-cell-bg-color: rgb(255, 243, 225);
 $gameboard-bg-color: #9e632d;
@@ -62,12 +62,13 @@ $player-name-title-font-weight: 700;
 $player-name-title-margin-bottom: 1.5rem;
 $gameboard-player-grid-ship-placement-player-name-title-text-shadow: 1px 1px 5px
   rgba(0, 0, 0, 0.25);
+$game-buttons-ship-placement-wrapper-max-width: 400px;
 $game-buttons-ship-placement-wrapper-margin-bottom: 0.6rem;
-$gameboard-placement-wrapper-margin-bottom: 1.3rem;
+$gameboard-placement-wrapper-margin-bottom: 1rem;
 $randomise-icon-margin-left: 4px;
 $ship-placement-message-font-size: 1.2rem;
 $ship-placement-message-font-weight: 700;
-$ship-placement-message-margin-bottom: 0.8rem;
+$ship-placement-message-margin-bottom: 0.4rem;
 $gameboard-player-grid-ship-placement-ship-placement-message-text-shadow: 1px
   10px 15px rgba(0, 0, 0, 0.25);
 
@@ -129,7 +130,7 @@ $gameboard-ship-stats-ship-hidden: $gameboard-ship-bg-color;
 $gameboard-ship-stats-ship-sunken: $gameboard-hit-bg-color;
 
 // GameboardPlayerGridTitle
-$gameboard-player-grid-title-margin: 32px 0 32px 0;
+$gameboard-player-grid-title-margin: 32px 0 16px 0;
 $gameboard-player-grid-title-font-family: "Tangerine", cursive;
 $gameboard-player-grid-title-font-size: 1.5rem;
 $gameboard-player-grid-title-font-weight: 700;
@@ -137,7 +138,7 @@ $gameboard-player-grid-title-text-align: center;
 $gameboard-player-grid-title-text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
 
 // GameboardShipStatsTitle
-$gameboard-ship-stats-title-margin: 32px 0 8px 0;
+$gameboard-ship-stats-title-margin: 20px 0 8px 0;
 $gameboard-ship-stats-title-font-family: "Tangerine", cursive;
 $gameboard-ship-stats-title-font-size: 1.1rem;
 $gameboard-ship-stats-title-font-weight: 700;

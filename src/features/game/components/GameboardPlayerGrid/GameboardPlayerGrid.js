@@ -75,43 +75,45 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   };
   
   return (
-    <div 
-      className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "gameboard-active" : "gameboard-inactive"} gameboard-player`}
-      style={{
-        gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
-        gridTemplateRows: `repeat(${amountOfRows}, auto)`,
-      }}
-    >
-      {gameboardPlayer.map((cell, id) => (
-        <div 
-          key={id} 
-          id={id} 
-          className={`gameboard-cell ${
-                gameboardPlayer[id] === hitGameboardValue 
-              ? "hit" 
-              : gameboardPlayer[id] === missGameboardValue 
-              ? "miss" 
-              : gameboardPlayer[id] === freemissGameboardValue 
-              ? "freemiss" 
-              : gameboardPlayer[id] === emptyGameboardValue
-              ? "empty"
-              : isGameOver
-              ? "ship"
-              : isPlayerOne && isPlayerTwoComputer 
-              ? "" 
-              : !isPlayerOne && isPlayerTwoComputer 
-              ? "ship" 
-              : !isPlayerTurn 
-              ? "ship" 
-              : !isGameStarted && !isGameOver
-              ? "ship"
-              : ""
-            }`
-          } 
-          onClick={(event) => onGameboardCellClicked(+event.target.id)}
-        >
-        </div>
-      ))}
+    <div className="gameboard-wrapper">
+      <div 
+        className={`gameboard ${disablePlayerMove ? "gameboard-inactive" : isPlayerTurn && isGameStarted ? "gameboard-active" : "gameboard-inactive"} gameboard-player`}
+        style={{
+          gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
+          gridTemplateRows: `repeat(${amountOfRows}, auto)`,
+        }}
+      >
+        {gameboardPlayer.map((cell, id) => (
+          <div 
+            key={id} 
+            id={id} 
+            className={`gameboard-cell ${
+                  gameboardPlayer[id] === hitGameboardValue 
+                ? "hit" 
+                : gameboardPlayer[id] === missGameboardValue 
+                ? "miss" 
+                : gameboardPlayer[id] === freemissGameboardValue 
+                ? "freemiss" 
+                : gameboardPlayer[id] === emptyGameboardValue
+                ? "empty"
+                : isGameOver
+                ? "ship"
+                : isPlayerOne && isPlayerTwoComputer 
+                ? "" 
+                : !isPlayerOne && isPlayerTwoComputer 
+                ? "ship" 
+                : !isPlayerTurn 
+                ? "ship" 
+                : !isGameStarted && !isGameOver
+                ? "ship"
+                : ""
+              }`
+            } 
+            onClick={(event) => onGameboardCellClicked(+event.target.id)}
+          >
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

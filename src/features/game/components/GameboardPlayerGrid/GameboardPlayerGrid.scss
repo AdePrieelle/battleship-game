@@ -1,64 +1,66 @@
 @import "../../../../styles/partials/variables";
 
-.gameboard {
-  display: grid;
-  grid-gap: $gameboard-grid-gap;
-  min-width: 100%;
-  background-color: $gameboard-bg-color;
-  // border: $gameboard-grid-gap solid $gameboard-bg-color;
-  box-shadow: $gameboard-box-shadow;
-  aspect-ratio: 1;
-  .gameboard-cell {
-    padding-top: 100%;
-    background-color: $gameboard-cell-bg-color;
-    pointer-events: all;
-  }
-  .hit {
-    background-color: $gameboard-hit-bg-color;
-  }
-  .miss,
-  .freemiss {
-    position: relative;
-  }
-  .miss {
-    background-color: $gameboard-miss-bg-color;
-    &::before {
-      background-color: $gameboard-miss-pseudo-circle-bg-color;
+.gameboard-wrapper {
+  width: 100%;
+  padding: $gameboard-box-shadow-width;
+  .gameboard {
+    display: grid;
+    grid-gap: $gameboard-grid-gap;
+    min-width: 100%;
+    background-color: $gameboard-bg-color;
+    box-shadow: $gameboard-box-shadow;
+    aspect-ratio: 1;
+    .gameboard-cell {
+      padding-top: 100%;
+      background-color: $gameboard-cell-bg-color;
+      pointer-events: all;
+    }
+    .hit {
+      background-color: $gameboard-hit-bg-color;
+    }
+    .miss,
+    .freemiss {
+      position: relative;
+    }
+    .miss {
+      background-color: $gameboard-miss-bg-color;
+      &::before {
+        background-color: $gameboard-miss-pseudo-circle-bg-color;
+      }
+    }
+    .freemiss {
+      background-color: $gameboard-freemiss-bg-color;
+      &::before {
+        background-color: $gameboard-freemiss-pseudo-circle-bg-color;
+      }
+    }
+    .miss::before,
+    .freemiss::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .ship {
+      background-color: $gameboard-ship-bg-color;
+    }
+    .hovered-valid-ship-position {
+      background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
+    }
+    .hovered-invalid-ship-position {
+      background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
     }
   }
-  .freemiss {
-    background-color: $gameboard-freemiss-bg-color;
-    &::before {
-      background-color: $gameboard-freemiss-pseudo-circle-bg-color;
-    }
-  }
-  .miss::before,
-  .freemiss::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .ship {
-    background-color: $gameboard-ship-bg-color;
-  }
-  .hovered-valid-ship-position {
-    background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
-  }
-  .hovered-invalid-ship-position {
-    background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
-  }
-}
 
-.gameboard-inactive {
-  filter: brightness($gameboard-inactive-filter-brigtness);
-}
+  .gameboard-inactive {
+    filter: brightness($gameboard-inactive-filter-brigtness);
+  }
 
-.gameboard-active {
-  // box-shadow: 5px 5px 20px rgb(0, 0, 0);
-  box-shadow: $gameboard-box-shadow-active;
+  .gameboard-active {
+    box-shadow: $gameboard-box-shadow-active;
+  }
 }

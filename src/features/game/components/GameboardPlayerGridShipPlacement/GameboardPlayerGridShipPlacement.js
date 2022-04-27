@@ -201,44 +201,46 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
         }
       </div>
       <div className="gameboard-placement-wrapper">
-        <div 
-          className={`gameboard gameboard-player`}
-          style={{
-            gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
-            gridTemplateRows: `repeat(${amountOfRows}, auto)`,
-          }}
-          onMouseLeave={() => handleOnMouseLeave()}
-        >
-          {gameboardPlayerShipPlacement.map((cell, id) => (
-            <div 
-              key={id} 
-              id={id} 
-              className={`gameboard-cell ${
-                    gameboardPlayerShipPlacement[id] === emptyGameboardValue
-                  ? "empty"
-                  : "ship"
-                } ${
-                    (hoveredIds.indexOf(+id) > -1)
-                  ? isAValidShipPlacement(hoveredIds[0], hoveredIds)
-                  ? "hovered-valid-ship-position"
-                  : "hovered-invalid-ship-position"
-                  : ""
-                }`
-              } 
-              onClick={
-                  !isShipPlacementFinished()
-                ? (() => handleShipPlacementOnGameboard(+id))
-                : null
-              }
-              onMouseEnter={
-                  !isShipPlacementFinished()
-                ? () => handleOnMouseEnter(+id)
-                : null
-              }
-              onMouseLeave={() => handleOnMouseLeave}
-            >
-            </div>
-          ))}
+        <div className="gameboard-wrapper">
+          <div 
+            className={`gameboard gameboard-player`}
+            style={{
+              gridTemplateColumns: `repeat(${amountOfColumns}, 1fr)`, 
+              gridTemplateRows: `repeat(${amountOfRows}, auto)`,
+            }}
+            onMouseLeave={() => handleOnMouseLeave()}
+          >
+            {gameboardPlayerShipPlacement.map((cell, id) => (
+              <div 
+                key={id} 
+                id={id} 
+                className={`gameboard-cell ${
+                      gameboardPlayerShipPlacement[id] === emptyGameboardValue
+                    ? "empty"
+                    : "ship"
+                  } ${
+                      (hoveredIds.indexOf(+id) > -1)
+                    ? isAValidShipPlacement(hoveredIds[0], hoveredIds)
+                    ? "hovered-valid-ship-position"
+                    : "hovered-invalid-ship-position"
+                    : ""
+                  }`
+                } 
+                onClick={
+                    !isShipPlacementFinished()
+                  ? (() => handleShipPlacementOnGameboard(+id))
+                  : null
+                }
+                onMouseEnter={
+                    !isShipPlacementFinished()
+                  ? () => handleOnMouseEnter(+id)
+                  : null
+                }
+                onMouseLeave={() => handleOnMouseLeave}
+              >
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <Button 

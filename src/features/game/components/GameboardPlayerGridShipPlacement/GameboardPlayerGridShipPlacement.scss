@@ -21,6 +21,7 @@
     text-shadow: $gameboard-player-grid-ship-placement-ship-placement-message-text-shadow;
   }
   .game-buttons-ship-placement-wrapper {
+    max-width: $game-buttons-ship-placement-wrapper-max-width;
     margin-bottom: $game-buttons-ship-placement-wrapper-margin-bottom;
   }
   .gameboard-placement-wrapper {
