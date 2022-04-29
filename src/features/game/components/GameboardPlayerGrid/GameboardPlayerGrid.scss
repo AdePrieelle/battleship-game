@@ -48,12 +48,6 @@
     .ship {
       background-color: $gameboard-ship-bg-color;
     }
-    .hovered-valid-ship-position {
-      background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
-    }
-    .hovered-invalid-ship-position {
-      background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
-    }
   }
 
   .gameboard-inactive {

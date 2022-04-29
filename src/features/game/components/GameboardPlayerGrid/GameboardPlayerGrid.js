@@ -99,14 +99,14 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
                 : isGameOver
                 ? "ship"
                 : isPlayerOne && isPlayerTwoComputer 
-                ? "" 
+                ? "empty" 
                 : !isPlayerOne && isPlayerTwoComputer 
                 ? "ship" 
                 : !isPlayerTurn 
                 ? "ship" 
                 : !isGameStarted && !isGameOver
                 ? "ship"
-                : ""
+                : "empty"
               }`
             } 
             onClick={(event) => onGameboardCellClicked(+event.target.id)}

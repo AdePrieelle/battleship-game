@@ -28,6 +28,17 @@
     width: 100%;
     max-width: $gameboard-max-width;
     margin-bottom: $gameboard-placement-wrapper-margin-bottom;
+    .gameboard-wrapper {
+      .gameboard {
+        .hovered-valid-ship-position {
+          background-color: $gameboard-ship-hovered-valid-ship-position-bg-color;
+          cursor: pointer;
+        }
+        .hovered-invalid-ship-position {
+          background-color: $gameboard-ship-hovered-invalid-ship-position-bg-color;
+        }
+      }
+    }
   }
 }
 
