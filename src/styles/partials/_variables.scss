@@ -32,7 +32,10 @@ $gameboard-inner-max-width: 400px;
 $gameboard-max-width: calc(
   #{$gameboard-inner-max-width} + (2 * #{$gameboard-box-shadow-width})
 );
+$gameboard-grid-gap-small: 1px;
 $gameboard-grid-gap: 2px;
+$gameboard-miss-freemiss-dot-width-height-small: 3px;
+$gameboard-miss-freemiss-dot-width-height: 4px;
 $gameboard-cell-bg-color: rgb(255, 243, 225);
 $gameboard-bg-color: #9e632d;
 $gameboard-box-shadow: 0px 0px 1px 3px rgb(104, 62, 8),

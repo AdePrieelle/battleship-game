@@ -5,7 +5,10 @@
   padding: $gameboard-box-shadow-width;
   .gameboard {
     display: grid;
-    grid-gap: $gameboard-grid-gap;
+    grid-gap: $gameboard-grid-gap-small;
+    @media screen and (min-width: $media-query-small-screen) {
+      grid-gap: $gameboard-grid-gap;
+    }
     min-width: 100%;
     background-color: $gameboard-bg-color;
     box-shadow: $gameboard-box-shadow;
@@ -40,8 +43,12 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 4px;
-      height: 4px;
+      width: $gameboard-miss-freemiss-dot-width-height-small;
+      height: $gameboard-miss-freemiss-dot-width-height-small;
+      @media screen and (min-width: $media-query-small-screen) {
+        width: $gameboard-miss-freemiss-dot-width-height;
+        height: $gameboard-miss-freemiss-dot-width-height;
+      }
       border-radius: 50%;
       transform: translate(-50%, -50%);
     }
