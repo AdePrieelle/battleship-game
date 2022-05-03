@@ -18,6 +18,23 @@
       background-color: $gameboard-cell-bg-color;
       pointer-events: all;
     }
+    .possible-move {
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0px 0px 0px $gameboard-grid-gap-small
+            $gameboard-cell-possible-move-hover-box-shadow-color,
+          inset 0px 0px 0px
+            $gameboard-cell-possible-move-hover-box-shadow-width-inset-small
+            $gameboard-cell-possible-move-hover-box-shadow-color;
+        @media screen and (min-width: $media-query-small-screen) {
+          box-shadow: 0px 0px 0px $gameboard-grid-gap
+              $gameboard-cell-possible-move-hover-box-shadow-color,
+            inset 0px 0px 0px
+              $gameboard-cell-possible-move-hover-box-shadow-width-inset
+              $gameboard-cell-possible-move-hover-box-shadow-color;
+        }
+      }
+    }
     .hit {
       background-color: $gameboard-hit-bg-color;
     }

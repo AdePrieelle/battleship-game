@@ -107,6 +107,16 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
                 : !isGameStarted && !isGameOver
                 ? "ship"
                 : "empty"
+              }${
+                   (gameboardPlayer[id] === emptyGameboardValue || !([hitGameboardValue, missGameboardValue, freemissGameboardValue].includes(gameboardPlayer[id]))) 
+                && isPlayerTurn
+                && !isGameOver
+                && isGameStarted
+                && isPlayerTurn
+                && !(!isPlayerOne && isPlayerTwoComputer)
+                && !disablePlayerMove
+                ? " possible-move"
+                : ""
               }`
             } 
             onClick={(event) => onGameboardCellClicked(+event.target.id)}
