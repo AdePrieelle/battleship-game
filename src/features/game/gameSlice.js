@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { addFreeMissGameboardValueCellsAroundCellDiagonally } from "../../common/utils/addFreeMissGameboardValueCellsAroundCellDiagonally/addFreeMissGameboardValueCellsAroundCellDiagonally";
 import { addFreeMissGameboardValueCellsAroundSunkenShip } from "../../common/utils/addFreeMissGameboardValueCellsAroundSunkenShip/addFreeMissGameboardValueCellsAroundSunkenShip";
 import { getAllIndexesOfAnArrayValue } from "../../common/utils/getAllIndexesOfAnArrayValue/getAllIndexesOfAnArrayValue";
@@ -20,7 +20,6 @@ const initialState = {
   computerHitTurnAgainCountDefaultValue: 0,
   computerName: "Computer",
   computerWonGame: false,
-  disableButtonGameSwitchPlayerTurn: false,
   disablePlayerMove: false,
   emptyGameboardValue: "empty",
   freemissGameboardValue: "freemiss",
@@ -202,9 +201,6 @@ export const gameSlice = createSlice({
     updateDisablePlayerMove: (state, action) => {
       state.disablePlayerMove = action.payload;
     },
-    updateDisableButtonGameSwitchPlayerTurn: (state, action) => {
-      state.disableButtonGameSwitchPlayerTurn = action.payload;
-    },
     handleIsGameOver: (state, action) => {
       state.isGameStarted = false;
       state.isGameOver = true;
@@ -231,10 +227,9 @@ export const gameSlice = createSlice({
       state.showModalGameOver = false;
       state.showModalPickOpponent = true;
     },
-    handleButtonGameSwitchPlayerTurn: (state) => {
+    handleGameSwitchPlayerTurn: (state) => {
       state.showGameboards = false;
       state.disablePlayerMove = false;
-      state.disableButtonGameSwitchPlayerTurn = true;
       if (state.isPlayerOneTurn) {
         state.showModalGameSwitchTurnToPlayerTwo = true;
       } else if (!state.isPlayerOneTurn) {
@@ -243,7 +238,6 @@ export const gameSlice = createSlice({
       state.isPlayerOneTurn = !state.isPlayerOneTurn;
     },
     handleNewGame: (state, action) => {
-      state.disableButtonGameSwitchPlayerTurn = true;
       state.isGameOver = false;
       state.isGameStarted = false;
       state.computerWonGame = false;
@@ -328,111 +322,115 @@ export const gameSlice = createSlice({
       state.showModalGameSwitchTurnToPlayerOne = false;
       state.showGameboards = true;
     },
-    handleMove: (state, action) => {
-      // need to know index for action.payload
-      let gameboard;
-      let gameboardInitialState;
-      const isComputer = !state.isPlayerOneTurn && state.isPlayerTwoComputer;
-
-      if (state.isPlayerOneTurn) {
-        gameboard = state.gameboardPlayerTwo;
-        gameboardInitialState = state.gameboardPlayerTwoInitialState;
-      } else {
-        gameboard = state.gameboardPlayerOne;
-        gameboardInitialState = state.gameboardPlayerOneInitialState;
-      };
-
-      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
-      if (isHiddenShipGameboardCell(gameboard, +action.payload, arrayOfShipNames)) {
-        const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
-          gameboard,
-          +action.payload,
-          state.hitGameboardValue,
-          isSunkenShip,
-          getAllIndexesOfAnArrayValue,
-          gameboardInitialState,
-          addFreeMissGameboardValueCellsAroundSunkenShip,
-          state.freemissGameboardValue,
-          state.emptyGameboardValue,
-          addFreeMissGameboardValueCellsAroundCellDiagonally
-        );
-        if (isComputer) {
-          if (isSunkenShipAfterHit(gameboard, +action.payload, state.hitGameboardValue, isSunkenShip)) {
-            // currently "hit" ship is sunken
-            gameSlice.caseReducers.updatePreviousHitComputerCellsNotSunkenShip(state, { payload: state.previousHitComputerCellsNotSunkenShipDefaultValue });
-            gameSlice.caseReducers.updatePreviousHitDirectionNotSunkenShip(state, { payload: state.previousHitDirectionNotSunkenShipDefaultValue });
-          } else {
-            // currently "hit" ship isn't sunken
-            let copyPreviousHitComputerCellNumbersInfo = [...state.previousHitComputerCellsNotSunkenShip];
-            copyPreviousHitComputerCellNumbersInfo.push(+action.payload);
-            gameSlice.caseReducers.updatePreviousHitComputerCellsNotSunkenShip(state, { payload: copyPreviousHitComputerCellNumbersInfo });
-          };
-          gameSlice.caseReducers.incrementComputerHitTurnAgainCount(state);
-        };
-        // updated gameboard
-        if (state.isPlayerOneTurn) {
-          gameSlice.caseReducers.updateGameboardPlayerTwo(state, { payload: newGameboardStateAfterHitLogicWithFreeMissCells });
-        } else {
-          gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterHitLogicWithFreeMissCells });
-        };
-        // logic for isGameOver
-        const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, state.ships, state.shipNamePropertyText);
-        if (allShipsSunken) {
-          gameSlice.caseReducers.handleIsGameOver(state, { payload: { computerWon: isComputer } });
-        };
-      } else if (isEmptyGameboardCell(gameboard, +action.payload, state.emptyGameboardValue)) {
-        // logic for miss
-        const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, +action.payload, state.missGameboardValue);
-        if (state.isPlayerOneTurn) {
-          gameSlice.caseReducers.updateGameboardPlayerTwo(state, { payload: newGameboardStateAfterMissLogicWithMissCell });
-        } else {
-          gameSlice.caseReducers.updateGameboardPlayerOne(state, { payload: newGameboardStateAfterMissLogicWithMissCell });
-        };
-        if (isComputer) {
-          gameSlice.caseReducers.resetComputerHitTurnAgainCount(state);
-        };
-        if (state.isPlayerTwoComputer) {
-          gameSlice.caseReducers.updateIsPlayerOneTurn(state, { payload: !state.isPlayerOneTurn });
-        };
-        if (!isComputer && !state.isPlayerTwoComputer) {
-          gameSlice.caseReducers.updateDisablePlayerMove(state, { payload: true });
-          gameSlice.caseReducers.updateDisableButtonGameSwitchPlayerTurn(state, { payload: false });
-        };
-      };
-    },
-    handlePlayerMove: (state, action) => {
-      // need to know index for action.payload
-      let gameboardPlayer;
-      let isPlayerTurn;
-      if (state.isPlayerOneTurn) {
-        gameboardPlayer = state.gameboardPlayerTwo;
-        isPlayerTurn = state.isPlayerOneTurn;
-      } else {
-        gameboardPlayer = state.gameboardPlayerOne;
-        isPlayerTurn = !state.isPlayerOneTurn;
-      };
-
-      const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
-      if (isValidPlayerTurn(
-        gameboardPlayer, 
-        +action.payload,
-        isPlayerTurn, 
-        state.isGameStarted,
-        state.isGameOver,
-        state.emptyGameboardValue,
-        arrayOfShipNames,
-        state.disablePlayerMove,
-        state.isPlayerOneTurn,
-        state.isPlayerTwoComputer
-      )) {
-        gameSlice.caseReducers.handleMove(state, action);
-      };
-    },
   },
 });
 
+export const handleMove = createAsyncThunk('game/handleMove', async(index, { dispatch, getState }) => {
+  let gameboard;
+  let gameboardInitialState;
+  const state = (() => (getState().game))();
+  const isComputer = !state.isPlayerOneTurn && state.isPlayerTwoComputer;
+
+  if (state.isPlayerOneTurn) {
+    gameboard = state.gameboardPlayerTwo;
+    gameboardInitialState = state.gameboardPlayerTwoInitialState;
+  } else {
+    gameboard = state.gameboardPlayerOne;
+    gameboardInitialState = state.gameboardPlayerOneInitialState;
+  };
+
+  const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
+  if (isHiddenShipGameboardCell(gameboard, +index, arrayOfShipNames)) {
+    const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
+      gameboard,
+      +index,
+      state.hitGameboardValue,
+      isSunkenShip,
+      getAllIndexesOfAnArrayValue,
+      gameboardInitialState,
+      addFreeMissGameboardValueCellsAroundSunkenShip,
+      state.freemissGameboardValue,
+      state.emptyGameboardValue,
+      addFreeMissGameboardValueCellsAroundCellDiagonally
+    );
+    if (isComputer) {
+      if (isSunkenShipAfterHit(gameboard, +index, state.hitGameboardValue, isSunkenShip)) {
+        // currently "hit" ship is sunken
+        dispatch(updatePreviousHitComputerCellsNotSunkenShip(state.previousHitComputerCellsNotSunkenShipDefaultValue));
+        dispatch(updatePreviousHitDirectionNotSunkenShip(state.previousHitDirectionNotSunkenShipDefaultValue));
+      } else {
+        // currently "hit" ship isn't sunken
+        let copyPreviousHitComputerCellNumbersInfo = [...state.previousHitComputerCellsNotSunkenShip];
+        copyPreviousHitComputerCellNumbersInfo.push(+index);
+        dispatch(updatePreviousHitComputerCellsNotSunkenShip(copyPreviousHitComputerCellNumbersInfo));
+      };
+      dispatch(incrementComputerHitTurnAgainCount());
+    };
+    // updated gameboard
+    if (state.isPlayerOneTurn) {
+      dispatch(updateGameboardPlayerTwo(newGameboardStateAfterHitLogicWithFreeMissCells));
+    } else {
+      dispatch(updateGameboardPlayerOne(newGameboardStateAfterHitLogicWithFreeMissCells));
+    };
+    // logic for isGameOver
+    const allShipsSunken = isAllShipsSunken(newGameboardStateAfterHitLogicWithFreeMissCells, state.ships, state.shipNamePropertyText);
+    if (allShipsSunken) {
+      dispatch(handleIsGameOver({ computerWon: isComputer }));
+    };
+  } else if (isEmptyGameboardCell(gameboard, +index, state.emptyGameboardValue)) {
+    // logic for miss
+    const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, +index, state.missGameboardValue);
+    if (state.isPlayerOneTurn) {
+      dispatch(updateGameboardPlayerTwo(newGameboardStateAfterMissLogicWithMissCell));
+    } else {
+      dispatch(updateGameboardPlayerOne(newGameboardStateAfterMissLogicWithMissCell));
+    };
+    if (isComputer) {
+      dispatch(resetComputerHitTurnAgainCount());
+    };
+    if (state.isPlayerTwoComputer) {
+      dispatch(updateIsPlayerOneTurn(!state.isPlayerOneTurn));
+    };
+    if (!isComputer && !state.isPlayerTwoComputer) {
+      dispatch(updateDisablePlayerMove(true));
+      setTimeout(() => {
+        dispatch(handleGameSwitchPlayerTurn());
+      }, 600)
+    };
+  };
+});
+
+export const handlePlayerMove = createAsyncThunk('game/handlePlayerMove', async(index, { dispatch, getState }) => {
+  let gameboardPlayer;
+  let isPlayerTurn;
+  const state = (() => getState().game)();
+  if (state.isPlayerOneTurn) {
+    gameboardPlayer = state.gameboardPlayerTwo;
+    isPlayerTurn = state.isPlayerOneTurn;
+  } else {
+    gameboardPlayer = state.gameboardPlayerOne;
+    isPlayerTurn = !state.isPlayerOneTurn;
+  };
+
+  const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
+  if (isValidPlayerTurn(
+    gameboardPlayer, 
+    +index,
+    isPlayerTurn, 
+    state.isGameStarted,
+    state.isGameOver,
+    state.emptyGameboardValue,
+    arrayOfShipNames,
+    state.disablePlayerMove,
+    state.isPlayerOneTurn,
+    state.isPlayerTwoComputer
+  )) {
+    dispatch(handleMove(+index));
+  };
+});
+
 export const { 
-  handleButtonGameSwitchPlayerTurn,
+  handleGameSwitchPlayerTurn,
   handleButtonNewGame,
   handleIsGameOver,
   handleModalGameSwitchTurnToPlayerOne,
@@ -445,14 +443,11 @@ export const {
   handleModalPreGameSwitchToPlayerOneGameboard,
   handleModalPreGameSwitchTurnToPlayerOne,
   handleModalPreGameSwitchTurnToPlayerTwo,
-  handleMove,
   handleNewGame,
-  handlePlayerMove,
   handleStartGame,
   incrementComputerHitTurnAgainCount,
   resetComputerHitTurnAgainCount,
   updateComputerWonGame,
-  updateDisableButtonGameSwitchPlayerTurn,
   updateDisablePlayerMove,
   updateGameboardPlayerOne,
   updateGameboardPlayerOneInitialState,
@@ -491,7 +486,6 @@ export const selectButtonNextStepText = (state) => state.game.buttonNextStepText
 export const selectComputerHitTurnAgainCount = (state) => state.game.computerHitTurnAgainCount;
 export const selectComputerName = (state) => state.game.computerName;
 export const selectComputerWonGame = (state) => state.game.computerWonGame;
-export const selectDisableButtonGameSwitchPlayerTurn = (state) => state.game.disableButtonGameSwitchPlayerTurn;
 export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
 export const selectEmptyGameboardValue = (state) => state.game.emptyGameboardValue;
 export const selectFreemissGameboardValue = (state) => state.game.freemissGameboardValue;
