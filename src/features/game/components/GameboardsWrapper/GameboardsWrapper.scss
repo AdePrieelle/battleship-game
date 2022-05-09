@@ -3,8 +3,24 @@
 .gameboards-wrapper {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "gameboard-player-grid-title-wrapper-1"
+    "gameboard-player-grid-wrapper-1"
+    "gameboard-ship-stats-title-wrapper-1"
+    "gameboard-ship-stats-wrapper-1"
+    "gameboards-wrapper-button-wrapper"
+    "gameboard-player-grid-title-wrapper-2"
+    "gameboard-player-grid-wrapper-2"
+    "gameboard-ship-stats-title-wrapper-2"
+    "gameboard-ship-stats-wrapper-2";
   @media screen and (min-width: $media-query-medium-screen) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "gameboard-player-grid-title-wrapper-1 gameboard-player-grid-title-wrapper-2"
+      "gameboard-player-grid-wrapper-1 gameboard-player-grid-wrapper-2"
+      "gameboard-ship-stats-title-wrapper-1 gameboard-ship-stats-title-wrapper-2"
+      "gameboard-ship-stats-wrapper-1 gameboard-ship-stats-wrapper-2"
+      "gameboards-wrapper-button-wrapper gameboards-wrapper-button-wrapper";
   }
   grid-column-gap: $gameboards-wrapper-grid-column-gap;
   grid-row-gap: $gameboards-wrapper-grid-row-gap;
@@ -13,22 +29,51 @@
   @media screen and (min-width: $media-query-medium-screen) {
     max-width: 100%;
   }
-  .gameboard-player-grid-gameboard-ship-stats-wrapper-1 {
-    order: 1;
+  .gameboard-player-grid-title-wrapper {
+    align-self: flex-end;
+    margin: $gameboard-player-grid-title-wrapper-margin;
+  }
+  .gameboard-player-grid-wrapper {
+    margin: $gameboard-player-grid-wrapper-margin;
+  }
+  .gameboard-ship-stats-title-wrapper {
+    align-self: flex-end;
+    margin: $gameboard-ship-stats-title-wrapper-margin;
+  }
+  .gameboard-ship-stats-wrapper {
+    margin: $gameboard-ship-stats-wrapper-margin;
   }
   .gameboards-wrapper-button-wrapper {
+    grid-area: gameboards-wrapper-button-wrapper;
     display: flex;
     justify-content: center;
-    order: 2;
+    margin: $gameboards-wrapper-button-wrapper-margin-small;
     @media screen and (min-width: $media-query-medium-screen) {
-      order: 3;
-      grid-column: span 2;
+      margin: $gameboards-wrapper-button-wrapper-margin;
     }
   }
-  .gameboard-player-grid-gameboard-ship-stats-wrapper-2 {
-    order: 3;
-    @media screen and (min-width: $media-query-medium-screen) {
-      order: 2;
-    }
+  .gameboard-player-grid-title-wrapper-1 {
+    grid-area: gameboard-player-grid-title-wrapper-1;
+  }
+  .gameboard-player-grid-wrapper-1 {
+    grid-area: gameboard-player-grid-wrapper-1;
+  }
+  .gameboard-ship-stats-title-wrapper-1 {
+    grid-area: gameboard-ship-stats-title-wrapper-1;
+  }
+  .gameboard-ship-stats-wrapper-1 {
+    grid-area: gameboard-ship-stats-wrapper-1;
+  }
+  .gameboard-player-grid-title-wrapper-2 {
+    grid-area: gameboard-player-grid-title-wrapper-2;
+  }
+  .gameboard-player-grid-wrapper-2 {
+    grid-area: gameboard-player-grid-wrapper-2;
+  }
+  .gameboard-ship-stats-title-wrapper-2 {
+    grid-area: gameboard-ship-stats-title-wrapper-2;
+  }
+  .gameboard-ship-stats-wrapper-2 {
+    grid-area: gameboard-ship-stats-wrapper-2;
   }
 }

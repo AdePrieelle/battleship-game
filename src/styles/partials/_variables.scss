@@ -24,7 +24,13 @@ $primary-text-color: white;
 // GameboardsWrapper
 // gameboards-wrapper-grid-column-gap depends on the on the max width of a gameboard-cell on full screen
 $gameboards-wrapper-grid-column-gap: 38.2px;
-$gameboards-wrapper-grid-row-gap: 1.2rem;
+$gameboards-wrapper-grid-row-gap: 0;
+$gameboard-player-grid-title-wrapper-margin: 32px 0 16px 0;
+$gameboard-player-grid-wrapper-margin: 0 0 20px 0;
+$gameboard-ship-stats-title-wrapper-margin: 0 0 8px 0;
+$gameboard-ship-stats-wrapper-margin: 0 0 0 0;
+$gameboards-wrapper-button-wrapper-margin-small: 44px 0 0 0;
+$gameboards-wrapper-button-wrapper-margin: 12px 0;
 
 // Gameboard
 $gameboard-box-shadow-width: 12px;
@@ -126,7 +132,6 @@ $button-disabled-filter-brightness: 70%;
 $gameboard-ship-stats-max-width: 150px;
 $gameboard-ship-stats-ship-margin-top-bottom: 8px;
 $gameboard-ship-stats-ship-margin-right-left: 5px;
-$gameboard-ship-stats-ship-box-shadow: 2px 2px 5px rgb(250, 250, 250);
 $gameboard-ship-stats-ship-box-shadow: none;
 $gameboard-ship-stats-ship-cell-width: 18px;
 $gameboard-ship-stats-ship-cell-height: 18px;
@@ -136,7 +141,6 @@ $gameboard-ship-stats-ship-hidden: $gameboard-ship-bg-color;
 $gameboard-ship-stats-ship-sunken: $gameboard-hit-bg-color;
 
 // GameboardPlayerGridTitle
-$gameboard-player-grid-title-margin: 32px 0 16px 0;
 $gameboard-player-grid-title-font-family: "Tangerine", cursive;
 $gameboard-player-grid-title-font-size: 1.5rem;
 $gameboard-player-grid-title-font-weight: 700;
@@ -144,7 +148,6 @@ $gameboard-player-grid-title-text-align: center;
 $gameboard-player-grid-title-text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
 
 // GameboardShipStatsTitle
-$gameboard-ship-stats-title-margin: 20px 0 8px 0;
 $gameboard-ship-stats-title-font-family: "Tangerine", cursive;
 $gameboard-ship-stats-title-font-size: 1.1rem;
 $gameboard-ship-stats-title-font-weight: 700;
