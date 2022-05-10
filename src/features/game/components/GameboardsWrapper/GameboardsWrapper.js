@@ -82,7 +82,6 @@ export const GameboardsWrapper = () => {
             <GameboardShipStats gameboard={gameboardPlayerOne} />
           </div>
         </>
-        
       }
       <div className="gameboards-wrapper-button-wrapper">
         <GameButtons />

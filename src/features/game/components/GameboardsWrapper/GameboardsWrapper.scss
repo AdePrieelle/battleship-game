@@ -24,6 +24,7 @@
   }
   grid-column-gap: $gameboards-wrapper-grid-column-gap;
   grid-row-gap: $gameboards-wrapper-grid-row-gap;
+  margin: $gameboards-wrapper-margin;
   width: 100%;
   max-width: $gameboard-max-width;
   @media screen and (min-width: $media-query-medium-screen) {
