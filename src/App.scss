@@ -7,14 +7,15 @@
   @media screen and (min-width: $media-query-medium-screen) {
     margin: $app-margin $gameboards-wrapper-grid-column-gap;
   }
-  color: $app-color;
   background-color: $app-bg-color;
+  color: $app-color;
+  // preload modal background-image
   &::after {
+    content: url("./images/yellow-bg.jpg");
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     opacity: 0;
-    content: url("./images/yellow-bg.jpg");
   }
 }

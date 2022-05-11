@@ -3,8 +3,8 @@
 .gameboard-ship-stats {
   .gameboard-ship-stats-shiplength-row {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
     .gameboard-ship-stats-ship {
       display: flex;

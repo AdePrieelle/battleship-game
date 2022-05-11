@@ -4,12 +4,12 @@
   width: $input-name-width;
   margin-top: $input-name-margin-top;
   padding: $input-name-padding;
+  border: $input-name-border;
+  border-radius: $input-name-border-radius;
+  background-color: $input-name-bg-color;
   font-family: $input-name-font-family;
   font-size: $input-name-font-size;
   font-weight: $input-name-font-weight;
-  background-color: $input-name-bg-color;
-  border: $input-name-border;
-  border-radius: $input-name-border-radius;
   &:focus {
     outline: none;
   }

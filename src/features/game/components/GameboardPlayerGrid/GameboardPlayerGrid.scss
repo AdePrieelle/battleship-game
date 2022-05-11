@@ -73,11 +73,9 @@
       background-color: $gameboard-ship-bg-color;
     }
   }
-
   .gameboard-inactive {
     filter: brightness($gameboard-inactive-filter-brigtness);
   }
-
   .gameboard-active {
     box-shadow: $gameboard-box-shadow-active;
   }
