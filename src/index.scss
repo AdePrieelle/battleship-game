@@ -53,13 +53,6 @@
 
 html {
   box-sizing: border-box;
-  min-height: 100vh;
-  background-image: url("./images/battleship-pic.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-color: $html-bg-color;
   font-size: $html-font-size;
 }
 
@@ -70,10 +63,24 @@ html {
 }
 
 body {
+  background-color: $body-bg-color;
   font-family: "Tangerine", cursive, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
   font-weight: $body-font-weight;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -9999;
+    width: 100%;
+    height: 100vh;
+    background-image: url("./images/battleship-pic.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
