@@ -25,7 +25,8 @@ $primary-text-color: white;
 // gameboards-wrapper-grid-column-gap depends on the on the max width of a gameboard-cell on full screen
 $gameboards-wrapper-grid-column-gap: 38.2px;
 $gameboards-wrapper-grid-row-gap: 0;
-$gameboards-wrapper-margin: 32px 0;
+$gameboards-wrapper-margin-small: 20px 0 16px 0;
+$gameboards-wrapper-margin: 30px 0;
 $gameboard-player-grid-title-wrapper-margin: 0 0 16px 0;
 $gameboard-player-grid-wrapper-margin: 0 0 20px 0;
 $gameboard-ship-stats-title-wrapper-margin: 0 0 8px 0;

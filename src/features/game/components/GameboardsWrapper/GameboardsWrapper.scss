@@ -29,7 +29,10 @@
   @media screen and (min-width: $media-query-medium-screen) {
     max-width: 100%;
   }
-  margin: $gameboards-wrapper-margin;
+  margin: $gameboards-wrapper-margin-small;
+  @media screen and (min-width: $media-query-medium-screen) {
+    margin: $gameboards-wrapper-margin;
+  }
   .gameboard-player-grid-title-wrapper {
     align-self: flex-end;
     margin: $gameboard-player-grid-title-wrapper-margin;
