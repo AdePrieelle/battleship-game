@@ -79,10 +79,10 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
 
   // scroll to bottom when all ships are placed to show the start game button
   useEffect(() => {
-    if (isAllShipsPlaced && (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length))) {
+    if (isAllShipsPlaced) {
       window.scrollTo({top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
     };
-  }, [isAllShipsPlaced, currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder]);
+  }, [isAllShipsPlaced]);
 
   const toggleShipPlacementDirection = () => {
     const toggledShipPlacementDirectionValue = getToggleValue(shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
@@ -158,6 +158,7 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   };
 
   const randomizeGameboardPlayerShipPlacement = () => {
+    setIsAllShipsPlaced(false);
     setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard))
     setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
   };
