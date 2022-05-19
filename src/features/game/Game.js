@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createRandomGameboard } from '../../common/utils/createRandomGameboard/createRandomGameboard';
 import { generateRandomValidShipPosition } from '../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition';
@@ -66,6 +66,11 @@ export const Game = () => {
       shipLengthPropertyText
     )));
   }, [dispatch, amountOfRows, amountOfColumns, emptyGameboardValue, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText]);
+
+  // scroll to top when the game started or finished
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [isGameStarted]);
 
   useEffect(() => {
     dispatch(updateGameboardPlayerOne(gameboardPlayerOneInitialState));
