@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../../../common/components/Button/Button";
 import { ButtonsWrapper } from "../../../../common/components/ButtonsWrapper/ButtonsWrapper";
@@ -67,7 +67,7 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const [isAllShipsPlaced, setIsAllShipsPlaced] = useState(false);
   const [hoveredIds, setHoveredIds] = useState([]);
   
-  const sortedShipsLengthDescendingOrder = sortArrayOfObjectsBasedOnAKeyValueByOrder(ships, shipLengthPropertyText, "descending");
+  const sortedShipsLengthDescendingOrder = useMemo(() => sortArrayOfObjectsBasedOnAKeyValueByOrder(ships, shipLengthPropertyText, "descending"), [ships, shipLengthPropertyText]);
 
   useEffect(() => {
     if (currentIndexShipToBePlaced === (sortedShipsLengthDescendingOrder.length)) {
@@ -79,10 +79,10 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
 
   // scroll to bottom when all ships are placed to show the start game button
   useEffect(() => {
-    if (isAllShipsPlaced) {
+    if (isAllShipsPlaced && (currentIndexShipToBePlaced === sortedShipsLengthDescendingOrder.length)) {
       window.scrollTo({top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
     };
-  }, [isAllShipsPlaced]);
+  }, [isAllShipsPlaced, currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder, gameboardPlayerShipPlacement]);
 
   const toggleShipPlacementDirection = () => {
     const toggledShipPlacementDirectionValue = getToggleValue(shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
@@ -158,7 +158,6 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   };
 
   const randomizeGameboardPlayerShipPlacement = () => {
-    setIsAllShipsPlaced(false);
     setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard))
     setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
   };
