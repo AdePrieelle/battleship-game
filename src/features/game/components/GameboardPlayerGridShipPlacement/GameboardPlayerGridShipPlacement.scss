@@ -6,7 +6,10 @@
   align-items: center;
   width: 100%;
   max-width: $gameboard-max-width;
-  margin-top: $gameboard-player-grid-ship-placement-margin-top;
+  margin: $gameboard-player-grid-ship-placement-margin-small;
+  @media screen and (min-width: $media-query-medium-screen) {
+    margin: $gameboard-player-grid-ship-placement-margin;
+  }
   text-align: center;
   .player-name-title {
     margin-bottom: $player-name-title-margin-bottom;

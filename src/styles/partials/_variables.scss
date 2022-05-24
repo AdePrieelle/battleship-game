@@ -25,8 +25,12 @@ $primary-text-color: white;
 // gameboards-wrapper-grid-column-gap depends on the on the max width of a gameboard-cell on full screen
 $gameboards-wrapper-grid-column-gap: 38.2px;
 $gameboards-wrapper-grid-row-gap: 0;
-$gameboards-wrapper-margin-small: 20px 0 16px 0;
-$gameboards-wrapper-margin: 30px 0;
+$gameboards-wrapper-margin-top-small: 20px;
+$gameboards-wrapper-margin-bottom-small: 16px;
+$gameboards-wrapper-margin-small: $gameboards-wrapper-margin-top-small 0
+  $gameboards-wrapper-margin-bottom-small 0;
+$gameboards-wrapper-margin-top-bottom: 30px;
+$gameboards-wrapper-margin: $gameboards-wrapper-margin-top-bottom 0;
 $gameboard-player-grid-title-wrapper-margin: 0 0 16px 0;
 $gameboard-player-grid-wrapper-margin: 0 0 20px 0;
 $gameboard-ship-stats-title-wrapper-margin: 0 0 8px 0;
@@ -70,7 +74,12 @@ $gameboard-ship-hovered-invalid-ship-position-bg-color: rgb(192, 37, 37);
 $gameboard-inactive-filter-brigtness: 65%;
 
 // GameboardPlayerGridShipPlacement
-$gameboard-player-grid-ship-placement-margin-top: 1.2rem;
+$gameboard-placement-wrapper-margin-bottom: 1rem;
+// use same margins as in gameboards-wrapper for margin-top and $gameboard-placement-wrapper-margin-bottom for margin bottom of $gameboard-player-grid-ship-placement
+$gameboard-player-grid-ship-placement-margin-small: $gameboards-wrapper-margin-top-small
+  0 $gameboard-placement-wrapper-margin-bottom 0;
+$gameboard-player-grid-ship-placement-margin: $gameboards-wrapper-margin-top-bottom
+  0;
 $player-name-title-font-size: 1.8rem;
 $player-name-title-font-weight: 700;
 $player-name-title-margin-bottom: 1.5rem;
@@ -78,7 +87,6 @@ $gameboard-player-grid-ship-placement-player-name-title-text-shadow: 1px 1px 5px
   rgba(0, 0, 0, 0.25);
 $game-buttons-ship-placement-wrapper-max-width: 400px;
 $game-buttons-ship-placement-wrapper-margin-bottom: 0.6rem;
-$gameboard-placement-wrapper-margin-bottom: 1rem;
 $randomise-icon-margin-left: 4px;
 $ship-placement-message-font-size: 1.2rem;
 $ship-placement-message-font-weight: 700;
