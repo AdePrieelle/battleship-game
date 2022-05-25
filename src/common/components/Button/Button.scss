@@ -18,14 +18,23 @@
   font-weight: $button-font-weight;
   text-align: center;
   text-transform: capitalize;
+  user-select: none;
   &:active {
-    scale: 0.96;
+    filter: brightness($button-active-filter-brightness);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    /* mouse or touchpad */
+    &:hover {
+      filter: brightness($button-hover-filter-brightness);
+    }
+    &:active {
+      transform: scale($button-active-transform-scale);
+      filter: brightness($button-active-filter-brightness);
+    }
   }
 }
 
 .button-disabled {
   filter: brightness($button-disabled-filter-brightness);
-  &:active {
-    scale: 1;
-  }
+  pointer-events: none;
 }
