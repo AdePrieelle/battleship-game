@@ -65,6 +65,7 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const [shipPlacementDirection, setShipPlacementdirection] = useState(horizontalDirectionValue);
   const [currentIndexShipToBePlaced, setCurrentIndexShipToBePlaced] = useState(0);
   const [isAllShipsPlaced, setIsAllShipsPlaced] = useState(false);
+  const [isRandomizedGameboardPlayerShipPlacement, setIsRandomizedGameboardPlayerShipPlacement] = useState(false);
   const [hoveredIds, setHoveredIds] = useState([]);
   
   const sortedShipsLengthDescendingOrder = useMemo(() => sortArrayOfObjectsBasedOnAKeyValueByOrder(ships, shipLengthPropertyText, "descending"), [ships, shipLengthPropertyText]);
@@ -77,12 +78,13 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
     }
   }, [currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder]);
 
-  // scroll to bottom when all ships are placed to show the start game button
+  // scroll to bottom when all ships are placed or when the gameboard player ship placements are randomized to show the start game button
   useEffect(() => {
-    if (isAllShipsPlaced && (currentIndexShipToBePlaced === sortedShipsLengthDescendingOrder.length)) {
+    if ((isAllShipsPlaced && (currentIndexShipToBePlaced === sortedShipsLengthDescendingOrder.length)) || isRandomizedGameboardPlayerShipPlacement) {
       window.scrollTo({top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
+      setIsRandomizedGameboardPlayerShipPlacement(false);
     };
-  }, [isAllShipsPlaced, currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder, gameboardPlayerShipPlacement]);
+  }, [isAllShipsPlaced, currentIndexShipToBePlaced, sortedShipsLengthDescendingOrder, isRandomizedGameboardPlayerShipPlacement]);
 
   const toggleShipPlacementDirection = () => {
     const toggledShipPlacementDirectionValue = getToggleValue(shipPlacementDirection, horizontalDirectionValue, verticalDirectionValue);
@@ -160,6 +162,7 @@ export const GameboardPlayerGridShipPlacement = ({ isPlayerOne }) => {
   const randomizeGameboardPlayerShipPlacement = () => {
     setGameboardPlayerShipPlacement(() => createRandomGameboard(amountOfRows, amountOfColumns, emptyGameboardValue, generateRandomValidShipPosition, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText, createRandomGameboard))
     setCurrentIndexShipToBePlaced(sortedShipsLengthDescendingOrder.length);
+    setIsRandomizedGameboardPlayerShipPlacement(true);
   };
 
   const handleModalGameboardPlayerGridShipPlacement = () => {
