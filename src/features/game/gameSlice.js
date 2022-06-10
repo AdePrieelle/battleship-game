@@ -20,6 +20,20 @@ const initialState = {
   computerHitTurnAgainCountDefaultValue: 0,
   computerName: "Computer",
   computerWonGame: false,
+  delayAfterComputerMove: 1000,
+  delayAfterComputerMoveEqualOrBiggerThanMediaQuery: 600,
+  delayAfterComputerMoveSmallerThanMediaQuery: 1000,
+  delayAfterPlayerMoveVsComputer: 750,
+  delayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery: 0,
+  delayAfterPlayerMoveVsComputerSmallerThanMediaQuery: 750,
+  delayAfterPlayerMoveVsPlayer: 600,
+  delayBeforeComputerMove: 1000,
+  delayBeforeComputerMoveEqualOrBiggerThanMediaQuery: 600,
+  delayBeforeComputerMoveSmallerThanMediaQuery: 1000,
+  delayBeforeComputerMoveAgain: 1000,
+  delayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery: 1000,
+  delayBeforeComputerMoveAgainSmallerThanMediaQuery: 1000,
+  disableComputerMove: false,
   disablePlayerMove: false,
   emptyGameboardValue: "empty",
   freemissGameboardValue: "freemiss",
@@ -327,6 +341,21 @@ export const gameSlice = createSlice({
       state.showModalGameSwitchTurnToPlayerOne = false;
       state.showGameboards = true;
     },
+    updateDisableComputerMove: (state, action) => {
+      state.disableComputerMove = action.payload;
+    },
+    updateDelayAfterComputerMove: (state, action) => {
+      state.delayAfterComputerMove = action.payload;
+    },
+    updateDelayAfterPlayerMoveVsComputer: (state, action) => {
+      state.delayAfterPlayerMoveVsComputer = action.payload;
+    },
+    updateDelayBeforeComputerMove: (state, action) => {
+      state.delayBeforeComputerMove = action.payload;
+    },
+    updateDelayBeforeComputerMoveAgain: (state, action) => {
+      state.delayBeforeComputerMoveAgain = action.payload;
+    },
   },
 });
 
@@ -394,13 +423,33 @@ export const handleMove = createAsyncThunk('game/handleMove', async(index, { dis
       dispatch(resetComputerHitTurnAgainCount());
     };
     if (state.isPlayerTwoComputer) {
-      dispatch(updateIsPlayerOneTurn(!state.isPlayerOneTurn));
+      if (isComputer) {
+        if (state.delayAfterComputerMove) {
+          dispatch(updateDisableComputerMove(true));
+          setTimeout(() => {
+            dispatch(updateIsPlayerOneTurn(!state.isPlayerOneTurn));
+            dispatch(updateDisableComputerMove(false));
+          }, state.delayAfterComputerMove);
+        } else {
+          dispatch(updateIsPlayerOneTurn(!state.isPlayerOneTurn));
+        }
+      } else {
+        if (state.delayAfterPlayerMoveVsComputer) {
+          dispatch(updateDisablePlayerMove(true));
+          setTimeout(() => {
+            dispatch(updateIsPlayerOneTurn(!state.isPlayerOneTurn));
+            dispatch(updateDisablePlayerMove(false));
+          }, state.delayAfterPlayerMoveVsComputer);
+        } else {
+          dispatch(updateIsPlayerOneTurn(!state.isPlayerOneTurn));
+        }
+      }
     };
     if (!isComputer && !state.isPlayerTwoComputer) {
       dispatch(updateDisablePlayerMove(true));
       setTimeout(() => {
         dispatch(handleGameSwitchPlayerTurn());
-      }, 600)
+      }, state.delayAfterPlayerMoveVsPlayer)
     };
   };
 });
@@ -454,6 +503,11 @@ export const {
   incrementComputerHitTurnAgainCount,
   resetComputerHitTurnAgainCount,
   updateComputerWonGame,
+  updateDelayAfterComputerMove,
+  updateDelayAfterPlayerMoveVsComputer,
+  updateDelayBeforeComputerMove,
+  updateDelayBeforeComputerMoveAgain,
+  updateDisableComputerMove,
   updateDisablePlayerMove,
   updateGameboardPlayerOne,
   updateGameboardPlayerOneInitialState,
@@ -492,6 +546,19 @@ export const selectButtonNextStepText = (state) => state.game.buttonNextStepText
 export const selectComputerHitTurnAgainCount = (state) => state.game.computerHitTurnAgainCount;
 export const selectComputerName = (state) => state.game.computerName;
 export const selectComputerWonGame = (state) => state.game.computerWonGame;
+export const selectDelayAfterComputerMove = (state) => state.game.delayAfterComputerMove;
+export const selectDelayAfterComputerMoveEqualOrBiggerThanMediaQuery = (state) => state.game.delayAfterComputerMoveEqualOrBiggerThanMediaQuery;
+export const selectDelayAfterComputerMoveSmallerThanMediaQuery = (state) => state.game.delayAfterComputerMoveSmallerThanMediaQuery;
+export const selectDelayAfterPlayerMoveVsComputer = (state) => state.game.delayAfterPlayerMoveVsComputer;
+export const selectDelayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery = (state) => state.game.delayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery;
+export const selectDelayAfterPlayerMoveVsComputerSmallerThanMediaQuery = (state) => state.game.delayAfterPlayerMoveVsComputerSmallerThanMediaQuery;
+export const selectDelayBeforeComputerMove = (state) => state.game.delayBeforeComputerMove;
+export const selectDelayBeforeComputerMoveAgain = (state) => state.game.delayBeforeComputerMoveAgain;
+export const selectDelayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery = (state) => state.game.delayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery;
+export const selectDelayBeforeComputerMoveAgainSmallerThanMediaQuery = (state) => state.game.delayBeforeComputerMoveAgainSmallerThanMediaQuery;
+export const selectDelayBeforeComputerMoveEqualOrBiggerThanMediaQuery = (state) => state.game.delayBeforeComputerMoveEqualOrBiggerThanMediaQuery;
+export const selectDelayBeforeComputerMoveSmallerThanMediaQuery = (state) => state.game.delayBeforeComputerMoveSmallerThanMediaQuery;
+export const selectDisableComputerMove = (state) => state.game.disableComputerMove;
 export const selectDisablePlayerMove = (state) => state.game.disablePlayerMove;
 export const selectEmptyGameboardValue = (state) => state.game.emptyGameboardValue;
 export const selectFreemissGameboardValue = (state) => state.game.freemissGameboardValue;

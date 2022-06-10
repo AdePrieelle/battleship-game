@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from '../../common/hooks/useMediaQuery';
 import { createRandomGameboard } from '../../common/utils/createRandomGameboard/createRandomGameboard';
 import { generateRandomValidShipPosition } from '../../common/utils/generateRandomValidShipPosition/generateRandomValidShipPosition';
 import { getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips } from '../../common/utils/getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips/getArrayIndexValuesOfEmptyGameboardValuesAndHiddenShips';
@@ -10,16 +11,24 @@ import { getPreviousHitDirectionNotSunkenShip } from '../../common/utils/getPrev
 import { getRandomIndexFromArray } from '../../common/utils/getRandomIndexFromArray/getRandomIndexFromArray';
 import { isShipOrEmptyGameboardValue } from '../../common/utils/isShipOrEmptyGameboardValue/isShipOrEmptyGameboardValue';
 import { isValidComputerTurn } from '../../common/utils/isValidComputerTurn/isValidComputerTurn';
+import { mediaQueryMediumScreen } from '../../styles/partials/export.module.scss';
 import { GameboardsWrapper } from './components/GameboardsWrapper/GameboardsWrapper';
 import { GameLogicModals } from './components/GameLogicModals/GameLogicModals';
 import './Game.scss';
 import {
-  handleMove, handleNewGameAgainstComputerWithRandomGameboardInitialStates, selectAmountOfColumns, selectAmountOfRows, selectComputerHitTurnAgainCount, selectEmptyGameboardValue, selectFreemissGameboardValue, selectGameboardPlayerOne, selectGameboardPlayerOneInitialState,
+  handleMove, handleNewGameAgainstComputerWithRandomGameboardInitialStates, selectAmountOfColumns, selectAmountOfRows, selectComputerHitTurnAgainCount, selectDelayAfterComputerMoveEqualOrBiggerThanMediaQuery,
+  selectDelayAfterComputerMoveSmallerThanMediaQuery,
+  selectDelayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery,
+  selectDelayAfterPlayerMoveVsComputerSmallerThanMediaQuery, selectDelayBeforeComputerMove, selectDelayBeforeComputerMoveAgain, selectDelayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery,
+  selectDelayBeforeComputerMoveAgainSmallerThanMediaQuery, selectDelayBeforeComputerMoveEqualOrBiggerThanMediaQuery,
+  selectDelayBeforeComputerMoveSmallerThanMediaQuery, selectDisableComputerMove, selectEmptyGameboardValue, selectFreemissGameboardValue, selectGameboardPlayerOne, selectGameboardPlayerOneInitialState,
   selectGameboardPlayerTwoInitialState, selectHitGameboardValue, selectHorizontalDirectionValue, selectIsGameOver, selectIsGameStarted, selectIsPlayerOneTurn, selectIsPlayerTwoComputer, selectMissGameboardValue, selectPreviousHitComputerCellsNotSunkenShip,
   selectPreviousHitDirectionNotSunkenShip, selectPreviousHitDirectionNotSunkenShipHorizontalValue,
   selectPreviousHitDirectionNotSunkenShipVerticalValue, selectShipLengthPropertyText, selectShipNamePropertyText, selectShips, selectShowGameboards,
-  selectVerticalDirectionValue,
-  updateGameboardPlayerOne,
+  selectVerticalDirectionValue, updateDelayAfterComputerMove,
+  updateDelayAfterPlayerMoveVsComputer,
+  updateDelayBeforeComputerMove,
+  updateDelayBeforeComputerMoveAgain, updateGameboardPlayerOne,
   updateGameboardPlayerTwo,
   updatePreviousHitDirectionNotSunkenShip
 } from './gameSlice';
@@ -29,6 +38,17 @@ export const Game = () => {
   const amountOfRows = useSelector(selectAmountOfRows);
   const amountOfColumns = useSelector(selectAmountOfColumns);
   const computerHitTurnAgainCount = useSelector(selectComputerHitTurnAgainCount);
+  const delayAfterComputerMoveEqualOrBiggerThanMediaQuery = useSelector(selectDelayAfterComputerMoveEqualOrBiggerThanMediaQuery);
+  const delayAfterComputerMoveSmallerThanMediaQuery = useSelector(selectDelayAfterComputerMoveSmallerThanMediaQuery);
+  const delayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery = useSelector(selectDelayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery);
+  const delayAfterPlayerMoveVsComputerSmallerThanMediaQuery = useSelector(selectDelayAfterPlayerMoveVsComputerSmallerThanMediaQuery);
+  const delayBeforeComputerMove = useSelector(selectDelayBeforeComputerMove);
+  const delayBeforeComputerMoveAgain = useSelector(selectDelayBeforeComputerMoveAgain);
+  const delayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery = useSelector(selectDelayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery);
+  const delayBeforeComputerMoveAgainSmallerThanMediaQuery = useSelector(selectDelayBeforeComputerMoveAgainSmallerThanMediaQuery);
+  const delayBeforeComputerMoveEqualOrBiggerThanMediaQuery = useSelector(selectDelayBeforeComputerMoveEqualOrBiggerThanMediaQuery);
+  const delayBeforeComputerMoveSmallerThanMediaQuery = useSelector(selectDelayBeforeComputerMoveSmallerThanMediaQuery);
+  const disableComputerMove = useSelector(selectDisableComputerMove);
   const emptyGameboardValue = useSelector(selectEmptyGameboardValue);
   const freemissGameboardValue = useSelector(selectFreemissGameboardValue);;
   const gameboardPlayerOne = useSelector(selectGameboardPlayerOne);
@@ -50,6 +70,8 @@ export const Game = () => {
   const ships = useSelector(selectShips);
   const showGameboards = useSelector(selectShowGameboards);
   const verticalDirectionValue = useSelector(selectVerticalDirectionValue);
+  
+  const isSmallScreen = !(useMediaQuery(`(min-width: ${mediaQueryMediumScreen})`));
 
   // start a game against the computer with randomly generated initial gameboard states for the player and computer when a user visits the webpage
   useEffect(() => {
@@ -80,19 +102,34 @@ export const Game = () => {
     dispatch(updateGameboardPlayerTwo(gameboardPlayerTwoInitialState));
   }, [dispatch, gameboardPlayerTwoInitialState]);
 
+  // update the delays used before and after computer or player moves depending on the screen width
   useEffect(() => {
-    if (isValidComputerTurn(isPlayerTwoComputer, isPlayerOneTurn, isGameStarted, isGameOver)) {
+    if (isSmallScreen) {
+      dispatch(updateDelayAfterComputerMove(delayAfterComputerMoveSmallerThanMediaQuery));
+      dispatch(updateDelayAfterPlayerMoveVsComputer(delayAfterPlayerMoveVsComputerSmallerThanMediaQuery));
+      dispatch(updateDelayBeforeComputerMove(delayBeforeComputerMoveSmallerThanMediaQuery));
+      dispatch(updateDelayBeforeComputerMoveAgain(delayBeforeComputerMoveAgainSmallerThanMediaQuery));
+    } else {
+      dispatch(updateDelayAfterComputerMove(delayAfterComputerMoveEqualOrBiggerThanMediaQuery));
+      dispatch(updateDelayAfterPlayerMoveVsComputer(delayAfterPlayerMoveVsComputerEqualOrBiggerThanMediaQuery));
+      dispatch(updateDelayBeforeComputerMove(delayBeforeComputerMoveEqualOrBiggerThanMediaQuery));
+      dispatch(updateDelayBeforeComputerMoveAgain(delayBeforeComputerMoveAgainEqualOrBiggerThanMediaQuery));
+    }
+  });
+
+  useEffect(() => {
+    if (isValidComputerTurn(isPlayerTwoComputer, isPlayerOneTurn, isGameStarted, isGameOver, disableComputerMove)) {
       if (!computerHitTurnAgainCount) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
-        }, 500);
+        }, delayBeforeComputerMove);
         return () => clearTimeout(computerTurnTimeout);
       };
       // if the computer hits a ship increase the "virtual thinking time" for the next step
       if (computerHitTurnAgainCount) {
         const computerTurnTimeout = setTimeout(() => {
           handleComputerMove();
-        }, 1000);
+        }, delayBeforeComputerMoveAgain);
         return () => clearTimeout(computerTurnTimeout);
       };
     };

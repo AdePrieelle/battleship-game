@@ -73,7 +73,7 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
       dispatch(handlePlayerMove(+id));
     }; 
   };
-  
+
   return (
     <div className="gameboard-wrapper">
       <div 
