@@ -89,10 +89,10 @@ export const Game = () => {
     )));
   }, [dispatch, amountOfRows, amountOfColumns, emptyGameboardValue, ships, horizontalDirectionValue, verticalDirectionValue, shipNamePropertyText, shipLengthPropertyText]);
 
-  // scroll to top when the game started or finished
+  // scroll to top when a game has started, when switching player turns or when a game has finished 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
-  }, [isGameStarted]);
+  }, [isGameStarted, isPlayerOneTurn, isGameOver]);
 
   useEffect(() => {
     dispatch(updateGameboardPlayerOne(gameboardPlayerOneInitialState));
