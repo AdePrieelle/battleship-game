@@ -72,6 +72,33 @@
       border-radius: 50%;
       transform: translate(-50%, -50%);
     }
+    .last-missed-move.last-missed-move {
+      background: linear-gradient(
+        135deg,
+        $gameboard-last-missed-move-bg-color 0%,
+        $gameboard-last-missed-move-bg-color 5%,
+        $gameboard-miss-bg-color 5%,
+        $gameboard-miss-bg-color 15%,
+        $gameboard-last-missed-move-bg-color 15%,
+        $gameboard-last-missed-move-bg-color 25%,
+        $gameboard-miss-bg-color 25%,
+        $gameboard-miss-bg-color 35%,
+        $gameboard-last-missed-move-bg-color 35%,
+        $gameboard-last-missed-move-bg-color 45%,
+        $gameboard-miss-bg-color 45%,
+        $gameboard-miss-bg-color 55%,
+        $gameboard-last-missed-move-bg-color 55%,
+        $gameboard-last-missed-move-bg-color 65%,
+        $gameboard-miss-bg-color 65%,
+        $gameboard-miss-bg-color 75%,
+        $gameboard-last-missed-move-bg-color 75%,
+        $gameboard-last-missed-move-bg-color 85%,
+        $gameboard-miss-bg-color 85%,
+        $gameboard-miss-bg-color 95%,
+        $gameboard-last-missed-move-bg-color 95%,
+        $gameboard-last-missed-move-bg-color 100%
+      );
+    }
     .ship {
       background-color: $gameboard-ship-bg-color;
     }

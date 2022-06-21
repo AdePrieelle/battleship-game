@@ -14,6 +14,8 @@ import {
   selectIsGameStarted,
   selectIsPlayerOneTurn,
   selectIsPlayerTwoComputer,
+  selectLastMissedMoveIndexPlayerOne,
+  selectLastMissedMoveIndexPlayerTwo,
   selectMissGameboardValue, selectShipNamePropertyText,
   selectShips
 } from '../../gameSlice';
@@ -33,6 +35,8 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
   const isGameStarted = useSelector(selectIsGameStarted);
   const isPlayerOneTurn = useSelector(selectIsPlayerOneTurn);
   const isPlayerTwoComputer = useSelector(selectIsPlayerTwoComputer);
+  const lastMissedMoveIndexPlayerOne = useSelector(selectLastMissedMoveIndexPlayerOne);
+  const lastMissedMoveIndexPlayerTwo = useSelector(selectLastMissedMoveIndexPlayerTwo);
   const missGameboardValue = useSelector(selectMissGameboardValue);
   const shipNamePropertyText = useSelector(selectShipNamePropertyText);
   const ships = useSelector(selectShips);
@@ -53,8 +57,17 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
     };
   };
 
+  const getLastMissedMoveIndexPlayer = (isPlayerOne) => {
+    if (isPlayerOne) {
+      return lastMissedMoveIndexPlayerOne;
+    } else {
+      return lastMissedMoveIndexPlayerTwo;
+    };
+  };
+
   const gameboardPlayer = getGameboardPlayer(isPlayerOne);
   const isPlayerTurn = getIsPlayerTurn(isPlayerOne);
+  const lastMissedMoveIndexPlayer = getLastMissedMoveIndexPlayer(isPlayerOne);
   const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(ships, shipNamePropertyText);
 
   const onGameboardCellClicked = (id) => {
@@ -117,8 +130,12 @@ export const GameboardPlayerGrid = ({ isPlayerOne }) => {
                 && !disablePlayerMove
                 ? " possible-move"
                 : ""
+              }${
+                  ((lastMissedMoveIndexPlayer !== null) && (+id === lastMissedMoveIndexPlayer))
+                ? " last-missed-move"
+                : ""
               }`
-            } 
+            }
             onClick={(event) => onGameboardCellClicked(+event.target.id)}
           >
           </div>

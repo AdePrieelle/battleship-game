@@ -69,6 +69,9 @@ const initialState = {
   isGameStarted: false,
   isPlayerOneTurn: true,
   isPlayerTwoComputer: true,
+  lastMissedMoveIndexPlayerDefaultValue: null,
+  lastMissedMoveIndexPlayerOne: null,
+  lastMissedMoveIndexPlayerTwo: null,
   missGameboardValue: "miss",
   playerOneName: "Player 1",
   playerOneWonGame: false,
@@ -257,6 +260,7 @@ export const gameSlice = createSlice({
       state.computerWonGame = false;
       state.playerOneWonGame = false;
       state.playerTwoWonGame = false;
+      gameSlice.caseReducers.resetLastMissedMovesIndexPlayers(state);
       state.previousHitComputerCellsNotSunkenShip = state.previousHitComputerCellsNotSunkenShipDefaultValue;
       state.previousHitDirectionNotSunkenShip = state.previousHitDirectionNotSunkenShipDefaultValue;
       state.gameboardPlayerOneInitialState = action.payload.generatedRandomGameboardPlayerOneInitialState;
@@ -356,6 +360,22 @@ export const gameSlice = createSlice({
     updateDelayBeforeComputerMoveAgain: (state, action) => {
       state.delayBeforeComputerMoveAgain = action.payload;
     },
+    updateLastMissedMoveIndexPlayerOne: (state, action) => {
+      state.lastMissedMoveIndexPlayerOne = +action.payload;
+    },
+    updateLastMissedMoveIndexPlayerTwo: (state, action) => {
+      state.lastMissedMoveIndexPlayerTwo = +action.payload;
+    },
+    resetLastMissedMoveIndexPlayerOne: (state) => {
+      state.lastMissedMoveIndexPlayerOne = state.lastMissedMoveIndexPlayerDefaultValue;
+    },
+    resetLastMissedMoveIndexPlayerTwo: (state) => {
+      state.lastMissedMoveIndexPlayerTwo = state.lastMissedMoveIndexPlayerDefaultValue;
+    },
+    resetLastMissedMovesIndexPlayers: (state) => {
+      gameSlice.caseReducers.resetLastMissedMoveIndexPlayerOne(state);
+      gameSlice.caseReducers.resetLastMissedMoveIndexPlayerTwo(state);
+    },
   },
 });
 
@@ -375,6 +395,7 @@ export const handleMove = createAsyncThunk('game/handleMove', async(index, { dis
 
   const arrayOfShipNames = getArrayOfArrayOfObjectsKeyValues(state.ships, state.shipNamePropertyText);
   if (isHiddenShipGameboardCell(gameboard, +index, arrayOfShipNames)) {
+    // logic for hit
     const newGameboardStateAfterHitLogicWithFreeMissCells = getGameboardAfterHitLogic(
       gameboard,
       +index,
@@ -402,8 +423,10 @@ export const handleMove = createAsyncThunk('game/handleMove', async(index, { dis
     };
     // updated gameboard
     if (state.isPlayerOneTurn) {
+      dispatch(resetLastMissedMoveIndexPlayerOne());
       dispatch(updateGameboardPlayerTwo(newGameboardStateAfterHitLogicWithFreeMissCells));
     } else {
+      dispatch(resetLastMissedMoveIndexPlayerTwo());
       dispatch(updateGameboardPlayerOne(newGameboardStateAfterHitLogicWithFreeMissCells));
     };
     // logic for isGameOver
@@ -415,8 +438,10 @@ export const handleMove = createAsyncThunk('game/handleMove', async(index, { dis
     // logic for miss
     const newGameboardStateAfterMissLogicWithMissCell = getGameboardAfterMissLogic(gameboard, +index, state.missGameboardValue);
     if (state.isPlayerOneTurn) {
+      dispatch(updateLastMissedMoveIndexPlayerOne(+index));
       dispatch(updateGameboardPlayerTwo(newGameboardStateAfterMissLogicWithMissCell));
     } else {
+      dispatch(updateLastMissedMoveIndexPlayerTwo(+index));
       dispatch(updateGameboardPlayerOne(newGameboardStateAfterMissLogicWithMissCell));
     };
     if (isComputer) {
@@ -502,6 +527,8 @@ export const {
   handleStartGame,
   incrementComputerHitTurnAgainCount,
   resetComputerHitTurnAgainCount,
+  resetLastMissedMoveIndexPlayerOne,
+  resetLastMissedMoveIndexPlayerTwo,
   updateComputerWonGame,
   updateDelayAfterComputerMove,
   updateDelayAfterPlayerMoveVsComputer,
@@ -517,6 +544,8 @@ export const {
   updateIsGameStarted,
   updateIsPlayerOneTurn,
   updateIsPlayerTwoComputer,
+  updateLastMissedMoveIndexPlayerOne,
+  updateLastMissedMoveIndexPlayerTwo,
   updatePlayerOneName, 
   updatePlayerOneWonGame,
   updatePlayerTwoName,
@@ -572,6 +601,8 @@ export const selectIsGameOver = (state) => state.game.isGameOver;
 export const selectIsGameStarted = (state) => state.game.isGameStarted;
 export const selectIsPlayerOneTurn = (state) => state.game.isPlayerOneTurn;
 export const selectIsPlayerTwoComputer = (state) => state.game.isPlayerTwoComputer;
+export const selectLastMissedMoveIndexPlayerOne = (state) => state.game.lastMissedMoveIndexPlayerOne;
+export const selectLastMissedMoveIndexPlayerTwo = (state) => state.game.lastMissedMoveIndexPlayerTwo;
 export const selectMissGameboardValue = (state) => state.game.missGameboardValue;
 export const selectPlayerOneName = (state) => state.game.playerOneName;
 export const selectPlayerOneWonGame = (state) => state.game.playerOneWonGame;
