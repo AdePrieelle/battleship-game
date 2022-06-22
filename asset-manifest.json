@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/battleship-game/static/css/main.05e7d81b.chunk.css",
-    "main.js": "/battleship-game/static/js/main.cb4968a1.chunk.js",
-    "main.js.map": "/battleship-game/static/js/main.cb4968a1.chunk.js.map",
-    "runtime-main.js": "/battleship-game/static/js/runtime-main.985dd049.js",
-    "runtime-main.js.map": "/battleship-game/static/js/runtime-main.985dd049.js.map",
-    "static/js/2.60253659.chunk.js": "/battleship-game/static/js/2.60253659.chunk.js",
-    "static/js/2.60253659.chunk.js.map": "/battleship-game/static/js/2.60253659.chunk.js.map",
+    "main.css": "/battleship-game/static/css/main.91d71593.chunk.css",
+    "main.js": "/battleship-game/static/js/main.c029ba74.chunk.js",
+    "main.js.map": "/battleship-game/static/js/main.c029ba74.chunk.js.map",
+    "runtime-main.js": "/battleship-game/static/js/runtime-main.622192f2.js",
+    "runtime-main.js.map": "/battleship-game/static/js/runtime-main.622192f2.js.map",
+    "static/js/2.58adddb2.chunk.js": "/battleship-game/static/js/2.58adddb2.chunk.js",
+    "static/js/2.58adddb2.chunk.js.map": "/battleship-game/static/js/2.58adddb2.chunk.js.map",
     "index.html": "/battleship-game/index.html",
-    "static/css/main.05e7d81b.chunk.css.map": "/battleship-game/static/css/main.05e7d81b.chunk.css.map",
-    "static/js/2.60253659.chunk.js.LICENSE.txt": "/battleship-game/static/js/2.60253659.chunk.js.LICENSE.txt",
+    "static/css/main.91d71593.chunk.css.map": "/battleship-game/static/css/main.91d71593.chunk.css.map",
+    "static/js/2.58adddb2.chunk.js.LICENSE.txt": "/battleship-game/static/js/2.58adddb2.chunk.js.LICENSE.txt",
     "static/media/index.scss": "/battleship-game/static/media/tangerine-v15-latin-regular.e76ab6b2.woff",
     "static/media/Modal.scss": "/battleship-game/static/media/yellow-bg.cbf462c5.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.985dd049.js",
-    "static/js/2.60253659.chunk.js",
-    "static/css/main.05e7d81b.chunk.css",
-    "static/js/main.cb4968a1.chunk.js"
+    "static/js/runtime-main.622192f2.js",
+    "static/js/2.58adddb2.chunk.js",
+    "static/css/main.91d71593.chunk.css",
+    "static/js/main.c029ba74.chunk.js"
   ]
 }
